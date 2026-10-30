@@ -48,8 +48,6 @@ export const Login: React.FC = () => {
         }
         return;
       }
-
-      // Successful login will trigger onAuthStateChange and redirect automatically
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'An unexpected error occurred during sign in.';
       setErrorMsg(message);
@@ -65,8 +63,8 @@ export const Login: React.FC = () => {
     >
       {/* Error Alert */}
       {errorMsg && (
-        <div className="mb-5 p-3.5 rounded-2xl bg-rose-50 border border-rose-200/80 text-rose-700 text-xs flex items-start gap-2.5 animate-fade-in">
-          <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-rose-600" />
+        <div className="mb-5 p-3.5 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200/80 dark:border-rose-900/50 text-rose-700 dark:text-rose-300 text-xs flex items-start gap-2.5 animate-fade-in">
+          <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-rose-600 dark:text-rose-400" />
           <span className="leading-relaxed">{errorMsg}</span>
         </div>
       )}
@@ -75,11 +73,11 @@ export const Login: React.FC = () => {
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Email Field */}
         <div>
-          <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] mb-1.5">
+          <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] dark:text-[#98989f] mb-1.5">
             Email address
           </label>
           <div className="relative">
-            <Mail className="w-4 h-4 text-[#86868b] absolute left-3.5 top-3.5 pointer-events-none" />
+            <Mail className="w-4 h-4 text-[#86868b] dark:text-[#686872] absolute left-3.5 top-3.5 pointer-events-none" />
             <input
               type="email"
               required
@@ -87,7 +85,7 @@ export const Login: React.FC = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="name@example.com"
-              className="w-full pl-10 pr-3.5 py-2.5 rounded-xl border border-black/[0.08] bg-[#fbfbfd] text-sm text-[#1d1d1f] placeholder:text-[#86868b] focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30 focus:border-[#0071e3] transition-all"
+              className="w-full pl-10 pr-3.5 py-2.5 rounded-xl border border-black/[0.08] dark:border-white/[0.1] bg-[#fbfbfd] dark:bg-[#1a1c27] text-sm text-[#1d1d1f] dark:text-[#f5f5f7] placeholder:text-[#86868b] dark:placeholder:text-[#686872] focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30 focus:border-[#0071e3] transition-all"
             />
           </div>
         </div>
@@ -95,18 +93,18 @@ export const Login: React.FC = () => {
         {/* Password Field */}
         <div>
           <div className="flex items-center justify-between mb-1.5">
-            <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73]">
+            <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] dark:text-[#98989f]">
               Password
             </label>
             <Link
               to="/forgot-password"
-              className="text-xs font-medium text-[#0071e3] hover:underline"
+              className="text-xs font-medium text-[#0071e3] dark:text-[#2997ff] hover:underline"
             >
               Forgot password?
             </Link>
           </div>
           <div className="relative">
-            <Lock className="w-4 h-4 text-[#86868b] absolute left-3.5 top-3.5 pointer-events-none" />
+            <Lock className="w-4 h-4 text-[#86868b] dark:text-[#686872] absolute left-3.5 top-3.5 pointer-events-none" />
             <input
               type={showPassword ? 'text' : 'password'}
               required
@@ -114,12 +112,12 @@ export const Login: React.FC = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-black/[0.08] bg-[#fbfbfd] text-sm text-[#1d1d1f] placeholder:text-[#86868b] focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30 focus:border-[#0071e3] transition-all"
+              className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-black/[0.08] dark:border-white/[0.1] bg-[#fbfbfd] dark:bg-[#1a1c27] text-sm text-[#1d1d1f] dark:text-[#f5f5f7] placeholder:text-[#86868b] dark:placeholder:text-[#686872] focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30 focus:border-[#0071e3] transition-all"
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="w-8 h-8 flex items-center justify-center rounded-lg text-[#86868b] hover:text-[#1d1d1f] transition-colors absolute right-1.5 top-1.5"
+              className="w-8 h-8 flex items-center justify-center rounded-lg text-[#86868b] dark:text-[#98989f] hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] transition-colors absolute right-1.5 top-1.5"
               aria-label={showPassword ? 'Hide password' : 'Show password'}
             >
               {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -149,10 +147,10 @@ export const Login: React.FC = () => {
       {/* Divider */}
       <div className="relative my-6">
         <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-black/[0.06]" />
+          <div className="w-full border-t border-black/[0.06] dark:border-white/[0.08]" />
         </div>
         <div className="relative flex justify-center text-xs">
-          <span className="bg-white px-3 text-[#86868b] uppercase tracking-wider text-[10px] font-semibold">
+          <span className="bg-white dark:bg-[#14151e] px-3 text-[#86868b] dark:text-[#98989f] uppercase tracking-wider text-[10px] font-semibold">
             Or continue with
           </span>
         </div>
@@ -162,9 +160,9 @@ export const Login: React.FC = () => {
       <GoogleButton onError={(msg) => setErrorMsg(msg)} />
 
       {/* Signup Link */}
-      <div className="mt-6 pt-4 border-t border-black/[0.05] text-center text-xs text-[#6e6e73]">
+      <div className="mt-6 pt-4 border-t border-black/[0.05] dark:border-white/[0.08] text-center text-xs text-[#6e6e73] dark:text-[#98989f]">
         Don't have an account yet?{' '}
-        <Link to="/signup" className="font-semibold text-[#0071e3] hover:underline">
+        <Link to="/signup" className="font-semibold text-[#0071e3] dark:text-[#2997ff] hover:underline">
           Create an account
         </Link>
       </div>

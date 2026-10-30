@@ -38,10 +38,10 @@ export const GoogleButton: React.FC<GoogleButtonProps> = ({
       type="button"
       onClick={handleClick}
       disabled={loading}
-      className="w-full h-11 flex items-center justify-center gap-3 px-4 rounded-xl border border-black/[0.08] bg-white hover:bg-[#f5f5f7] text-sm font-medium text-[#1d1d1f] shadow-sm hover:shadow transition-all duration-200 active:scale-[0.99] disabled:opacity-60 disabled:pointer-events-none"
+      className="w-full h-11 flex items-center justify-center gap-3 px-4 rounded-xl border border-black/[0.08] dark:border-white/[0.1] bg-white dark:bg-[#1a1c27] hover:bg-[#f5f5f7] dark:hover:bg-[#222434] text-sm font-medium text-[#1d1d1f] dark:text-[#f5f5f7] shadow-sm hover:shadow transition-all duration-200 active:scale-[0.99] disabled:opacity-60 disabled:pointer-events-none"
     >
       {loading ? (
-        <Loader2 className="w-4 h-4 animate-spin text-[#6e6e73]" />
+        <Loader2 className="w-4 h-4 animate-spin text-[#6e6e73] dark:text-[#98989f]" />
       ) : (
         <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
           <path

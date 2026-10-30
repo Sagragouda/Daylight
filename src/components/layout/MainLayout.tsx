@@ -12,7 +12,7 @@ export const MainLayout: React.FC = () => {
   const location = useLocation();
 
   return (
-    <div className="flex min-h-screen bg-[#fbfbfd] text-[#1d1d1f]">
+    <div className="flex min-h-screen bg-[#fbfbfd] dark:bg-[#090a0f] text-[#1d1d1f] dark:text-[#f5f5f7] transition-colors duration-200">
       {/* Desktop Sidebar */}
       <Sidebar />
 

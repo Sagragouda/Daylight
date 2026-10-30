@@ -55,10 +55,10 @@ export const Planner: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#1d1d1f]">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#1d1d1f] dark:text-[#f5f5f7]">
             Daily Planner & Time Blocks
           </h1>
-          <p className="text-sm text-[#6e6e73] mt-1">
+          <p className="text-sm text-[#6e6e73] dark:text-[#98989f] mt-1">
             Structure your hours with intentional deep work sprints and deliberate rest.
           </p>
         </div>
@@ -76,27 +76,29 @@ export const Planner: React.FC = () => {
       {/* Date Navigation Strip */}
       <Card className="p-4 sm:p-5 flex items-center justify-between">
         <div className="flex items-center gap-3.5">
-          <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#0071e3] flex items-center justify-center shadow-xs">
+          <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/60 text-[#0071e3] dark:text-[#2997ff] border border-blue-100 dark:border-blue-900/40 flex items-center justify-center shadow-xs">
             <Calendar className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="font-semibold text-sm sm:text-base text-[#1d1d1f]">
+            <h3 className="font-semibold text-sm sm:text-base text-[#1d1d1f] dark:text-[#f5f5f7]">
               {getFormattedHeaderDate()}
             </h3>
-            <p className="text-xs text-[#86868b]">{blocks.length} schedule segments mapped</p>
+            <p className="text-xs text-[#86868b] dark:text-[#98989f]">
+              {blocks.length} schedule segments mapped
+            </p>
           </div>
         </div>
 
         <div className="flex items-center gap-1.5">
           <button
-            className="w-8 h-8 flex items-center justify-center rounded-xl border border-black/[0.08] text-[#86868b] hover:bg-[#f5f5f7] transition-colors"
+            className="w-8 h-8 flex items-center justify-center rounded-xl border border-black/[0.08] dark:border-white/[0.08] text-[#86868b] dark:text-[#98989f] hover:bg-[#f5f5f7] dark:hover:bg-white/[0.06] transition-colors"
             aria-label="Previous day"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
-          <span className="text-xs font-semibold px-2 text-[#0071e3]">Today</span>
+          <span className="text-xs font-semibold px-2 text-[#0071e3] dark:text-[#2997ff]">Today</span>
           <button
-            className="w-8 h-8 flex items-center justify-center rounded-xl border border-black/[0.08] text-[#86868b] hover:bg-[#f5f5f7] transition-colors"
+            className="w-8 h-8 flex items-center justify-center rounded-xl border border-black/[0.08] dark:border-white/[0.08] text-[#86868b] dark:text-[#98989f] hover:bg-[#f5f5f7] dark:hover:bg-white/[0.06] transition-colors"
             aria-label="Next day"
           >
             <ChevronRight className="w-4 h-4" />
@@ -111,22 +113,22 @@ export const Planner: React.FC = () => {
             key={block.id}
             className={`p-4 sm:p-5 rounded-2xl sm:rounded-3xl border transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${
               block.isCurrent
-                ? 'bg-blue-50/40 border-[#0071e3]/40 shadow-sm ring-1 ring-[#0071e3]/30'
-                : 'bg-white border-black/[0.06] hover:border-black/[0.12] hover:shadow-xs'
+                ? 'bg-blue-50/40 dark:bg-blue-950/30 border-[#0071e3]/40 dark:border-[#2997ff]/40 shadow-sm ring-1 ring-[#0071e3]/30'
+                : 'bg-white dark:bg-[#14151e] border-black/[0.06] dark:border-white/[0.08] hover:border-black/[0.12] dark:hover:border-white/[0.16] shadow-xs hover:shadow-glossy-light dark:hover:shadow-glossy-dark'
             }`}
           >
             <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-xl bg-[#f5f5f7] flex flex-col items-center justify-center shrink-0 border border-black/[0.04] shadow-xs">
-                <Clock className="w-4 h-4 text-[#86868b]" />
+              <div className="w-10 h-10 rounded-xl bg-[#f5f5f7] dark:bg-white/[0.06] flex flex-col items-center justify-center shrink-0 border border-black/[0.04] dark:border-white/[0.06] shadow-xs">
+                <Clock className="w-4 h-4 text-[#86868b] dark:text-[#98989f]" />
               </div>
 
               <div>
                 <div className="flex items-center gap-2 flex-wrap">
-                  <span className="text-xs font-mono font-bold text-[#0071e3]">
+                  <span className="text-xs font-mono font-bold text-[#0071e3] dark:text-[#2997ff]">
                     {block.startTime} – {block.endTime}
                   </span>
                   {block.isCurrent && (
-                    <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#0071e3] text-white shadow-xs">
+                    <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#0071e3] dark:bg-[#2997ff] text-white shadow-xs">
                       <Sparkles className="w-2.5 h-2.5" /> In Progress
                     </span>
                   )}
@@ -134,13 +136,15 @@ export const Planner: React.FC = () => {
 
                 <h4
                   className={`text-base font-semibold mt-0.5 ${
-                    block.completed ? 'line-through text-[#86868b]' : 'text-[#1d1d1f]'
+                    block.completed
+                      ? 'line-through text-[#86868b] dark:text-[#686872]'
+                      : 'text-[#1d1d1f] dark:text-[#f5f5f7]'
                   }`}
                 >
                   {block.title}
                 </h4>
 
-                <span className="inline-block mt-1 text-[11px] font-medium text-[#6e6e73]">
+                <span className="inline-block mt-1 text-[11px] font-medium text-[#6e6e73] dark:text-[#98989f]">
                   Category: {block.category}
                 </span>
               </div>
@@ -169,7 +173,7 @@ export const Planner: React.FC = () => {
       >
         <form onSubmit={handleAddBlock} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] mb-1.5">
+            <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] dark:text-[#98989f] mb-1.5">
               Block Title
             </label>
             <input
@@ -179,13 +183,13 @@ export const Planner: React.FC = () => {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="e.g. Deep Work: System Architecture"
-              className="w-full px-3.5 py-2.5 rounded-xl border border-black/[0.08] bg-[#fbfbfd] text-sm text-[#1d1d1f] focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-black/[0.08] dark:border-white/[0.1] bg-[#fbfbfd] dark:bg-[#1f212f] text-sm text-[#1d1d1f] dark:text-[#f5f5f7] focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] mb-1.5">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] dark:text-[#98989f] mb-1.5">
                 Start Time
               </label>
               <input
@@ -193,11 +197,11 @@ export const Planner: React.FC = () => {
                 value={startTime}
                 onChange={(e) => setStartTime(e.target.value)}
                 placeholder="09:00 AM"
-                className="w-full px-3 py-2 rounded-xl border border-black/[0.08] bg-[#fbfbfd] text-xs text-[#1d1d1f]"
+                className="w-full px-3 py-2 rounded-xl border border-black/[0.08] dark:border-white/[0.1] bg-[#fbfbfd] dark:bg-[#1f212f] text-xs text-[#1d1d1f] dark:text-[#f5f5f7]"
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] mb-1.5">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] dark:text-[#98989f] mb-1.5">
                 End Time
               </label>
               <input
@@ -205,13 +209,13 @@ export const Planner: React.FC = () => {
                 value={endTime}
                 onChange={(e) => setEndTime(e.target.value)}
                 placeholder="10:30 AM"
-                className="w-full px-3 py-2 rounded-xl border border-black/[0.08] bg-[#fbfbfd] text-xs text-[#1d1d1f]"
+                className="w-full px-3 py-2 rounded-xl border border-black/[0.08] dark:border-white/[0.1] bg-[#fbfbfd] dark:bg-[#1f212f] text-xs text-[#1d1d1f] dark:text-[#f5f5f7]"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] mb-1.5">
+            <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] dark:text-[#98989f] mb-1.5">
               Category
             </label>
             <input
@@ -219,11 +223,11 @@ export const Planner: React.FC = () => {
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               placeholder="Focus, Team, Personal, etc."
-              className="w-full px-3.5 py-2 rounded-xl border border-black/[0.08] bg-[#fbfbfd] text-sm text-[#1d1d1f]"
+              className="w-full px-3.5 py-2 rounded-xl border border-black/[0.08] dark:border-white/[0.1] bg-[#fbfbfd] dark:bg-[#1f212f] text-sm text-[#1d1d1f] dark:text-[#f5f5f7]"
             />
           </div>
 
-          <div className="flex items-center justify-end gap-2 pt-3 border-t border-black/[0.06]">
+          <div className="flex items-center justify-end gap-2 pt-3 border-t border-black/[0.06] dark:border-white/[0.08]">
             <Button type="button" variant="ghost" size="sm" onClick={() => setIsModalOpen(false)}>
               Cancel
             </Button>

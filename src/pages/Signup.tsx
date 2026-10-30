@@ -87,20 +87,20 @@ export const Signup: React.FC = () => {
         subtitle="A confirmation link has been sent to activate your Daylight account."
       >
         <div className="text-center py-4 space-y-4">
-          <div className="w-14 h-14 mx-auto rounded-full bg-blue-50 text-[#0071e3] border border-blue-100 flex items-center justify-center shadow-xs">
+          <div className="w-14 h-14 mx-auto rounded-full bg-blue-50 dark:bg-blue-950/60 text-[#0071e3] dark:text-[#2997ff] border border-blue-100 dark:border-blue-900/40 flex items-center justify-center shadow-xs">
             <CheckCircle2 className="w-7 h-7" />
           </div>
 
           <div>
-            <p className="text-sm font-semibold text-[#1d1d1f]">
+            <p className="text-sm font-semibold text-[#1d1d1f] dark:text-[#f5f5f7]">
               Confirmation email sent to:
             </p>
-            <p className="text-xs font-mono font-medium text-[#0071e3] bg-blue-50/80 px-3 py-1.5 rounded-xl border border-blue-100/70 inline-block mt-1">
+            <p className="text-xs font-mono font-medium text-[#0071e3] dark:text-[#2997ff] bg-blue-50/80 dark:bg-blue-950/40 px-3 py-1.5 rounded-xl border border-blue-100/70 dark:border-blue-800/40 inline-block mt-1">
               {email}
             </p>
           </div>
 
-          <p className="text-xs text-[#6e6e73] leading-relaxed max-w-sm mx-auto">
+          <p className="text-xs text-[#6e6e73] dark:text-[#98989f] leading-relaxed max-w-sm mx-auto">
             Click the activation link inside the email to verify your address, then sign in to your Daylight workspace.
           </p>
 
@@ -124,8 +124,8 @@ export const Signup: React.FC = () => {
     >
       {/* Error Alert */}
       {errorMsg && (
-        <div className="mb-5 p-3.5 rounded-2xl bg-rose-50 border border-rose-200/80 text-rose-700 text-xs flex items-start gap-2.5 animate-fade-in">
-          <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-rose-600" />
+        <div className="mb-5 p-3.5 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200/80 dark:border-rose-900/50 text-rose-700 dark:text-rose-300 text-xs flex items-start gap-2.5 animate-fade-in">
+          <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-rose-600 dark:text-rose-400" />
           <span className="leading-relaxed">{errorMsg}</span>
         </div>
       )}
@@ -134,11 +134,11 @@ export const Signup: React.FC = () => {
       <form onSubmit={handleSubmit} className="space-y-3.5">
         {/* Full Name Field */}
         <div>
-          <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] mb-1.5">
+          <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] dark:text-[#98989f] mb-1.5">
             Full name
           </label>
           <div className="relative">
-            <UserIcon className="w-4 h-4 text-[#86868b] absolute left-3.5 top-3.5 pointer-events-none" />
+            <UserIcon className="w-4 h-4 text-[#86868b] dark:text-[#686872] absolute left-3.5 top-3.5 pointer-events-none" />
             <input
               type="text"
               required
@@ -147,18 +147,18 @@ export const Signup: React.FC = () => {
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
               placeholder="e.g. Jane Appleseed"
-              className="w-full pl-10 pr-3.5 py-2.5 rounded-xl border border-black/[0.08] bg-[#fbfbfd] text-sm text-[#1d1d1f] placeholder:text-[#86868b] focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30 focus:border-[#0071e3] transition-all"
+              className="w-full pl-10 pr-3.5 py-2.5 rounded-xl border border-black/[0.08] dark:border-white/[0.1] bg-[#fbfbfd] dark:bg-[#1a1c27] text-sm text-[#1d1d1f] dark:text-[#f5f5f7] placeholder:text-[#86868b] dark:placeholder:text-[#686872] focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30 focus:border-[#0071e3] transition-all"
             />
           </div>
         </div>
 
         {/* Email Field */}
         <div>
-          <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] mb-1.5">
+          <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] dark:text-[#98989f] mb-1.5">
             Email address
           </label>
           <div className="relative">
-            <Mail className="w-4 h-4 text-[#86868b] absolute left-3.5 top-3.5 pointer-events-none" />
+            <Mail className="w-4 h-4 text-[#86868b] dark:text-[#686872] absolute left-3.5 top-3.5 pointer-events-none" />
             <input
               type="email"
               required
@@ -166,18 +166,18 @@ export const Signup: React.FC = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="name@example.com"
-              className="w-full pl-10 pr-3.5 py-2.5 rounded-xl border border-black/[0.08] bg-[#fbfbfd] text-sm text-[#1d1d1f] placeholder:text-[#86868b] focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30 focus:border-[#0071e3] transition-all"
+              className="w-full pl-10 pr-3.5 py-2.5 rounded-xl border border-black/[0.08] dark:border-white/[0.1] bg-[#fbfbfd] dark:bg-[#1a1c27] text-sm text-[#1d1d1f] dark:text-[#f5f5f7] placeholder:text-[#86868b] dark:placeholder:text-[#686872] focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30 focus:border-[#0071e3] transition-all"
             />
           </div>
         </div>
 
         {/* Password Field */}
         <div>
-          <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] mb-1.5">
+          <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] dark:text-[#98989f] mb-1.5">
             Password (min. 6 characters)
           </label>
           <div className="relative">
-            <Lock className="w-4 h-4 text-[#86868b] absolute left-3.5 top-3.5 pointer-events-none" />
+            <Lock className="w-4 h-4 text-[#86868b] dark:text-[#686872] absolute left-3.5 top-3.5 pointer-events-none" />
             <input
               type={showPassword ? 'text' : 'password'}
               required
@@ -185,12 +185,12 @@ export const Signup: React.FC = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-black/[0.08] bg-[#fbfbfd] text-sm text-[#1d1d1f] placeholder:text-[#86868b] focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30 focus:border-[#0071e3] transition-all"
+              className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-black/[0.08] dark:border-white/[0.1] bg-[#fbfbfd] dark:bg-[#1a1c27] text-sm text-[#1d1d1f] dark:text-[#f5f5f7] placeholder:text-[#86868b] dark:placeholder:text-[#686872] focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30 focus:border-[#0071e3] transition-all"
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="w-8 h-8 flex items-center justify-center rounded-lg text-[#86868b] hover:text-[#1d1d1f] transition-colors absolute right-1.5 top-1.5"
+              className="w-8 h-8 flex items-center justify-center rounded-lg text-[#86868b] dark:text-[#98989f] hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] transition-colors absolute right-1.5 top-1.5"
               aria-label={showPassword ? 'Hide password' : 'Show password'}
             >
               {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -200,11 +200,11 @@ export const Signup: React.FC = () => {
 
         {/* Confirm Password Field */}
         <div>
-          <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] mb-1.5">
+          <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] dark:text-[#98989f] mb-1.5">
             Confirm Password
           </label>
           <div className="relative">
-            <Lock className="w-4 h-4 text-[#86868b] absolute left-3.5 top-3.5 pointer-events-none" />
+            <Lock className="w-4 h-4 text-[#86868b] dark:text-[#686872] absolute left-3.5 top-3.5 pointer-events-none" />
             <input
               type={showPassword ? 'text' : 'password'}
               required
@@ -212,7 +212,7 @@ export const Signup: React.FC = () => {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-black/[0.08] bg-[#fbfbfd] text-sm text-[#1d1d1f] placeholder:text-[#86868b] focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30 focus:border-[#0071e3] transition-all"
+              className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-black/[0.08] dark:border-white/[0.1] bg-[#fbfbfd] dark:bg-[#1a1c27] text-sm text-[#1d1d1f] dark:text-[#f5f5f7] placeholder:text-[#86868b] dark:placeholder:text-[#686872] focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30 focus:border-[#0071e3] transition-all"
             />
           </div>
         </div>
@@ -239,10 +239,10 @@ export const Signup: React.FC = () => {
       {/* Divider */}
       <div className="relative my-5">
         <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-black/[0.06]" />
+          <div className="w-full border-t border-black/[0.06] dark:border-white/[0.08]" />
         </div>
         <div className="relative flex justify-center text-xs">
-          <span className="bg-white px-3 text-[#86868b] uppercase tracking-wider text-[10px] font-semibold">
+          <span className="bg-white dark:bg-[#14151e] px-3 text-[#86868b] dark:text-[#98989f] uppercase tracking-wider text-[10px] font-semibold">
             Or continue with
           </span>
         </div>
@@ -252,9 +252,9 @@ export const Signup: React.FC = () => {
       <GoogleButton label="Sign up with Google" onError={(msg) => setErrorMsg(msg)} />
 
       {/* Login Link */}
-      <div className="mt-5 pt-4 border-t border-black/[0.05] text-center text-xs text-[#6e6e73]">
+      <div className="mt-5 pt-4 border-t border-black/[0.05] dark:border-white/[0.08] text-center text-xs text-[#6e6e73] dark:text-[#98989f]">
         Already have an account?{' '}
-        <Link to="/login" className="font-semibold text-[#0071e3] hover:underline">
+        <Link to="/login" className="font-semibold text-[#0071e3] dark:text-[#2997ff] hover:underline">
           Sign in
         </Link>
       </div>

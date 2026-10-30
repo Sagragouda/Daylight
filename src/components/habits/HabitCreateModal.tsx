@@ -54,7 +54,7 @@ export const HabitCreateModal: React.FC<HabitCreateModalProps> = ({ isOpen, onCl
     >
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] mb-1.5">
+          <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] dark:text-[#98989f] mb-1.5">
             Habit Name
           </label>
           <input
@@ -64,12 +64,12 @@ export const HabitCreateModal: React.FC<HabitCreateModalProps> = ({ isOpen, onCl
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="e.g. 10-minute morning breathwork"
-            className="w-full px-3.5 py-2.5 rounded-xl border border-black/[0.08] bg-[#fbfbfd] text-[#1d1d1f] text-sm focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30 transition-all"
+            className="w-full px-3.5 py-2.5 rounded-xl border border-black/[0.08] dark:border-white/[0.1] bg-[#fbfbfd] dark:bg-[#1f212f] text-[#1d1d1f] dark:text-[#f5f5f7] text-sm focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30 transition-all"
           />
         </div>
 
         <div>
-          <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] mb-1.5">
+          <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] dark:text-[#98989f] mb-1.5">
             Category
           </label>
           <input
@@ -77,12 +77,12 @@ export const HabitCreateModal: React.FC<HabitCreateModalProps> = ({ isOpen, onCl
             value={category}
             onChange={(e) => setCategory(e.target.value)}
             placeholder="Mindfulness, Fitness, Learning, etc."
-            className="w-full px-3.5 py-2 rounded-xl border border-black/[0.08] bg-[#fbfbfd] text-sm text-[#1d1d1f] focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30 transition-all"
+            className="w-full px-3.5 py-2 rounded-xl border border-black/[0.08] dark:border-white/[0.1] bg-[#fbfbfd] dark:bg-[#1f212f] text-sm text-[#1d1d1f] dark:text-[#f5f5f7] focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30 transition-all"
           />
         </div>
 
         <div>
-          <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] mb-1.5">
+          <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] dark:text-[#98989f] mb-1.5">
             Choose Icon
           </label>
           <div className="flex gap-2">
@@ -96,7 +96,7 @@ export const HabitCreateModal: React.FC<HabitCreateModalProps> = ({ isOpen, onCl
                   className={`flex-1 p-2.5 rounded-xl border flex flex-col items-center justify-center gap-1 transition-all ${
                     iconName === item.name
                       ? 'bg-[#0071e3] text-white border-[#0071e3] shadow-xs'
-                      : 'bg-[#fbfbfd] border-black/[0.08] text-[#6e6e73] hover:bg-[#f5f5f7]'
+                      : 'bg-[#fbfbfd] dark:bg-[#1f212f] border-black/[0.08] dark:border-white/[0.1] text-[#6e6e73] dark:text-[#d2d2d7] hover:bg-[#f5f5f7] dark:hover:bg-white/[0.06]'
                   }`}
                 >
                   <Icon className="w-4 h-4" />
@@ -108,7 +108,7 @@ export const HabitCreateModal: React.FC<HabitCreateModalProps> = ({ isOpen, onCl
         </div>
 
         <div>
-          <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] mb-1.5">
+          <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] dark:text-[#98989f] mb-1.5">
             Color Accent
           </label>
           <div className="flex gap-3 items-center">
@@ -117,7 +117,7 @@ export const HabitCreateModal: React.FC<HabitCreateModalProps> = ({ isOpen, onCl
                 type="button"
                 key={c}
                 onClick={() => setColor(c)}
-                className="w-7 h-7 rounded-full flex items-center justify-center transition-transform hover:scale-110 shadow-xs"
+                className="w-7 h-7 rounded-full flex items-center justify-center transition-transform hover:scale-110 shadow-xs ring-1 ring-black/10 dark:ring-white/20"
                 style={{ backgroundColor: c }}
                 aria-label={`Select color ${c}`}
               >
@@ -128,13 +128,13 @@ export const HabitCreateModal: React.FC<HabitCreateModalProps> = ({ isOpen, onCl
         </div>
 
         <div>
-          <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] mb-1.5">
+          <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] dark:text-[#98989f] mb-1.5">
             Target Frequency
           </label>
           <select
             value={frequency}
             onChange={(e) => setFrequency(e.target.value)}
-            className="w-full px-3 py-2 rounded-xl border border-black/[0.08] bg-[#fbfbfd] text-xs font-semibold text-[#1d1d1f] focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30"
+            className="w-full px-3 py-2 rounded-xl border border-black/[0.08] dark:border-white/[0.1] bg-[#fbfbfd] dark:bg-[#1f212f] text-xs font-semibold text-[#1d1d1f] dark:text-[#f5f5f7] focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30"
           >
             <option value="Daily">Daily</option>
             <option value="5x / week">5x / week</option>
@@ -143,7 +143,7 @@ export const HabitCreateModal: React.FC<HabitCreateModalProps> = ({ isOpen, onCl
           </select>
         </div>
 
-        <div className="flex items-center justify-end gap-2 pt-3 border-t border-black/[0.06]">
+        <div className="flex items-center justify-end gap-2 pt-3 border-t border-black/[0.06] dark:border-white/[0.08]">
           <Button type="button" variant="ghost" size="sm" onClick={onClose}>
             Cancel
           </Button>

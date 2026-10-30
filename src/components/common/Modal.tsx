@@ -45,23 +45,29 @@ export const Modal: React.FC<ModalProps> = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
       {/* Frosted backdrop */}
       <div
-        className="fixed inset-0 bg-black/35 backdrop-blur-md transition-opacity duration-200"
+        className="fixed inset-0 bg-black/40 dark:bg-black/65 backdrop-blur-md transition-opacity duration-200"
         onClick={onClose}
         aria-hidden="true"
       />
 
       {/* Modal Dialog */}
       <div
-        className={`relative w-full ${maxWidthClasses[maxWidth]} bg-white rounded-3xl shadow-[0_24px_64px_rgba(0,0,0,0.16)] border border-black/[0.08] p-6 sm:p-7 z-10 transition-all duration-200 animate-scale-in max-h-[90vh] overflow-y-auto`}
+        className={`relative w-full ${maxWidthClasses[maxWidth]} bg-white/95 dark:bg-[#161722]/95 backdrop-blur-2xl rounded-3xl shadow-[0_24px_64px_rgba(0,0,0,0.16)] dark:shadow-[0_24px_64px_rgba(0,0,0,0.7)] border border-black/[0.08] dark:border-white/[0.1] p-6 sm:p-7 z-10 transition-all duration-200 animate-scale-in max-h-[90vh] overflow-y-auto text-[#1d1d1f] dark:text-[#f5f5f7]`}
       >
-        <div className="flex items-start justify-between pb-4 border-b border-black/[0.05]">
+        <div className="flex items-start justify-between pb-4 border-b border-black/[0.05] dark:border-white/[0.08]">
           <div>
-            <h2 className="text-xl font-bold tracking-tight text-[#1d1d1f]">{title}</h2>
-            {subtitle && <p className="text-xs sm:text-sm text-[#86868b] mt-0.5">{subtitle}</p>}
+            <h2 className="text-xl font-bold tracking-tight text-[#1d1d1f] dark:text-[#f5f5f7]">
+              {title}
+            </h2>
+            {subtitle && (
+              <p className="text-xs sm:text-sm text-[#86868b] dark:text-[#98989f] mt-0.5">
+                {subtitle}
+              </p>
+            )}
           </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 flex items-center justify-center rounded-full text-[#86868b] hover:text-[#1d1d1f] hover:bg-[#f5f5f7] transition-colors -mr-1"
+            className="w-8 h-8 flex items-center justify-center rounded-full text-[#86868b] hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] hover:bg-black/[0.05] dark:hover:bg-white/[0.08] transition-colors -mr-1"
             aria-label="Close dialog"
           >
             <X className="w-4 h-4" />

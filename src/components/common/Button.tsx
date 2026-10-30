@@ -27,13 +27,13 @@ export const Button: React.FC<ButtonProps> = ({
 
   const variantClasses = {
     primary:
-      'bg-[#0071e3] text-white hover:bg-[#0062c4] shadow-xs hover:shadow-[0_4px_14px_rgba(0,113,227,0.3)]',
+      'bg-[#0071e3] text-white hover:bg-[#0062c4] shadow-glossy-btn-primary hover:shadow-glossy-btn-hover active:shadow-sm',
     secondary:
-      'bg-white text-[#1d1d1f] border border-black/[0.08] hover:bg-[#f5f5f7] shadow-xs hover:border-black/[0.14]',
+      'bg-white/90 dark:bg-[#1e1f2b]/90 text-[#1d1d1f] dark:text-[#f5f5f7] border border-black/[0.08] dark:border-white/[0.1] hover:bg-[#f5f5f7] dark:hover:bg-[#282a38] shadow-xs dark:shadow-sm hover:border-black/[0.14] dark:hover:border-white/[0.18]',
     ghost:
-      'bg-transparent text-[#1d1d1f] hover:bg-black/[0.04]',
+      'bg-transparent text-[#1d1d1f] dark:text-[#f5f5f7] hover:bg-black/[0.04] dark:hover:bg-white/[0.06]',
     danger:
-      'bg-rose-50 text-rose-600 hover:bg-rose-100/80 border border-rose-200/60 active:bg-rose-200',
+      'bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 hover:bg-rose-100/80 dark:hover:bg-rose-900/50 border border-rose-200/60 dark:border-rose-800/40 active:bg-rose-200',
   };
 
   return (

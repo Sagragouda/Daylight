@@ -13,9 +13,9 @@ interface TaskCreateModalProps {
 
 const CATEGORIES: TaskCategory[] = ['Work', 'Design', 'Personal', 'Health', 'Learning'];
 const PRIORITIES: { value: Priority; label: string; color: string }[] = [
-  { value: 'low', label: 'Low', color: 'border-blue-200 text-[#0071e3] bg-blue-50/70' },
-  { value: 'medium', label: 'Medium', color: 'border-amber-200 text-amber-700 bg-amber-50/70' },
-  { value: 'high', label: 'High', color: 'border-rose-200 text-rose-700 bg-rose-50/70' },
+  { value: 'low', label: 'Low', color: 'border-blue-200 dark:border-blue-800 text-[#0071e3] dark:text-[#2997ff] bg-blue-50/70 dark:bg-blue-950/50' },
+  { value: 'medium', label: 'Medium', color: 'border-amber-200 dark:border-amber-800 text-amber-700 dark:text-amber-300 bg-amber-50/70 dark:bg-amber-950/50' },
+  { value: 'high', label: 'High', color: 'border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-300 bg-rose-50/70 dark:bg-rose-950/50' },
 ];
 
 export const TaskCreateModal: React.FC<TaskCreateModalProps> = ({ isOpen, onClose }) => {
@@ -65,7 +65,7 @@ export const TaskCreateModal: React.FC<TaskCreateModalProps> = ({ isOpen, onClos
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Title Input */}
         <div>
-          <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] mb-1.5">
+          <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] dark:text-[#98989f] mb-1.5">
             Task Name
           </label>
           <input
@@ -75,13 +75,13 @@ export const TaskCreateModal: React.FC<TaskCreateModalProps> = ({ isOpen, onClos
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="e.g. Design app launch banner"
-            className="w-full px-3.5 py-2.5 rounded-xl border border-black/[0.08] bg-[#fbfbfd] text-[#1d1d1f] placeholder:text-[#86868b] focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30 focus:border-[#0071e3] transition-all text-sm"
+            className="w-full px-3.5 py-2.5 rounded-xl border border-black/[0.08] dark:border-white/[0.1] bg-[#fbfbfd] dark:bg-[#1f212f] text-[#1d1d1f] dark:text-[#f5f5f7] placeholder:text-[#86868b] dark:placeholder:text-[#686872] focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30 focus:border-[#0071e3] transition-all text-sm"
           />
         </div>
 
         {/* Description Input */}
         <div>
-          <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] mb-1.5">
+          <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] dark:text-[#98989f] mb-1.5">
             Notes / Details (Optional)
           </label>
           <textarea
@@ -89,14 +89,14 @@ export const TaskCreateModal: React.FC<TaskCreateModalProps> = ({ isOpen, onClos
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Add relevant links, context, or sub-steps..."
-            className="w-full px-3.5 py-2 rounded-xl border border-black/[0.08] bg-[#fbfbfd] text-[#1d1d1f] placeholder:text-[#86868b] focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30 focus:border-[#0071e3] transition-all text-sm resize-none"
+            className="w-full px-3.5 py-2 rounded-xl border border-black/[0.08] dark:border-white/[0.1] bg-[#fbfbfd] dark:bg-[#1f212f] text-[#1d1d1f] dark:text-[#f5f5f7] placeholder:text-[#86868b] dark:placeholder:text-[#686872] focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30 focus:border-[#0071e3] transition-all text-sm resize-none"
           />
         </div>
 
         {/* Category Selector */}
         <div>
-          <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] mb-1.5 flex items-center gap-1.5">
-            <Tag className="w-3.5 h-3.5 text-[#0071e3]" />
+          <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] dark:text-[#98989f] mb-1.5 flex items-center gap-1.5">
+            <Tag className="w-3.5 h-3.5 text-[#0071e3] dark:text-[#2997ff]" />
             Category
           </label>
           <div className="flex flex-wrap gap-2">
@@ -108,7 +108,7 @@ export const TaskCreateModal: React.FC<TaskCreateModalProps> = ({ isOpen, onClos
                 className={`text-xs px-3 py-1.5 rounded-xl border font-semibold transition-all ${
                   category === cat
                     ? 'bg-[#0071e3] text-white border-[#0071e3] shadow-xs'
-                    : 'bg-[#f5f5f7] text-[#6e6e73] border-transparent hover:bg-black/[0.05]'
+                    : 'bg-[#f5f5f7] dark:bg-white/[0.06] text-[#6e6e73] dark:text-[#d2d2d7] border-transparent hover:bg-black/[0.05] dark:hover:bg-white/[0.1]'
                 }`}
               >
                 {cat}
@@ -119,8 +119,8 @@ export const TaskCreateModal: React.FC<TaskCreateModalProps> = ({ isOpen, onClos
 
         {/* Priority Selector */}
         <div>
-          <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] mb-1.5 flex items-center gap-1.5">
-            <Flag className="w-3.5 h-3.5 text-[#0071e3]" />
+          <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] dark:text-[#98989f] mb-1.5 flex items-center gap-1.5">
+            <Flag className="w-3.5 h-3.5 text-[#0071e3] dark:text-[#2997ff]" />
             Priority
           </label>
           <div className="grid grid-cols-3 gap-2">
@@ -132,7 +132,7 @@ export const TaskCreateModal: React.FC<TaskCreateModalProps> = ({ isOpen, onClos
                 className={`text-xs py-2 px-3 rounded-xl border font-semibold transition-all text-center ${
                   priority === p.value
                     ? `${p.color} border-current ring-1 ring-current`
-                    : 'bg-[#fbfbfd] border-black/[0.08] text-[#6e6e73] hover:bg-[#f5f5f7]'
+                    : 'bg-[#fbfbfd] dark:bg-[#1f212f] border-black/[0.08] dark:border-white/[0.1] text-[#6e6e73] dark:text-[#d2d2d7] hover:bg-[#f5f5f7] dark:hover:bg-white/[0.06]'
                 }`}
               >
                 {p.label}
@@ -144,21 +144,21 @@ export const TaskCreateModal: React.FC<TaskCreateModalProps> = ({ isOpen, onClos
         {/* Due Date & Time */}
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] mb-1.5 flex items-center gap-1">
-              <Calendar className="w-3.5 h-3.5 text-[#0071e3]" />
+            <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] dark:text-[#98989f] mb-1.5 flex items-center gap-1">
+              <Calendar className="w-3.5 h-3.5 text-[#0071e3] dark:text-[#2997ff]" />
               Due Date
             </label>
             <input
               type="date"
               value={dueDate}
               onChange={(e) => setDueDate(e.target.value)}
-              className="w-full px-3 py-2 rounded-xl border border-black/[0.08] bg-[#fbfbfd] text-xs text-[#1d1d1f] focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30"
+              className="w-full px-3 py-2 rounded-xl border border-black/[0.08] dark:border-white/[0.1] bg-[#fbfbfd] dark:bg-[#1f212f] text-xs text-[#1d1d1f] dark:text-[#f5f5f7] focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] mb-1.5 flex items-center gap-1">
-              <Clock className="w-3.5 h-3.5 text-[#0071e3]" />
+            <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] dark:text-[#98989f] mb-1.5 flex items-center gap-1">
+              <Clock className="w-3.5 h-3.5 text-[#0071e3] dark:text-[#2997ff]" />
               Time
             </label>
             <input
@@ -166,14 +166,14 @@ export const TaskCreateModal: React.FC<TaskCreateModalProps> = ({ isOpen, onClos
               value={dueTime}
               onChange={(e) => setDueTime(e.target.value)}
               placeholder="e.g. 03:00 PM"
-              className="w-full px-3 py-2 rounded-xl border border-black/[0.08] bg-[#fbfbfd] text-xs text-[#1d1d1f] focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30"
+              className="w-full px-3 py-2 rounded-xl border border-black/[0.08] dark:border-white/[0.1] bg-[#fbfbfd] dark:bg-[#1f212f] text-xs text-[#1d1d1f] dark:text-[#f5f5f7] focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30"
             />
           </div>
         </div>
 
         {/* Focus Sprint Estimate */}
         <div>
-          <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] mb-1.5">
+          <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] dark:text-[#98989f] mb-1.5">
             Pomodoro Duration: {estimatedMinutes} mins
           </label>
           <div className="flex gap-2">
@@ -184,8 +184,8 @@ export const TaskCreateModal: React.FC<TaskCreateModalProps> = ({ isOpen, onClos
                 onClick={() => setEstimatedMinutes(mins)}
                 className={`flex-1 py-1.5 rounded-xl border text-xs font-semibold transition-all ${
                   estimatedMinutes === mins
-                    ? 'bg-[#0071e3]/10 border-[#0071e3] text-[#0071e3]'
-                    : 'bg-[#fbfbfd] border-black/[0.08] text-[#6e6e73] hover:bg-[#f5f5f7]'
+                    ? 'bg-[#0071e3]/10 dark:bg-[#0071e3]/20 border-[#0071e3] text-[#0071e3] dark:text-[#2997ff]'
+                    : 'bg-[#fbfbfd] dark:bg-[#1f212f] border-black/[0.08] dark:border-white/[0.1] text-[#6e6e73] dark:text-[#d2d2d7] hover:bg-[#f5f5f7] dark:hover:bg-white/[0.06]'
                 }`}
               >
                 {mins}m
@@ -195,7 +195,7 @@ export const TaskCreateModal: React.FC<TaskCreateModalProps> = ({ isOpen, onClos
         </div>
 
         {/* Form Actions */}
-        <div className="flex items-center justify-end gap-2 pt-3 border-t border-black/[0.06]">
+        <div className="flex items-center justify-end gap-2 pt-3 border-t border-black/[0.06] dark:border-white/[0.08]">
           <Button type="button" variant="ghost" size="sm" onClick={onClose}>
             Cancel
           </Button>

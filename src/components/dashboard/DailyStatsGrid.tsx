@@ -4,6 +4,7 @@ import { useTasks } from '../../context/TaskContext';
 import { useHabits } from '../../context/HabitContext';
 import { useTimer } from '../../context/TimerContext';
 import { Card } from '../common/Card';
+import { AnimatedCounter } from '../common/AnimatedCounter';
 
 export const DailyStatsGrid: React.FC = () => {
   const { completedTasksCount, totalTasksCount, progressPercentage } = useTasks();
@@ -19,39 +20,53 @@ export const DailyStatsGrid: React.FC = () => {
   const stats = [
     {
       label: 'Tasks Completed',
-      value: `${completedTasksCount}/${totalTasksCount}`,
+      valueComponent: (
+        <>
+          <AnimatedCounter value={completedTasksCount} />
+          <span className="text-xl sm:text-2xl text-[#86868b] dark:text-[#98989f] font-normal">
+            /{totalTasksCount}
+          </span>
+        </>
+      ),
       sub: `${progressPercentage}% of today`,
       icon: CheckCircle2,
-      color: 'text-[#0071e3]',
-      bgColor: 'bg-blue-50',
-      borderColor: 'border-blue-100',
+      color: 'text-[#0071e3] dark:text-[#2997ff]',
+      bgColor: 'bg-blue-50 dark:bg-blue-950/50',
+      borderColor: 'border-blue-100 dark:border-blue-900/40',
     },
     {
       label: 'Focus Time',
-      value: `${totalFocusMinutes}m`,
+      valueComponent: <AnimatedCounter value={totalFocusMinutes} suffix="m" />,
       sub: `${completedSessions} Pomodoros completed`,
       icon: Clock,
-      color: 'text-indigo-600',
-      bgColor: 'bg-indigo-50',
-      borderColor: 'border-indigo-100',
+      color: 'text-indigo-600 dark:text-indigo-400',
+      bgColor: 'bg-indigo-50 dark:bg-indigo-950/50',
+      borderColor: 'border-indigo-100 dark:border-indigo-900/40',
     },
     {
       label: 'Habits Active',
-      value: `${todayCompletedCount}/${totalHabitsCount}`,
+      valueComponent: (
+        <>
+          <AnimatedCounter value={todayCompletedCount} />
+          <span className="text-xl sm:text-2xl text-[#86868b] dark:text-[#98989f] font-normal">
+            /{totalHabitsCount}
+          </span>
+        </>
+      ),
       sub: `${habitProgressPercentage}% consistency`,
       icon: Flame,
-      color: 'text-amber-600',
-      bgColor: 'bg-amber-50',
-      borderColor: 'border-amber-100',
+      color: 'text-amber-600 dark:text-amber-400',
+      bgColor: 'bg-amber-50 dark:bg-amber-950/50',
+      borderColor: 'border-amber-100 dark:border-amber-900/40',
     },
     {
       label: 'Flow Score',
-      value: `${compositeScore}`,
+      valueComponent: <AnimatedCounter value={compositeScore} />,
       sub: compositeScore >= 80 ? 'Peak momentum' : 'Gaining pace',
       icon: Zap,
-      color: 'text-emerald-600',
-      bgColor: 'bg-emerald-50',
-      borderColor: 'border-emerald-100',
+      color: 'text-emerald-600 dark:text-emerald-400',
+      bgColor: 'bg-emerald-50 dark:bg-emerald-950/50',
+      borderColor: 'border-emerald-100 dark:border-emerald-900/40',
     },
   ];
 
@@ -67,7 +82,7 @@ export const DailyStatsGrid: React.FC = () => {
             className={`p-4 sm:p-5 flex flex-col justify-between animate-slide-up ${staggerClass}`}
           >
             <div className="flex items-center justify-between mb-3">
-              <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-[#86868b]">
+              <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-[#86868b] dark:text-[#98989f]">
                 {stat.label}
               </span>
               <div
@@ -79,14 +94,14 @@ export const DailyStatsGrid: React.FC = () => {
 
             <div>
               <div className="flex items-baseline gap-1.5">
-                <span className="text-2xl sm:text-3xl font-bold tracking-tight text-[#1d1d1f]">
-                  {stat.value}
+                <span className="text-2xl sm:text-3xl font-bold tracking-tight text-[#1d1d1f] dark:text-[#f5f5f7]">
+                  {stat.valueComponent}
                 </span>
-                <span className="inline-flex items-center text-[11px] font-semibold text-emerald-600">
+                <span className="inline-flex items-center text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
                   <ArrowUpRight className="w-3.5 h-3.5" />
                 </span>
               </div>
-              <p className="text-xs text-[#6e6e73] mt-1 font-medium truncate">
+              <p className="text-xs text-[#6e6e73] dark:text-[#98989f] mt-1 font-medium truncate">
                 {stat.sub}
               </p>
             </div>

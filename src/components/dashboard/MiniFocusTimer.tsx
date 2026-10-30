@@ -21,18 +21,18 @@ export const MiniFocusTimer: React.FC = () => {
 
   const modeColors: Record<PomodoroMode, { ring: string; badge: string; text: string }> = {
     pomodoro: {
-      ring: 'text-[#0071e3]',
-      badge: 'bg-blue-50 text-[#0071e3] border-blue-100',
+      ring: 'text-[#0071e3] dark:text-[#2997ff]',
+      badge: 'bg-blue-50 dark:bg-blue-950/60 text-[#0071e3] dark:text-[#2997ff] border-blue-100 dark:border-blue-900/40',
       text: 'Deep Work Sprint',
     },
     shortBreak: {
-      ring: 'text-emerald-500',
-      badge: 'bg-emerald-50 text-emerald-700 border-emerald-100',
+      ring: 'text-emerald-500 dark:text-emerald-400',
+      badge: 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border-emerald-100 dark:border-emerald-900/40',
       text: 'Short Refresh',
     },
     longBreak: {
-      ring: 'text-purple-500',
-      badge: 'bg-purple-50 text-purple-700 border-purple-100',
+      ring: 'text-purple-500 dark:text-purple-400',
+      badge: 'bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border-purple-100 dark:border-purple-900/40',
       text: 'Extended Rest',
     },
   };
@@ -45,9 +45,9 @@ export const MiniFocusTimer: React.FC = () => {
   return (
     <Card id="dashboard-focus-timer" className="p-6">
       {/* Header */}
-      <div className="flex items-center justify-between pb-4 border-b border-black/[0.05] mb-4">
+      <div className="flex items-center justify-between pb-4 border-b border-black/[0.05] dark:border-white/[0.08] mb-4">
         <div>
-          <h3 className="font-semibold text-lg text-[#1d1d1f] flex items-center gap-2">
+          <h3 className="font-semibold text-lg text-[#1d1d1f] dark:text-[#f5f5f7] flex items-center gap-2">
             Focus Room
             <span
               className={`text-[11px] px-2 py-0.5 rounded-full font-semibold border ${modeColors[mode].badge}`}
@@ -55,12 +55,14 @@ export const MiniFocusTimer: React.FC = () => {
               {modeColors[mode].text}
             </span>
           </h3>
-          <p className="text-xs text-[#86868b]">25-minute Pomodoro method for deep work</p>
+          <p className="text-xs text-[#86868b] dark:text-[#98989f]">
+            25-minute Pomodoro method for deep work
+          </p>
         </div>
 
         <Link
           to="/focus"
-          className="p-1.5 rounded-xl text-[#86868b] hover:text-[#0071e3] hover:bg-blue-50 transition-colors flex items-center gap-1 text-xs font-semibold"
+          className="p-1.5 rounded-xl text-[#86868b] dark:text-[#98989f] hover:text-[#0071e3] dark:hover:text-[#2997ff] hover:bg-blue-50 dark:hover:bg-blue-950/40 transition-colors flex items-center gap-1 text-xs font-semibold"
           title="Open immersive Focus room"
         >
           <span className="hidden sm:inline">Immersive</span>
@@ -69,15 +71,15 @@ export const MiniFocusTimer: React.FC = () => {
       </div>
 
       {/* Mode Switches */}
-      <div className="flex items-center justify-center gap-1.5 p-1 bg-[#f5f5f7] rounded-xl max-w-sm mx-auto mb-6">
+      <div className="flex items-center justify-center gap-1.5 p-1 bg-[#f5f5f7] dark:bg-white/[0.06] rounded-xl max-w-sm mx-auto mb-6">
         {(['pomodoro', 'shortBreak', 'longBreak'] as PomodoroMode[]).map((m) => (
           <button
             key={m}
             onClick={() => switchMode(m)}
             className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-semibold transition-all ${
               mode === m
-                ? 'bg-white text-[#1d1d1f] shadow-xs'
-                : 'text-[#86868b] hover:text-[#1d1d1f]'
+                ? 'bg-white dark:bg-[#202230] text-[#1d1d1f] dark:text-[#f5f5f7] shadow-xs'
+                : 'text-[#86868b] dark:text-[#98989f] hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7]'
             }`}
           >
             {m === 'pomodoro' ? 'Focus (25m)' : m === 'shortBreak' ? 'Short (5m)' : 'Long (15m)'}
@@ -94,7 +96,7 @@ export const MiniFocusTimer: React.FC = () => {
               cx="88"
               cy="88"
               r={radius}
-              className="text-[#f0f0f4]"
+              className="text-[#f0f0f4] dark:text-white/[0.08]"
               strokeWidth="8"
               stroke="currentColor"
               fill="transparent"
@@ -116,10 +118,14 @@ export const MiniFocusTimer: React.FC = () => {
 
           {/* Time & State in center */}
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center select-none">
-            <span className="text-4xl font-mono font-bold tracking-tight text-[#1d1d1f]">
+            <span
+              className={`text-4xl font-mono font-bold tracking-tight text-[#1d1d1f] dark:text-[#f5f5f7] ${
+                isRunning ? 'scale-105 transition-transform duration-300' : ''
+              }`}
+            >
               {formattedTime}
             </span>
-            <span className="text-[10px] uppercase font-bold tracking-widest text-[#86868b] mt-1">
+            <span className="text-[10px] uppercase font-bold tracking-widest text-[#86868b] dark:text-[#98989f] mt-1">
               {isRunning ? 'Flow State Active' : 'Ready'}
             </span>
           </div>
@@ -148,8 +154,11 @@ export const MiniFocusTimer: React.FC = () => {
         </div>
 
         {/* Completed count info */}
-        <div className="mt-4 text-xs text-[#86868b] text-center">
-          <span className="font-semibold text-[#1d1d1f]">{completedSessions}</span> session(s) completed today • Keep the calm flow going
+        <div className="mt-4 text-xs text-[#86868b] dark:text-[#98989f] text-center">
+          <span className="font-semibold text-[#1d1d1f] dark:text-[#f5f5f7]">
+            {completedSessions}
+          </span>{' '}
+          session(s) completed today • Keep the calm flow going
         </div>
       </div>
     </Card>
