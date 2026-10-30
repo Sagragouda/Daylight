@@ -18,6 +18,7 @@ import {
   AlertCircle,
   RotateCw,
   Target,
+  Zap,
 } from 'lucide-react';
 import { formatFriendlyDate, getLocalDateString } from '../utils/date';
 
@@ -46,7 +47,7 @@ export const Focus: React.FC = () => {
   const { tasks } = useTasks();
   const activeTasks = useMemo(() => tasks.filter((t) => !t.completed), [tasks]);
 
-  // Ambient White Noise generator using Web Audio API
+  // Ambient White/Pink Noise generator using Web Audio API
   const [isPlayingNoise, setIsPlayingNoise] = useState(false);
   const [volume, setVolume] = useState(0.2);
   const audioCtxRef = useRef<AudioContext | null>(null);
@@ -142,9 +143,46 @@ export const Focus: React.FC = () => {
   }, []);
 
   // SVG Circular progress with scalable viewBox
-  const radius = 90;
+  const radius = 94;
   const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference - (progressPercent / 100) * circumference;
+  const strokeDashoffset = circumference - (Math.min(100, Math.max(0, progressPercent)) / 100) * circumference;
+
+  // Mode-based gradients and glowing styles
+  const modeConfig = {
+    pomodoro: {
+      id: 'focus-gradient-pomodoro',
+      gradientClass: 'glow-ring-blue',
+      strokeUrl: 'url(#focus-gradient-pomodoro)',
+      activeGlow: 'from-[#0071e3]/20 via-[#5e5ce6]/15 to-transparent',
+      chipClass:
+        'bg-blue-500/10 text-[#0071e3] dark:text-[#2997ff] border-blue-500/20 shadow-blue-500/10',
+      label: 'Pomodoro Sprint',
+      minuteLabel: '25m',
+      icon: <TimerIcon className="w-3.5 h-3.5" />,
+    },
+    shortBreak: {
+      id: 'focus-gradient-short',
+      gradientClass: 'glow-ring-emerald',
+      strokeUrl: 'url(#focus-gradient-short)',
+      activeGlow: 'from-emerald-500/20 via-teal-500/15 to-transparent',
+      chipClass:
+        'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20 shadow-emerald-500/10',
+      label: 'Short Refresh',
+      minuteLabel: '5m',
+      icon: <Coffee className="w-3.5 h-3.5" />,
+    },
+    longBreak: {
+      id: 'focus-gradient-long',
+      gradientClass: 'glow-ring-purple',
+      strokeUrl: 'url(#focus-gradient-long)',
+      activeGlow: 'from-purple-500/20 via-pink-500/15 to-transparent',
+      chipClass:
+        'bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20 shadow-purple-500/10',
+      label: 'Extended Rest',
+      minuteLabel: '15m',
+      icon: <Sparkles className="w-3.5 h-3.5" />,
+    },
+  }[mode];
 
   return (
     <div className="space-y-6 sm:space-y-8 animate-fade-in max-w-4xl mx-auto">
@@ -158,9 +196,9 @@ export const Focus: React.FC = () => {
             Eliminate digital noise. Work in rhythmic 25-minute sprints backed by cognitive science.
           </p>
         </div>
-        <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-100 dark:border-blue-900/40 text-[#0071e3] dark:text-[#2997ff] text-xs font-semibold self-start sm:self-auto shadow-xs">
-          <TimerIcon className="w-3.5 h-3.5" />
-          <span>Pomodoro Flow</span>
+        <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 border border-blue-500/20 text-[#0071e3] dark:text-[#2997ff] text-xs font-semibold self-start sm:self-auto shadow-xs">
+          <Zap className="w-3.5 h-3.5 text-[#0071e3] dark:text-[#2997ff]" />
+          <span>Pomodoro Flow Engine</span>
         </div>
       </div>
 
@@ -180,19 +218,23 @@ export const Focus: React.FC = () => {
         </div>
       )}
 
-      {/* Main Focus Card */}
-      <Card className="p-6 sm:p-10 relative overflow-hidden">
-        {/* Subtle background glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-blue-100/40 dark:bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
+      {/* Main Focus Card with Glossy Glassmorphism */}
+      <Card className="p-6 sm:p-10 relative overflow-hidden glossy-glass-card">
+        {/* Dynamic ambient background glow */}
+        <div
+          className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-radial ${modeConfig.activeGlow} rounded-full blur-3xl pointer-events-none transition-opacity duration-700 ${
+            isRunning ? 'opacity-100 scale-110' : 'opacity-40'
+          }`}
+        />
 
         <div className="relative z-10 flex flex-col items-center">
           {/* Mode Switcher */}
-          <div className="flex items-center gap-1.5 p-1 bg-[#f5f5f7] dark:bg-white/[0.06] rounded-2xl max-w-sm w-full mb-5">
+          <div className="flex items-center gap-1.5 p-1.5 bg-[#f5f5f7] dark:bg-white/[0.06] rounded-2xl max-w-sm w-full mb-5 border border-black/[0.04] dark:border-white/[0.06]">
             <button
               onClick={() => switchMode('pomodoro')}
               className={`flex-1 py-2 px-3 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all ${
                 mode === 'pomodoro'
-                  ? 'bg-white dark:bg-[#1f212f] text-[#0071e3] dark:text-[#2997ff] shadow-xs'
+                  ? 'bg-white dark:bg-[#1f212f] text-[#0071e3] dark:text-[#2997ff] shadow-sm border border-blue-500/20'
                   : 'text-[#86868b] dark:text-[#98989f] hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7]'
               }`}
             >
@@ -203,7 +245,7 @@ export const Focus: React.FC = () => {
               onClick={() => switchMode('shortBreak')}
               className={`flex-1 py-2 px-3 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all ${
                 mode === 'shortBreak'
-                  ? 'bg-white dark:bg-[#1f212f] text-emerald-600 dark:text-emerald-400 shadow-xs'
+                  ? 'bg-white dark:bg-[#1f212f] text-emerald-600 dark:text-emerald-400 shadow-sm border border-emerald-500/20'
                   : 'text-[#86868b] dark:text-[#98989f] hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7]'
               }`}
             >
@@ -214,7 +256,7 @@ export const Focus: React.FC = () => {
               onClick={() => switchMode('longBreak')}
               className={`flex-1 py-2 px-3 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all ${
                 mode === 'longBreak'
-                  ? 'bg-white dark:bg-[#1f212f] text-purple-600 dark:text-purple-400 shadow-xs'
+                  ? 'bg-white dark:bg-[#1f212f] text-purple-600 dark:text-purple-400 shadow-sm border border-purple-500/20'
                   : 'text-[#86868b] dark:text-[#98989f] hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7]'
               }`}
             >
@@ -245,60 +287,104 @@ export const Focus: React.FC = () => {
             </select>
           </div>
 
-          {/* Big Circular Display with responsive viewBox */}
-          <div className="relative flex items-center justify-center my-3">
+          {/* Premium Circular Timer with Multi-Color SVG Gradients & Chronograph Track */}
+          <div className="relative flex items-center justify-center my-4">
             <svg
               viewBox="0 0 240 240"
-              className="w-56 h-56 sm:w-68 sm:h-68 transform -rotate-90"
+              className="w-60 h-60 sm:w-72 sm:h-72 transform -rotate-90 select-none"
             >
+              <defs>
+                {/* Pomodoro Gradient: Electric Blue -> Indigo -> Purple */}
+                <linearGradient id="focus-gradient-pomodoro" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#0071e3" />
+                  <stop offset="50%" stopColor="#5e5ce6" />
+                  <stop offset="100%" stopColor="#af52de" />
+                </linearGradient>
+
+                {/* Short Break Gradient: Emerald -> Mint -> Cyan */}
+                <linearGradient id="focus-gradient-short" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#10b981" />
+                  <stop offset="50%" stopColor="#34d399" />
+                  <stop offset="100%" stopColor="#06b6d4" />
+                </linearGradient>
+
+                {/* Long Break Gradient: Amber -> Crimson -> Magenta */}
+                <linearGradient id="focus-gradient-long" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#ff9500" />
+                  <stop offset="50%" stopColor="#ff2d55" />
+                  <stop offset="100%" stopColor="#af52de" />
+                </linearGradient>
+              </defs>
+
+              {/* Outer Chronograph Dashed Track (Apple Watch style) */}
+              <circle
+                cx="120"
+                cy="120"
+                r="110"
+                className="text-black/[0.07] dark:text-white/[0.08]"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                strokeDasharray="2 7"
+                fill="transparent"
+              />
+
+              {/* Background Track */}
               <circle
                 cx="120"
                 cy="120"
                 r={radius}
-                className="text-[#f0f0f4] dark:text-white/[0.08]"
+                className="text-black/[0.05] dark:text-white/[0.06]"
                 strokeWidth="10"
                 stroke="currentColor"
                 fill="transparent"
               />
+
+              {/* Glowing Vibrant Gradient Countdown Ring */}
               <circle
                 cx="120"
                 cy="120"
                 r={radius}
-                className={`${
-                  mode === 'pomodoro'
-                    ? 'text-[#0071e3] dark:text-[#2997ff]'
-                    : mode === 'shortBreak'
-                    ? 'text-emerald-500 dark:text-emerald-400'
-                    : 'text-purple-500 dark:text-purple-400'
-                } transition-all duration-700 ease-out`}
-                strokeWidth="10"
+                stroke={modeConfig.strokeUrl}
+                strokeWidth="11"
                 strokeDasharray={circumference}
                 strokeDashoffset={strokeDashoffset}
                 strokeLinecap="round"
-                stroke="currentColor"
+                className={`transition-all duration-700 ease-out ${modeConfig.gradientClass}`}
                 fill="transparent"
               />
             </svg>
 
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-center select-none">
+            {/* Inner Center Display */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-center select-none pointer-events-none">
               <span
-                className={`text-5xl sm:text-6xl font-mono font-bold tracking-tight text-[#1d1d1f] dark:text-[#f5f5f7] ${
-                  isRunning ? 'scale-105 transition-transform duration-300' : ''
+                className={`text-5xl sm:text-6xl font-mono font-bold tracking-tight text-[#1d1d1f] dark:text-[#f5f5f7] transition-transform duration-300 ${
+                  isRunning ? 'scale-105' : ''
                 }`}
               >
                 {formattedTime}
               </span>
-              <span className="text-xs uppercase font-bold tracking-widest text-[#86868b] dark:text-[#98989f] mt-2">
-                {isRunning ? 'Flow State Active' : 'Ready'}
-              </span>
+
+              {/* State Pill */}
+              <div className="mt-2.5">
+                {isRunning ? (
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold tracking-wide uppercase bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 shadow-xs">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
+                    Flow Active
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider text-[#86868b] dark:text-[#98989f] bg-black/[0.04] dark:bg-white/[0.06]">
+                    Ready
+                  </span>
+                )}
+              </div>
             </div>
           </div>
 
           {/* Action Buttons */}
-          <div className="flex items-center gap-3 mt-6">
+          <div className="flex items-center gap-3.5 mt-5">
             <Button
               onClick={resetTimer}
-              variant="secondary"
+              variant="glass"
               size="lg"
               icon={<RotateCcw className="w-4 h-4" />}
             >
@@ -307,12 +393,18 @@ export const Focus: React.FC = () => {
 
             <Button
               onClick={isRunning ? pauseTimer : startTimer}
-              variant="primary"
+              variant={isRunning ? 'secondary' : 'gradient'}
               size="lg"
-              className="w-36 sm:w-40 shadow-lg text-base"
-              icon={isRunning ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
+              className="w-40 sm:w-44 shadow-lg text-base"
+              icon={
+                isRunning ? (
+                  <Pause className="w-5 h-5 text-amber-500" />
+                ) : (
+                  <Play className="w-5 h-5 fill-white" />
+                )
+              }
             >
-              {isRunning ? 'Pause' : 'Start Focus'}
+              {isRunning ? 'Pause Flow' : 'Start Focus'}
             </Button>
           </div>
 
@@ -329,17 +421,26 @@ export const Focus: React.FC = () => {
         </div>
       </Card>
 
-      {/* Built-in Ambient White Noise Generator */}
-      <Card className="p-6">
+      {/* Built-in Ambient White/Pink Noise Generator */}
+      <Card className="p-5 sm:p-6 glossy-glass-card">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/60 text-[#0071e3] dark:text-[#2997ff] border border-blue-100 dark:border-blue-900/40 flex items-center justify-center shadow-xs">
+            <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-blue-500/10 to-indigo-500/15 text-[#0071e3] dark:text-[#2997ff] border border-blue-500/20 flex items-center justify-center shrink-0 shadow-xs">
               <Headphones className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="font-semibold text-sm text-[#1d1d1f] dark:text-[#f5f5f7]">
-                Calm Pink Noise Generator
-              </h3>
+              <div className="flex items-center gap-2">
+                <h3 className="font-semibold text-sm text-[#1d1d1f] dark:text-[#f5f5f7]">
+                  Calm Pink Noise Generator
+                </h3>
+                {isPlayingNoise && (
+                  <div className="flex items-center gap-0.5 h-3">
+                    <span className="w-0.5 bg-[#0071e3] dark:bg-[#2997ff] rounded-full animate-[pulse_0.6s_ease-in-out_infinite] h-2.5" />
+                    <span className="w-0.5 bg-[#5e5ce6] rounded-full animate-[pulse_0.8s_ease-in-out_infinite_0.15s] h-3.5" />
+                    <span className="w-0.5 bg-[#af52de] rounded-full animate-[pulse_0.5s_ease-in-out_infinite_0.3s] h-2" />
+                  </div>
+                )}
+              </div>
               <p className="text-xs text-[#86868b] dark:text-[#98989f]">
                 Synthesized live in browser to mask distracting background sounds.
               </p>
@@ -365,7 +466,7 @@ export const Focus: React.FC = () => {
             )}
 
             <Button
-              variant={isPlayingNoise ? 'primary' : 'secondary'}
+              variant={isPlayingNoise ? 'gradient' : 'glass'}
               size="sm"
               onClick={toggleNoise}
               icon={
@@ -383,12 +484,12 @@ export const Focus: React.FC = () => {
       </Card>
 
       {/* Session History Card */}
-      <Card className="p-6">
+      <Card className="p-6 glossy-glass-card">
         <div className="flex items-center justify-between pb-4 border-b border-black/[0.05] dark:border-white/[0.08] mb-4">
           <div>
             <h3 className="font-semibold text-lg text-[#1d1d1f] dark:text-[#f5f5f7] flex items-center gap-2">
               Focus History
-              <span className="text-xs px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-950/60 text-[#0071e3] dark:text-[#2997ff] font-semibold border border-blue-200/50 dark:border-blue-800/40">
+              <span className="text-xs px-2.5 py-0.5 rounded-full bg-blue-50 dark:bg-blue-950/60 text-[#0071e3] dark:text-[#2997ff] font-semibold border border-blue-200/50 dark:border-blue-800/40">
                 Cloud Synced
               </span>
             </h3>

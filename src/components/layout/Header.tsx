@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Plus, SunMedium, LogOut, Settings as SettingsIcon, ChevronDown, User as UserIcon } from 'lucide-react';
+import { Plus, LogOut, Settings as SettingsIcon, ChevronDown, User as UserIcon } from 'lucide-react';
 import { getFormattedHeaderDate } from '../../utils/date';
 import { Button } from '../common/Button';
 import { useAuth } from '../../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 import { NotificationCenter } from './NotificationCenter';
 import { ThemeToggle } from '../common/ThemeToggle';
+import { DaylightLogo } from '../common/DaylightLogo';
 
 interface HeaderProps {
   onOpenNewTaskModal: () => void;
@@ -47,11 +48,9 @@ export const Header: React.FC<HeaderProps> = ({ onOpenNewTaskModal }) => {
     <header className="sticky top-0 z-30 bg-[#fbfbfd]/85 dark:bg-[#0e0f15]/85 backdrop-blur-xl border-b border-black/[0.05] dark:border-white/[0.08] px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between transition-colors duration-200">
       {/* Mobile brand mark (visible only on small screens) */}
       <div className="flex items-center gap-3">
-        <Link to="/" className="lg:hidden flex items-center gap-2 group">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#0071e3] to-[#42a5f5] flex items-center justify-center text-white shadow-sm transition-transform duration-200 group-hover:scale-105">
-            <SunMedium className="w-4 h-4" />
-          </div>
-          <span className="font-semibold text-base tracking-tight text-[#1d1d1f] dark:text-[#f5f5f7]">
+        <Link to="/" className="lg:hidden flex items-center gap-2.5 group">
+          <DaylightLogo size="sm" withGlow />
+          <span className="font-bold text-base tracking-tight bg-gradient-to-r from-[#1d1d1f] via-[#0071e3] to-[#5e5ce6] dark:from-white dark:via-[#2997ff] dark:to-[#af52de] bg-clip-text text-transparent">
             Daylight
           </span>
         </Link>
@@ -66,12 +65,13 @@ export const Header: React.FC<HeaderProps> = ({ onOpenNewTaskModal }) => {
 
       {/* Right Actions */}
       <div className="flex items-center gap-2 sm:gap-2.5">
-        {/* Quick New Task Button */}
+        {/* Quick New Task Primary Add Button */}
         <Button
           onClick={onOpenNewTaskModal}
+          variant="gradient"
           size="sm"
-          icon={<Plus className="w-4 h-4" />}
-          className="shadow-sm font-semibold mr-1"
+          icon={<Plus className="w-4 h-4 stroke-[2.5]" />}
+          className="font-bold shadow-md active:scale-95 transition-all text-xs mr-0.5 sm:mr-1"
         >
           <span className="hidden sm:inline">New Task</span>
           <span className="sm:hidden">Add</span>

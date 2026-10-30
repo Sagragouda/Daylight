@@ -1,10 +1,11 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { SunMedium, Play, Pause, LogOut, ShieldCheck } from 'lucide-react';
+import { Play, Pause, LogOut, ShieldCheck } from 'lucide-react';
 import { navigationItems } from './navigationItems';
 import { useTasks } from '../../context/TaskContext';
 import { useTimer } from '../../context/TimerContext';
 import { useAuth } from '../../context/AuthContext';
+import { DaylightLogo } from '../common/DaylightLogo';
 
 export const Sidebar: React.FC = () => {
   const { pendingTasksCount } = useTasks();
@@ -25,17 +26,15 @@ export const Sidebar: React.FC = () => {
       {/* Brand Header */}
       <div>
         <div className="flex items-center gap-3 px-3 py-3 mb-4">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#0071e3] to-[#42a5f5] flex items-center justify-center text-white shadow-[0_4px_12px_rgba(0,113,227,0.3)] transition-transform duration-200 hover:scale-105">
-            <SunMedium className="w-5 h-5 text-white" />
-          </div>
+          <DaylightLogo size="md" withGlow />
           <div>
-            <span className="font-semibold text-lg tracking-tight text-[#1d1d1f] dark:text-[#f5f5f7] flex items-center gap-1.5">
+            <span className="font-bold text-lg tracking-tight bg-gradient-to-r from-[#1d1d1f] via-[#0071e3] to-[#5e5ce6] dark:from-white dark:via-[#2997ff] dark:to-[#af52de] bg-clip-text text-transparent flex items-center gap-1.5">
               Daylight
-              <span className="text-[10px] font-semibold tracking-normal text-[#0071e3] dark:text-[#2997ff] bg-blue-50 dark:bg-blue-950/60 px-1.5 py-0.5 rounded-full border border-blue-100 dark:border-blue-800/40">
+              <span className="text-[10px] font-bold tracking-normal text-[#0071e3] dark:text-[#2997ff] bg-blue-50 dark:bg-blue-950/60 px-1.5 py-0.5 rounded-full border border-blue-100 dark:border-blue-800/40">
                 v1.0
               </span>
             </span>
-            <p className="text-[11px] text-[#86868b] dark:text-[#98989f] leading-tight">
+            <p className="text-[11px] font-medium text-[#86868b] dark:text-[#98989f] leading-tight">
               Mindful productivity
             </p>
           </div>
