@@ -1,0 +1,181 @@
+import React from 'react';
+import { useOutletContext } from 'react-router-dom';
+import { useHabits } from '../context/HabitContext';
+import { Card } from '../components/common/Card';
+import { Button } from '../components/common/Button';
+import { ProgressBar } from '../components/common/ProgressBar';
+import { getPastSevenDays } from '../utils/date';
+import { Flame, Plus, Check, Trash2, Sparkles, Droplets, BookOpen, Activity, Award } from 'lucide-react';
+
+interface OutletContextType {
+  openHabitModal: () => void;
+}
+
+const ICON_MAP: Record<string, React.ReactNode> = {
+  Sparkles: <Sparkles className="w-5 h-5" />,
+  Droplets: <Droplets className="w-5 h-5" />,
+  BookOpen: <BookOpen className="w-5 h-5" />,
+  Activity: <Activity className="w-5 h-5" />,
+};
+
+export const Habits: React.FC = () => {
+  const { openHabitModal } = useOutletContext<OutletContextType>();
+  const {
+    habits,
+    toggleHabitToday,
+    deleteHabit,
+    todayCompletedCount,
+    totalHabitsCount,
+    habitProgressPercentage,
+    isHabitDoneToday,
+  } = useHabits();
+
+  const pastSevenDays = getPastSevenDays();
+
+  // Find highest streak
+  const bestStreak = habits.reduce((max, h) => Math.max(max, h.streak), 0);
+
+  return (
+    <div className="space-y-6 sm:space-y-8 animate-fade-in">
+      {/* Top Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#1d1d1f]">
+            Habits & Routines
+          </h1>
+          <p className="text-sm text-[#6e6e73] mt-1">
+            Build unshakeable daily momentum through small, consistent rituals.
+          </p>
+        </div>
+
+        <Button
+          onClick={openHabitModal}
+          size="md"
+          icon={<Plus className="w-4 h-4" />}
+          className="shadow-sm self-start sm:self-auto"
+        >
+          New Habit
+        </Button>
+      </div>
+
+      {/* Habit Metrics Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <Card className="p-5 flex items-center gap-4">
+          <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
+            <Flame className="w-5 h-5" />
+          </div>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider text-[#86868b]">Best Streak</p>
+            <p className="text-2xl font-bold text-[#1d1d1f]">{bestStreak} Days</p>
+          </div>
+        </Card>
+
+        <Card className="p-5 flex items-center gap-4">
+          <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+            <Check className="w-5 h-5 stroke-[2.5]" />
+          </div>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider text-[#86868b]">Done Today</p>
+            <p className="text-2xl font-bold text-[#1d1d1f]">
+              {todayCompletedCount} of {totalHabitsCount}
+            </p>
+          </div>
+        </Card>
+
+        <Card className="p-5 flex items-center gap-4">
+          <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#0071e3] flex items-center justify-center shrink-0">
+            <Award className="w-5 h-5" />
+          </div>
+          <div className="flex-1">
+            <p className="text-xs font-semibold uppercase tracking-wider text-[#86868b]">Adherence</p>
+            <p className="text-2xl font-bold text-[#1d1d1f]">{habitProgressPercentage}%</p>
+            <ProgressBar progress={habitProgressPercentage} size="sm" className="mt-1" />
+          </div>
+        </Card>
+      </div>
+
+      {/* Habit Cards List */}
+      <div className="space-y-4">
+        {habits.map((habit) => {
+          const isDone = isHabitDoneToday(habit);
+          const icon = ICON_MAP[habit.iconName] || <Flame className="w-5 h-5" />;
+
+          return (
+            <Card key={habit.id} className="p-5 sm:p-6 transition-all hover:border-black/[0.12]">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                {/* Habit Info & Check-in */}
+                <div className="flex items-center gap-4">
+                  <button
+                    onClick={() => toggleHabitToday(habit.id)}
+                    className={`w-11 h-11 rounded-2xl flex items-center justify-center transition-all duration-200 shrink-0 ${
+                      isDone
+                        ? 'bg-emerald-500 text-white shadow-md scale-105'
+                        : 'bg-[#f5f5f7] border border-black/[0.08] text-[#6e6e73] hover:border-[#0071e3] hover:text-[#0071e3]'
+                    }`}
+                    title={isDone ? 'Mark as not done today' : 'Check in for today'}
+                  >
+                    {isDone ? <Check className="w-6 h-6 stroke-[2.5]" /> : icon}
+                  </button>
+
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <h3 className="font-semibold text-base text-[#1d1d1f]">
+                        {habit.name}
+                      </h3>
+                      {habit.streak > 0 && (
+                        <span className="inline-flex items-center gap-1 text-xs font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200/60">
+                          <Flame className="w-3.5 h-3.5 fill-amber-500" />
+                          {habit.streak} day streak
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-xs text-[#86868b] mt-0.5">
+                      {habit.category} • Frequency: {habit.frequency}
+                    </p>
+                  </div>
+                </div>
+
+                {/* 7-day Matrix & Delete */}
+                <div className="flex items-center justify-between md:justify-end gap-6 pt-3 md:pt-0 border-t md:border-t-0 border-black/[0.04]">
+                  {/* Past 7 days badges */}
+                  <div className="flex items-center gap-2">
+                    {pastSevenDays.map((day) => {
+                      const completed = habit.completedDates.includes(day.dateStr);
+                      return (
+                        <div key={day.dateStr} className="flex flex-col items-center gap-1">
+                          <span className="text-[10px] font-semibold text-[#86868b] uppercase">
+                            {day.label}
+                          </span>
+                          <div
+                            className={`w-7 h-7 rounded-xl flex items-center justify-center text-xs font-bold transition-all ${
+                              completed
+                                ? 'bg-[#0071e3] text-white shadow-sm'
+                                : day.isToday
+                                ? 'border-2 border-dashed border-[#0071e3]/40 text-[#86868b]'
+                                : 'bg-[#f0f0f4] text-[#86868b]/70'
+                            }`}
+                          >
+                            {completed ? '✓' : ''}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {/* Delete Habit */}
+                  <button
+                    onClick={() => deleteHabit(habit.id)}
+                    className="p-2 rounded-xl text-[#86868b] hover:text-red-600 hover:bg-red-50 transition-colors"
+                    title="Delete habit"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            </Card>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
