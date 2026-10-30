@@ -16,42 +16,42 @@ export const Badge: React.FC<BadgeProps> = ({
   size = 'sm',
   className = '',
 }) => {
-  const sizeClasses = size === 'sm' ? 'text-[11px] px-2 py-0.5' : 'text-xs px-2.5 py-1';
+  const sizeClasses = size === 'sm' ? 'text-[11px] px-2.5 py-0.5' : 'text-xs px-3 py-1';
 
-  let colorClasses = 'bg-[#f5f5f7] text-[#515154] border border-black/[0.04]';
+  let colorClasses = 'bg-[#f5f5f7] text-[#515154] border border-black/[0.04] font-medium';
 
   if (priority) {
     switch (priority) {
       case 'high':
-        colorClasses = 'bg-rose-50 text-rose-700 border border-rose-200/60 font-medium';
+        colorClasses = 'bg-rose-50 text-rose-700 border border-rose-200/70 font-semibold';
         break;
       case 'medium':
-        colorClasses = 'bg-amber-50 text-amber-700 border border-amber-200/60 font-medium';
+        colorClasses = 'bg-amber-50 text-amber-700 border border-amber-200/70 font-semibold';
         break;
       case 'low':
-        colorClasses = 'bg-blue-50 text-blue-700 border border-blue-200/60 font-medium';
+        colorClasses = 'bg-blue-50 text-[#0071e3] border border-blue-200/70 font-semibold';
         break;
     }
   } else {
     switch (variant) {
       case 'blue':
-        colorClasses = 'bg-blue-50 text-[#0071e3] border border-blue-100 font-medium';
+        colorClasses = 'bg-blue-50 text-[#0071e3] border border-blue-100 font-semibold';
         break;
       case 'success':
-        colorClasses = 'bg-emerald-50 text-emerald-700 border border-emerald-100 font-medium';
+        colorClasses = 'bg-emerald-50 text-emerald-700 border border-emerald-100 font-semibold';
         break;
       case 'purple':
-        colorClasses = 'bg-purple-50 text-purple-700 border border-purple-100 font-medium';
+        colorClasses = 'bg-purple-50 text-purple-700 border border-purple-100 font-semibold';
         break;
       case 'amber':
-        colorClasses = 'bg-amber-50 text-amber-700 border border-amber-100 font-medium';
+        colorClasses = 'bg-amber-50 text-amber-700 border border-amber-100 font-semibold';
         break;
     }
   }
 
   return (
     <span
-      className={`inline-flex items-center rounded-full font-medium tracking-tight ${sizeClasses} ${colorClasses} ${className}`}
+      className={`inline-flex items-center rounded-full tracking-tight select-none ${sizeClasses} ${colorClasses} ${className}`}
     >
       {children}
     </span>

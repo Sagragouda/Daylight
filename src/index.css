@@ -4,8 +4,14 @@
 
 @layer base {
   :root {
-    --apple-blue: #0071e3;
     --apple-bg: #fbfbfd;
+    --apple-card: #ffffff;
+    --apple-blue: #0071e3;
+    --apple-blue-hover: #0062c4;
+    --apple-text-primary: #1d1d1f;
+    --apple-text-secondary: #6e6e73;
+    --apple-text-muted: #86868b;
+    --apple-border: rgba(0, 0, 0, 0.06);
   }
 
   body {
@@ -14,6 +20,13 @@
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Plus Jakarta Sans", system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  /* Safe touch targets for interactive mobile elements */
+  button, input, select, textarea, a {
+    touch-action: manipulation;
   }
 }
 
@@ -36,7 +49,7 @@
   background: rgba(0, 0, 0, 0.22);
 }
 
-/* Smooth micro-interactions */
+/* Smooth Apple Glassmorphism and Surfaces */
 .apple-glass {
   background: rgba(255, 255, 255, 0.82);
   backdrop-filter: blur(20px);
@@ -48,13 +61,40 @@
 }
 
 .apple-shadow {
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 2px 10px -2px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
 }
 
 .apple-shadow-hover {
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
 .apple-shadow-hover:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 30px -4px rgba(0, 0, 0, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 10px 28px -4px rgba(0, 0, 0, 0.07), 0 2px 8px -1px rgba(0, 0, 0, 0.03);
+}
+
+/* Animation Stagger Utilities */
+.stagger-1 {
+  animation-delay: 50ms;
+}
+.stagger-2 {
+  animation-delay: 100ms;
+}
+.stagger-3 {
+  animation-delay: 150ms;
+}
+.stagger-4 {
+  animation-delay: 200ms;
+}
+
+/* Respect user's motion preferences for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

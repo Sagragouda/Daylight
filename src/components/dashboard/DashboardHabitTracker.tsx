@@ -37,8 +37,9 @@ export const DashboardHabitTracker: React.FC<DashboardHabitTrackerProps> = ({ on
           {onOpenNewHabitModal && (
             <button
               onClick={onOpenNewHabitModal}
-              className="p-1.5 rounded-xl text-[#86868b] hover:text-[#0071e3] hover:bg-blue-50 transition-colors"
+              className="w-8 h-8 flex items-center justify-center rounded-xl text-[#86868b] hover:text-[#0071e3] hover:bg-blue-50 transition-colors"
               title="Add new habit"
+              aria-label="Add new habit"
             >
               <Plus className="w-4 h-4" />
             </button>
@@ -70,7 +71,7 @@ export const DashboardHabitTracker: React.FC<DashboardHabitTrackerProps> = ({ on
                   onClick={() => toggleHabitToday(habit.id)}
                   className={`w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-200 shrink-0 ${
                     isDone
-                      ? 'bg-emerald-500 text-white shadow-sm scale-105'
+                      ? 'bg-emerald-500 text-white shadow-xs scale-105'
                       : 'bg-white border border-black/[0.1] text-[#86868b] hover:border-[#0071e3] hover:text-[#0071e3]'
                   }`}
                   aria-label={isDone ? 'Mark habit undone' : 'Mark habit done today'}
@@ -105,15 +106,15 @@ export const DashboardHabitTracker: React.FC<DashboardHabitTrackerProps> = ({ on
                       <div
                         className={`w-5 h-5 rounded-lg flex items-center justify-center text-[10px] font-medium transition-colors ${
                           dayDone
-                            ? 'bg-[#0071e3] text-white font-bold'
+                            ? 'bg-[#0071e3] text-white font-bold shadow-xs'
                             : day.isToday
                             ? 'border-2 border-dashed border-[#0071e3]/40 text-[#86868b]'
                             : 'bg-[#f0f0f4] text-[#86868b]'
                         }`}
                       >
-                        {dayDone ? '✓' : ''}
+                        {dayDone && <Check className="w-3 h-3 stroke-[2.5]" />}
                       </div>
-                      <span className="text-[9px] text-[#86868b] uppercase">
+                      <span className="text-[9px] text-[#86868b] uppercase font-semibold">
                         {day.label}
                       </span>
                     </div>

@@ -15,7 +15,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
   showLabel = false,
   className = '',
 }) => {
-  const clamped = Math.min(100, Math.max(0, progress));
+  const clamped = Math.min(100, Math.max(0, Math.round(progress)));
 
   const heightClasses = {
     sm: 'h-1.5',

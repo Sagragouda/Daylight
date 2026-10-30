@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { AuthLayout } from '../components/auth/AuthLayout';
 import { GoogleButton } from '../components/auth/GoogleButton';
 import { Button } from '../components/common/Button';
-import { Mail, Lock, User as UserIcon, AlertCircle, Loader2, CheckCircle2, ArrowRight } from 'lucide-react';
+import { Mail, Lock, User as UserIcon, AlertCircle, Loader2, CheckCircle2, ArrowRight, Eye, EyeOff } from 'lucide-react';
 
 export const Signup: React.FC = () => {
   const { user, signUpWithEmail } = useAuth();
@@ -14,6 +14,7 @@ export const Signup: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [verificationRequired, setVerificationRequired] = useState(false);
@@ -86,7 +87,7 @@ export const Signup: React.FC = () => {
         subtitle="A confirmation link has been sent to activate your Daylight account."
       >
         <div className="text-center py-4 space-y-4">
-          <div className="w-14 h-14 mx-auto rounded-full bg-blue-50 text-[#0071e3] border border-blue-100 flex items-center justify-center">
+          <div className="w-14 h-14 mx-auto rounded-full bg-blue-50 text-[#0071e3] border border-blue-100 flex items-center justify-center shadow-xs">
             <CheckCircle2 className="w-7 h-7" />
           </div>
 
@@ -100,14 +101,14 @@ export const Signup: React.FC = () => {
           </div>
 
           <p className="text-xs text-[#6e6e73] leading-relaxed max-w-sm mx-auto">
-            Please click the confirmation link in the email to verify your address. Once verified, you can sign in to your workspace.
+            Click the activation link inside the email to verify your address, then sign in to your Daylight workspace.
           </p>
 
-          <div className="pt-2">
+          <div className="pt-3">
             <Link to="/login">
-              <Button variant="primary" size="md" className="w-full">
+              <Button variant="primary" size="md" className="w-full shadow-md">
                 <span>Go to Sign In</span>
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-4 h-4 ml-1" />
               </Button>
             </Link>
           </div>
@@ -119,7 +120,7 @@ export const Signup: React.FC = () => {
   return (
     <AuthLayout
       title="Create your account"
-      subtitle="Begin your journey towards calm focus and deliberate daily progress."
+      subtitle="Start your journey with Daylight and craft a more mindful daily flow."
     >
       {/* Error Alert */}
       {errorMsg && (
@@ -131,10 +132,10 @@ export const Signup: React.FC = () => {
 
       {/* Signup Form */}
       <form onSubmit={handleSubmit} className="space-y-3.5">
-        {/* Name Field */}
+        {/* Full Name Field */}
         <div>
           <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] mb-1.5">
-            Full Name
+            Full name
           </label>
           <div className="relative">
             <UserIcon className="w-4 h-4 text-[#86868b] absolute left-3.5 top-3.5 pointer-events-none" />
@@ -145,7 +146,7 @@ export const Signup: React.FC = () => {
               autoComplete="name"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              placeholder="Alex Morgan"
+              placeholder="e.g. Jane Appleseed"
               className="w-full pl-10 pr-3.5 py-2.5 rounded-xl border border-black/[0.08] bg-[#fbfbfd] text-sm text-[#1d1d1f] placeholder:text-[#86868b] focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30 focus:border-[#0071e3] transition-all"
             />
           </div>
@@ -178,14 +179,22 @@ export const Signup: React.FC = () => {
           <div className="relative">
             <Lock className="w-4 h-4 text-[#86868b] absolute left-3.5 top-3.5 pointer-events-none" />
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               required
               autoComplete="new-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full pl-10 pr-3.5 py-2.5 rounded-xl border border-black/[0.08] bg-[#fbfbfd] text-sm text-[#1d1d1f] placeholder:text-[#86868b] focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30 focus:border-[#0071e3] transition-all"
+              className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-black/[0.08] bg-[#fbfbfd] text-sm text-[#1d1d1f] placeholder:text-[#86868b] focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30 focus:border-[#0071e3] transition-all"
             />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="w-8 h-8 flex items-center justify-center rounded-lg text-[#86868b] hover:text-[#1d1d1f] transition-colors absolute right-1.5 top-1.5"
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
+            >
+              {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+            </button>
           </div>
         </div>
 
@@ -197,13 +206,13 @@ export const Signup: React.FC = () => {
           <div className="relative">
             <Lock className="w-4 h-4 text-[#86868b] absolute left-3.5 top-3.5 pointer-events-none" />
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               required
               autoComplete="new-password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full pl-10 pr-3.5 py-2.5 rounded-xl border border-black/[0.08] bg-[#fbfbfd] text-sm text-[#1d1d1f] placeholder:text-[#86868b] focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30 focus:border-[#0071e3] transition-all"
+              className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-black/[0.08] bg-[#fbfbfd] text-sm text-[#1d1d1f] placeholder:text-[#86868b] focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30 focus:border-[#0071e3] transition-all"
             />
           </div>
         </div>
@@ -233,7 +242,7 @@ export const Signup: React.FC = () => {
           <div className="w-full border-t border-black/[0.06]" />
         </div>
         <div className="relative flex justify-center text-xs">
-          <span className="bg-white px-3 text-[#86868b] uppercase tracking-wider text-[10px]">
+          <span className="bg-white px-3 text-[#86868b] uppercase tracking-wider text-[10px] font-semibold">
             Or continue with
           </span>
         </div>

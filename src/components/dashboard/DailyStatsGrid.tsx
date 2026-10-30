@@ -59,28 +59,31 @@ export const DailyStatsGrid: React.FC = () => {
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
       {stats.map((stat, idx) => {
         const Icon = stat.icon;
+        const staggerClass = `stagger-${idx + 1}`;
         return (
           <Card
             key={idx}
             hoverable
-            className="p-4 sm:p-5 flex flex-col justify-between"
+            className={`p-4 sm:p-5 flex flex-col justify-between animate-slide-up ${staggerClass}`}
           >
             <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-semibold uppercase tracking-wider text-[#86868b]">
+              <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-[#86868b]">
                 {stat.label}
               </span>
-              <div className={`w-8 h-8 rounded-xl ${stat.bgColor} ${stat.borderColor} border flex items-center justify-center shrink-0`}>
+              <div
+                className={`w-8 h-8 rounded-xl ${stat.bgColor} ${stat.borderColor} border flex items-center justify-center shrink-0 shadow-xs`}
+              >
                 <Icon className={`w-4 h-4 ${stat.color}`} />
               </div>
             </div>
 
             <div>
-              <div className="flex items-baseline gap-2">
+              <div className="flex items-baseline gap-1.5">
                 <span className="text-2xl sm:text-3xl font-bold tracking-tight text-[#1d1d1f]">
                   {stat.value}
                 </span>
                 <span className="inline-flex items-center text-[11px] font-semibold text-emerald-600">
-                  <ArrowUpRight className="w-3 h-3" />
+                  <ArrowUpRight className="w-3.5 h-3.5" />
                 </span>
               </div>
               <p className="text-xs text-[#6e6e73] mt-1 font-medium truncate">

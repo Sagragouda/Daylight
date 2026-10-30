@@ -13,9 +13,9 @@ interface TaskCreateModalProps {
 
 const CATEGORIES: TaskCategory[] = ['Work', 'Design', 'Personal', 'Health', 'Learning'];
 const PRIORITIES: { value: Priority; label: string; color: string }[] = [
-  { value: 'low', label: 'Low', color: 'border-blue-200 text-blue-700 bg-blue-50/50' },
-  { value: 'medium', label: 'Medium', color: 'border-amber-200 text-amber-700 bg-amber-50/50' },
-  { value: 'high', label: 'High', color: 'border-rose-200 text-rose-700 bg-rose-50/50' },
+  { value: 'low', label: 'Low', color: 'border-blue-200 text-[#0071e3] bg-blue-50/70' },
+  { value: 'medium', label: 'Medium', color: 'border-amber-200 text-amber-700 bg-amber-50/70' },
+  { value: 'high', label: 'High', color: 'border-rose-200 text-rose-700 bg-rose-50/70' },
 ];
 
 export const TaskCreateModal: React.FC<TaskCreateModalProps> = ({ isOpen, onClose }) => {
@@ -105,9 +105,9 @@ export const TaskCreateModal: React.FC<TaskCreateModalProps> = ({ isOpen, onClos
                 type="button"
                 key={cat}
                 onClick={() => setCategory(cat)}
-                className={`text-xs px-3 py-1.5 rounded-lg border font-medium transition-all ${
+                className={`text-xs px-3 py-1.5 rounded-xl border font-semibold transition-all ${
                   category === cat
-                    ? 'bg-[#0071e3] text-white border-[#0071e3] shadow-sm'
+                    ? 'bg-[#0071e3] text-white border-[#0071e3] shadow-xs'
                     : 'bg-[#f5f5f7] text-[#6e6e73] border-transparent hover:bg-black/[0.05]'
                 }`}
               >
@@ -129,9 +129,9 @@ export const TaskCreateModal: React.FC<TaskCreateModalProps> = ({ isOpen, onClos
                 type="button"
                 key={p.value}
                 onClick={() => setPriority(p.value)}
-                className={`text-xs py-2 px-3 rounded-xl border font-medium transition-all text-center ${
+                className={`text-xs py-2 px-3 rounded-xl border font-semibold transition-all text-center ${
                   priority === p.value
-                    ? `${p.color} border-current ring-1 ring-current font-semibold`
+                    ? `${p.color} border-current ring-1 ring-current`
                     : 'bg-[#fbfbfd] border-black/[0.08] text-[#6e6e73] hover:bg-[#f5f5f7]'
                 }`}
               >
@@ -174,7 +174,7 @@ export const TaskCreateModal: React.FC<TaskCreateModalProps> = ({ isOpen, onClos
         {/* Focus Sprint Estimate */}
         <div>
           <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] mb-1.5">
-            Pomodoro Sprint Duration: {estimatedMinutes} mins
+            Pomodoro Duration: {estimatedMinutes} mins
           </label>
           <div className="flex gap-2">
             {[15, 25, 45, 60].map((mins) => (
@@ -182,9 +182,9 @@ export const TaskCreateModal: React.FC<TaskCreateModalProps> = ({ isOpen, onClos
                 type="button"
                 key={mins}
                 onClick={() => setEstimatedMinutes(mins)}
-                className={`flex-1 py-1.5 rounded-lg border text-xs font-medium transition-all ${
+                className={`flex-1 py-1.5 rounded-xl border text-xs font-semibold transition-all ${
                   estimatedMinutes === mins
-                    ? 'bg-[#0071e3]/10 border-[#0071e3] text-[#0071e3] font-semibold'
+                    ? 'bg-[#0071e3]/10 border-[#0071e3] text-[#0071e3]'
                     : 'bg-[#fbfbfd] border-black/[0.08] text-[#6e6e73] hover:bg-[#f5f5f7]'
                 }`}
               >

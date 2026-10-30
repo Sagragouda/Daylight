@@ -74,9 +74,9 @@ export const MiniFocusTimer: React.FC = () => {
           <button
             key={m}
             onClick={() => switchMode(m)}
-            className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-medium transition-all ${
+            className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-semibold transition-all ${
               mode === m
-                ? 'bg-white text-[#1d1d1f] shadow-sm font-semibold'
+                ? 'bg-white text-[#1d1d1f] shadow-xs'
                 : 'text-[#86868b] hover:text-[#1d1d1f]'
             }`}
           >
@@ -99,12 +99,12 @@ export const MiniFocusTimer: React.FC = () => {
               stroke="currentColor"
               fill="transparent"
             />
-            {/* Animated countdown circle */}
+            {/* Animated countdown ring */}
             <circle
               cx="88"
               cy="88"
               r={radius}
-              className={`${modeColors[mode].ring} transition-all duration-500 ease-out`}
+              className={`${modeColors[mode].ring} transition-all duration-700 ease-out`}
               strokeWidth="8"
               strokeDasharray={circumference}
               strokeDashoffset={strokeDashoffset}
@@ -114,13 +114,13 @@ export const MiniFocusTimer: React.FC = () => {
             />
           </svg>
 
-          {/* Time & State Text */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+          {/* Time & State in center */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center text-center select-none">
             <span className="text-4xl font-mono font-bold tracking-tight text-[#1d1d1f]">
               {formattedTime}
             </span>
-            <span className="text-[11px] font-medium text-[#86868b] mt-1">
-              {isRunning ? 'Flow active' : 'Paused / Ready'}
+            <span className="text-[10px] uppercase font-bold tracking-widest text-[#86868b] mt-1">
+              {isRunning ? 'Flow State Active' : 'Ready'}
             </span>
           </div>
         </div>
@@ -132,7 +132,6 @@ export const MiniFocusTimer: React.FC = () => {
             variant="secondary"
             size="md"
             icon={<RotateCcw className="w-4 h-4" />}
-            title="Reset timer to full duration"
           >
             Reset
           </Button>

@@ -48,7 +48,7 @@ export const Settings: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 sm:space-y-8 animate-fade-in max-w-4xl">
+    <div className="space-y-6 sm:space-y-8 animate-fade-in max-w-4xl mx-auto">
       {/* Header */}
       <div>
         <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#1d1d1f]">
@@ -64,7 +64,7 @@ export const Settings: React.FC = () => {
         <Card className="p-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-black/[0.05]">
             <div className="flex items-center gap-3.5">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#0071e3]/20 to-blue-200 border border-[#0071e3]/30 flex items-center justify-center text-[#0071e3] font-bold text-base shadow-sm">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#0071e3]/20 to-blue-200 border border-[#0071e3]/30 flex items-center justify-center text-[#0071e3] font-bold text-base shadow-xs select-none">
                 {initials}
               </div>
               <div>
@@ -115,25 +115,26 @@ export const Settings: React.FC = () => {
           Sound & Haptics
         </h3>
 
-        <div className="flex items-center justify-between pb-4 border-b border-black/[0.05]">
+        <div className="flex items-center justify-between pb-4 border-b border-black/[0.05] gap-4">
           <div>
-            <p className="text-sm font-medium text-[#1d1d1f]">Task & Timer Chimes</p>
-            <p className="text-xs text-[#86868b]">
+            <p className="text-sm font-semibold text-[#1d1d1f]">Task & Timer Chimes</p>
+            <p className="text-xs text-[#86868b] mt-0.5">
               Play gentle Apple-inspired synthesized harmonic notes on task completion and session end.
             </p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 shrink-0">
             <Button variant="secondary" size="sm" onClick={testAudioChime}>
               Test Sound
             </Button>
             <button
               onClick={() => setSoundEnabled(!soundEnabled)}
-              className={`w-11 h-6 rounded-full transition-colors relative p-0.5 ${
+              className={`w-11 h-6 rounded-full transition-colors relative p-0.5 focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30 ${
                 soundEnabled ? 'bg-[#0071e3]' : 'bg-[#e8e8ed]'
               }`}
+              aria-label="Toggle Sound"
             >
               <div
-                className={`w-5 h-5 rounded-full bg-white shadow-sm transition-transform ${
+                className={`w-5 h-5 rounded-full bg-white shadow-xs transition-transform ${
                   soundEnabled ? 'translate-x-5' : 'translate-x-0'
                 }`}
               />
@@ -141,10 +142,10 @@ export const Settings: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-4">
           <div>
-            <p className="text-sm font-medium text-[#1d1d1f]">Browser Notifications</p>
-            <p className="text-xs text-[#86868b]">
+            <p className="text-sm font-semibold text-[#1d1d1f]">Browser Notifications</p>
+            <p className="text-xs text-[#86868b] mt-0.5">
               Receive subtle system notifications when a 25-minute Pomodoro timer completes.
             </p>
           </div>
@@ -158,12 +159,13 @@ export const Settings: React.FC = () => {
                 setNotificationsEnabled(!notificationsEnabled);
               }
             }}
-            className={`w-11 h-6 rounded-full transition-colors relative p-0.5 ${
+            className={`w-11 h-6 rounded-full transition-colors relative p-0.5 focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30 shrink-0 ${
               notificationsEnabled ? 'bg-[#0071e3]' : 'bg-[#e8e8ed]'
             }`}
+            aria-label="Toggle Browser Notifications"
           >
             <div
-              className={`w-5 h-5 rounded-full bg-white shadow-sm transition-transform ${
+              className={`w-5 h-5 rounded-full bg-white shadow-xs transition-transform ${
                 notificationsEnabled ? 'translate-x-5' : 'translate-x-0'
               }`}
             />
@@ -171,7 +173,7 @@ export const Settings: React.FC = () => {
         </div>
       </Card>
 
-      {/* Supabase Integration Card */}
+      {/* Supabase Architecture Card */}
       <Card className="p-6 border-blue-200/60 bg-gradient-to-br from-white via-white to-blue-50/40">
         <div className="flex items-start justify-between gap-4 mb-4">
           <div className="flex items-center gap-3">
@@ -181,14 +183,14 @@ export const Settings: React.FC = () => {
             <div>
               <div className="flex items-center gap-2">
                 <h3 className="font-semibold text-base text-[#1d1d1f]">
-                  Supabase Authentication
+                  Supabase Database & Auth
                 </h3>
                 <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700">
                   Connected
                 </span>
               </div>
               <p className="text-xs text-[#86868b] mt-0.5">
-                Authentication, session persistence, and password reset flows are live.
+                Authentication, session persistence, and PostgreSQL Tasks table are live.
               </p>
             </div>
           </div>
@@ -196,18 +198,18 @@ export const Settings: React.FC = () => {
 
         <div className="space-y-3 text-xs text-[#515154] leading-relaxed">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-            <div className="p-3 rounded-xl bg-white border border-black/[0.06]">
+            <div className="p-3.5 rounded-2xl bg-white border border-black/[0.06] shadow-xs">
               <span className="font-semibold text-[#1d1d1f] flex items-center gap-1.5 mb-1">
                 <ShieldCheck className="w-4 h-4 text-[#0071e3]" /> Supabase Auth Active
               </span>
               Session tokens are automatically refreshed and safely persisted across browser tabs.
             </div>
 
-            <div className="p-3 rounded-xl bg-white border border-black/[0.06]">
+            <div className="p-3.5 rounded-2xl bg-white border border-black/[0.06] shadow-xs">
               <span className="font-semibold text-[#1d1d1f] flex items-center gap-1.5 mb-1">
-                <Sparkles className="w-4 h-4 text-[#0071e3]" /> Database Tables
+                <Sparkles className="w-4 h-4 text-[#0071e3]" /> PostgreSQL Tasks
               </span>
-              Tasks and habits remain in local state until you choose to connect Postgres tables.
+              User tasks are synchronized directly to PostgreSQL with Row Level Security enforcement.
             </div>
           </div>
         </div>
@@ -219,14 +221,14 @@ export const Settings: React.FC = () => {
           Data & Local Storage
         </h3>
         <p className="text-xs text-[#86868b] mb-4">
-          Your tasks and habits are stored safely in local memory.
+          Habits, notes, and planner blocks are stored safely in browser storage.
         </p>
 
-        <div className="flex items-center justify-between pt-2 border-t border-black/[0.05]">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between pt-3 border-t border-black/[0.05] gap-3">
           <div>
-            <p className="text-sm font-medium text-[#1d1d1f]">Reset to Default Sample Data</p>
-            <p className="text-xs text-[#86868b]">
-              Clear custom created tasks and restore default sample tasks and habits.
+            <p className="text-sm font-semibold text-[#1d1d1f]">Reset Local Sample Data</p>
+            <p className="text-xs text-[#86868b] mt-0.5">
+              Clear local custom habits and notes to restore initial defaults.
             </p>
           </div>
 
@@ -235,6 +237,7 @@ export const Settings: React.FC = () => {
             size="sm"
             onClick={handleResetData}
             icon={resetDone ? <Check className="w-4 h-4" /> : <RotateCcw className="w-4 h-4" />}
+            className="self-start sm:self-auto"
           >
             {resetDone ? 'Resetting...' : 'Reset Data'}
           </Button>

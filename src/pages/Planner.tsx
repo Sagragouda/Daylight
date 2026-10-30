@@ -74,25 +74,31 @@ export const Planner: React.FC = () => {
       </div>
 
       {/* Date Navigation Strip */}
-      <Card className="p-4 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-blue-50 text-[#0071e3] flex items-center justify-center">
-            <Calendar className="w-4 h-4" />
+      <Card className="p-4 sm:p-5 flex items-center justify-between">
+        <div className="flex items-center gap-3.5">
+          <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#0071e3] flex items-center justify-center shadow-xs">
+            <Calendar className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="font-semibold text-sm text-[#1d1d1f]">
+            <h3 className="font-semibold text-sm sm:text-base text-[#1d1d1f]">
               {getFormattedHeaderDate()}
             </h3>
-            <p className="text-xs text-[#86868b]">6 schedule segments mapped</p>
+            <p className="text-xs text-[#86868b]">{blocks.length} schedule segments mapped</p>
           </div>
         </div>
 
         <div className="flex items-center gap-1.5">
-          <button className="p-1.5 rounded-lg border border-black/[0.08] text-[#86868b] hover:bg-[#f5f5f7]">
+          <button
+            className="w-8 h-8 flex items-center justify-center rounded-xl border border-black/[0.08] text-[#86868b] hover:bg-[#f5f5f7] transition-colors"
+            aria-label="Previous day"
+          >
             <ChevronLeft className="w-4 h-4" />
           </button>
           <span className="text-xs font-semibold px-2 text-[#0071e3]">Today</span>
-          <button className="p-1.5 rounded-lg border border-black/[0.08] text-[#86868b] hover:bg-[#f5f5f7]">
+          <button
+            className="w-8 h-8 flex items-center justify-center rounded-xl border border-black/[0.08] text-[#86868b] hover:bg-[#f5f5f7] transition-colors"
+            aria-label="Next day"
+          >
             <ChevronRight className="w-4 h-4" />
           </button>
         </div>
@@ -103,14 +109,14 @@ export const Planner: React.FC = () => {
         {blocks.map((block) => (
           <div
             key={block.id}
-            className={`p-4 sm:p-5 rounded-2xl border transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
+            className={`p-4 sm:p-5 rounded-2xl sm:rounded-3xl border transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${
               block.isCurrent
                 ? 'bg-blue-50/40 border-[#0071e3]/40 shadow-sm ring-1 ring-[#0071e3]/30'
-                : 'bg-white border-black/[0.06] hover:border-black/[0.12]'
+                : 'bg-white border-black/[0.06] hover:border-black/[0.12] hover:shadow-xs'
             }`}
           >
             <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-xl bg-[#f5f5f7] flex flex-col items-center justify-center shrink-0 border border-black/[0.04]">
+              <div className="w-10 h-10 rounded-xl bg-[#f5f5f7] flex flex-col items-center justify-center shrink-0 border border-black/[0.04] shadow-xs">
                 <Clock className="w-4 h-4 text-[#86868b]" />
               </div>
 
@@ -120,7 +126,7 @@ export const Planner: React.FC = () => {
                     {block.startTime} – {block.endTime}
                   </span>
                   {block.isCurrent && (
-                    <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#0071e3] text-white">
+                    <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#0071e3] text-white shadow-xs">
                       <Sparkles className="w-2.5 h-2.5" /> In Progress
                     </span>
                   )}
@@ -187,7 +193,7 @@ export const Planner: React.FC = () => {
                 value={startTime}
                 onChange={(e) => setStartTime(e.target.value)}
                 placeholder="09:00 AM"
-                className="w-full px-3 py-2 rounded-xl border border-black/[0.08] bg-[#fbfbfd] text-xs"
+                className="w-full px-3 py-2 rounded-xl border border-black/[0.08] bg-[#fbfbfd] text-xs text-[#1d1d1f]"
               />
             </div>
             <div>
@@ -199,7 +205,7 @@ export const Planner: React.FC = () => {
                 value={endTime}
                 onChange={(e) => setEndTime(e.target.value)}
                 placeholder="10:30 AM"
-                className="w-full px-3 py-2 rounded-xl border border-black/[0.08] bg-[#fbfbfd] text-xs"
+                className="w-full px-3 py-2 rounded-xl border border-black/[0.08] bg-[#fbfbfd] text-xs text-[#1d1d1f]"
               />
             </div>
           </div>
@@ -213,7 +219,7 @@ export const Planner: React.FC = () => {
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               placeholder="Focus, Team, Personal, etc."
-              className="w-full px-3.5 py-2 rounded-xl border border-black/[0.08] bg-[#fbfbfd] text-sm"
+              className="w-full px-3.5 py-2 rounded-xl border border-black/[0.08] bg-[#fbfbfd] text-sm text-[#1d1d1f]"
             />
           </div>
 

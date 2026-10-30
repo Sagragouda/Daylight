@@ -47,7 +47,7 @@ export const ForgotPassword: React.FC = () => {
         subtitle="Instructions to choose a new password have been emailed."
       >
         <div className="text-center py-4 space-y-4">
-          <div className="w-14 h-14 mx-auto rounded-full bg-emerald-50 text-emerald-600 border border-emerald-100 flex items-center justify-center">
+          <div className="w-14 h-14 mx-auto rounded-full bg-emerald-50 text-emerald-600 border border-emerald-100 flex items-center justify-center shadow-xs">
             <CheckCircle2 className="w-7 h-7" />
           </div>
 
@@ -129,11 +129,10 @@ export const ForgotPassword: React.FC = () => {
         </Button>
       </form>
 
-      {/* Back to Login */}
-      <div className="mt-6 pt-4 border-t border-black/[0.05] text-center text-xs">
-        <Link to="/login" className="inline-flex items-center gap-1.5 text-[#6e6e73] hover:text-[#0071e3] font-medium transition-colors">
+      <div className="mt-6 pt-4 border-t border-black/[0.05] text-center text-xs text-[#6e6e73]">
+        <Link to="/login" className="font-semibold text-[#0071e3] hover:underline flex items-center justify-center gap-1">
           <ArrowLeft className="w-3.5 h-3.5" />
-          <span>Back to Sign In</span>
+          <span>Return to Sign In</span>
         </Link>
       </div>
     </AuthLayout>

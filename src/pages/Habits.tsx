@@ -60,8 +60,8 @@ export const Habits: React.FC = () => {
 
       {/* Habit Metrics Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <Card className="p-5 flex items-center gap-4">
-          <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
+        <Card className="p-4 sm:p-5 flex items-center gap-4">
+          <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 shadow-xs">
             <Flame className="w-5 h-5" />
           </div>
           <div>
@@ -70,8 +70,8 @@ export const Habits: React.FC = () => {
           </div>
         </Card>
 
-        <Card className="p-5 flex items-center gap-4">
-          <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+        <Card className="p-4 sm:p-5 flex items-center gap-4">
+          <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 shadow-xs">
             <Check className="w-5 h-5 stroke-[2.5]" />
           </div>
           <div>
@@ -82,8 +82,8 @@ export const Habits: React.FC = () => {
           </div>
         </Card>
 
-        <Card className="p-5 flex items-center gap-4">
-          <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#0071e3] flex items-center justify-center shrink-0">
+        <Card className="p-4 sm:p-5 flex items-center gap-4">
+          <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#0071e3] flex items-center justify-center shrink-0 shadow-xs">
             <Award className="w-5 h-5" />
           </div>
           <div className="flex-1">
@@ -96,85 +96,100 @@ export const Habits: React.FC = () => {
 
       {/* Habit Cards List */}
       <div className="space-y-4">
-        {habits.map((habit) => {
-          const isDone = isHabitDoneToday(habit);
-          const icon = ICON_MAP[habit.iconName] || <Flame className="w-5 h-5" />;
+        {habits.length > 0 ? (
+          habits.map((habit) => {
+            const isDone = isHabitDoneToday(habit);
+            const icon = ICON_MAP[habit.iconName] || <Flame className="w-5 h-5" />;
 
-          return (
-            <Card key={habit.id} className="p-5 sm:p-6 transition-all hover:border-black/[0.12]">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                {/* Habit Info & Check-in */}
-                <div className="flex items-center gap-4">
-                  <button
-                    onClick={() => toggleHabitToday(habit.id)}
-                    className={`w-11 h-11 rounded-2xl flex items-center justify-center transition-all duration-200 shrink-0 ${
-                      isDone
-                        ? 'bg-emerald-500 text-white shadow-md scale-105'
-                        : 'bg-[#f5f5f7] border border-black/[0.08] text-[#6e6e73] hover:border-[#0071e3] hover:text-[#0071e3]'
-                    }`}
-                    title={isDone ? 'Mark as not done today' : 'Check in for today'}
-                  >
-                    {isDone ? <Check className="w-6 h-6 stroke-[2.5]" /> : icon}
-                  </button>
+            return (
+              <Card key={habit.id} className="p-5 sm:p-6 transition-all hover:border-black/[0.12]">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                  {/* Habit Info & Check-in */}
+                  <div className="flex items-center gap-4">
+                    <button
+                      onClick={() => toggleHabitToday(habit.id)}
+                      className={`w-11 h-11 rounded-2xl flex items-center justify-center transition-all duration-200 shrink-0 ${
+                        isDone
+                          ? 'bg-emerald-500 text-white shadow-xs scale-105'
+                          : 'bg-[#f5f5f7] border border-black/[0.08] text-[#6e6e73] hover:border-[#0071e3] hover:text-[#0071e3]'
+                      }`}
+                      title={isDone ? 'Mark as not done today' : 'Check in for today'}
+                      aria-label={isDone ? 'Mark as not done today' : 'Check in for today'}
+                    >
+                      {isDone ? <Check className="w-6 h-6 stroke-[2.5]" /> : icon}
+                    </button>
 
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <h3 className="font-semibold text-base text-[#1d1d1f]">
-                        {habit.name}
-                      </h3>
-                      {habit.streak > 0 && (
-                        <span className="inline-flex items-center gap-1 text-xs font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200/60">
-                          <Flame className="w-3.5 h-3.5 fill-amber-500" />
-                          {habit.streak} day streak
-                        </span>
-                      )}
-                    </div>
-                    <p className="text-xs text-[#86868b] mt-0.5">
-                      {habit.category} • Frequency: {habit.frequency}
-                    </p>
-                  </div>
-                </div>
-
-                {/* 7-day Matrix & Delete */}
-                <div className="flex items-center justify-between md:justify-end gap-6 pt-3 md:pt-0 border-t md:border-t-0 border-black/[0.04]">
-                  {/* Past 7 days badges */}
-                  <div className="flex items-center gap-2">
-                    {pastSevenDays.map((day) => {
-                      const completed = habit.completedDates.includes(day.dateStr);
-                      return (
-                        <div key={day.dateStr} className="flex flex-col items-center gap-1">
-                          <span className="text-[10px] font-semibold text-[#86868b] uppercase">
-                            {day.label}
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <h3 className="font-semibold text-base text-[#1d1d1f]">
+                          {habit.name}
+                        </h3>
+                        {habit.streak > 0 && (
+                          <span className="inline-flex items-center gap-1 text-xs font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200/60">
+                            <Flame className="w-3.5 h-3.5 fill-amber-500" />
+                            {habit.streak} day streak
                           </span>
-                          <div
-                            className={`w-7 h-7 rounded-xl flex items-center justify-center text-xs font-bold transition-all ${
-                              completed
-                                ? 'bg-[#0071e3] text-white shadow-sm'
-                                : day.isToday
-                                ? 'border-2 border-dashed border-[#0071e3]/40 text-[#86868b]'
-                                : 'bg-[#f0f0f4] text-[#86868b]/70'
-                            }`}
-                          >
-                            {completed ? '✓' : ''}
-                          </div>
-                        </div>
-                      );
-                    })}
+                        )}
+                      </div>
+                      <p className="text-xs text-[#86868b] mt-0.5">
+                        {habit.category} • Frequency: {habit.frequency}
+                      </p>
+                    </div>
                   </div>
 
-                  {/* Delete Habit */}
-                  <button
-                    onClick={() => deleteHabit(habit.id)}
-                    className="p-2 rounded-xl text-[#86868b] hover:text-red-600 hover:bg-red-50 transition-colors"
-                    title="Delete habit"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
+                  {/* 7-day Matrix & Delete */}
+                  <div className="flex items-center justify-between md:justify-end gap-6 pt-3 md:pt-0 border-t md:border-t-0 border-black/[0.04]">
+                    {/* Past 7 days badges */}
+                    <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto max-w-full">
+                      {pastSevenDays.map((day) => {
+                        const completed = habit.completedDates.includes(day.dateStr);
+                        return (
+                          <div key={day.dateStr} className="flex flex-col items-center gap-1">
+                            <span className="text-[10px] font-semibold text-[#86868b] uppercase">
+                              {day.label}
+                            </span>
+                            <div
+                              className={`w-7 h-7 rounded-xl flex items-center justify-center text-xs font-bold transition-all ${
+                                completed
+                                  ? 'bg-[#0071e3] text-white shadow-xs'
+                                  : day.isToday
+                                  ? 'border-2 border-dashed border-[#0071e3]/40 text-[#86868b]'
+                                  : 'bg-[#f0f0f4] text-[#86868b]/70'
+                              }`}
+                            >
+                              {completed && <Check className="w-3.5 h-3.5 stroke-[2.5]" />}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    {/* Delete Habit */}
+                    <button
+                      onClick={() => deleteHabit(habit.id)}
+                      className="w-8 h-8 flex items-center justify-center rounded-xl text-[#86868b] hover:text-rose-600 hover:bg-rose-50 transition-colors"
+                      title="Delete habit"
+                      aria-label="Delete habit"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </Card>
-          );
-        })}
+              </Card>
+            );
+          })
+        ) : (
+          <Card className="text-center py-14 px-4 border-dashed">
+            <Flame className="w-10 h-10 text-[#86868b] mx-auto mb-3 opacity-40" />
+            <h3 className="text-base font-semibold text-[#1d1d1f]">No habits tracked yet</h3>
+            <p className="text-xs text-[#86868b] mt-1 max-w-sm mx-auto">
+              Start small by adding a simple daily habit like mindful reading or hydration.
+            </p>
+            <Button onClick={openHabitModal} size="sm" className="mt-4 shadow-xs">
+              Create First Habit
+            </Button>
+          </Card>
+        )}
       </div>
     </div>
   );

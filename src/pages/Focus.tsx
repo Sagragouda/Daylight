@@ -115,7 +115,7 @@ export const Focus: React.FC = () => {
     };
   }, []);
 
-  // SVG Circular progress
+  // SVG Circular progress with scalable viewBox
   const radius = 90;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (progressPercent / 100) * circumference;
@@ -123,28 +123,34 @@ export const Focus: React.FC = () => {
   return (
     <div className="space-y-6 sm:space-y-8 animate-fade-in max-w-4xl mx-auto">
       {/* Header */}
-      <div className="text-center max-w-xl mx-auto">
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#1d1d1f]">
-          Focus Chamber
-        </h1>
-        <p className="text-sm text-[#6e6e73] mt-1">
-          Eliminate digital noise. Work in rhythmic 25-minute sprints backed by cognitive science.
-        </p>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#1d1d1f]">
+            Focus Chamber
+          </h1>
+          <p className="text-sm text-[#6e6e73] mt-1">
+            Eliminate digital noise. Work in rhythmic 25-minute sprints backed by cognitive science.
+          </p>
+        </div>
+        <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-[#0071e3] text-xs font-semibold self-start sm:self-auto shadow-xs">
+          <TimerIcon className="w-3.5 h-3.5" />
+          <span>Pomodoro Flow</span>
+        </div>
       </div>
 
       {/* Main Focus Card */}
-      <Card className="p-8 sm:p-12 shadow-[0_8px_30px_rgba(0,0,0,0.06)] relative overflow-hidden">
+      <Card className="p-6 sm:p-10 shadow-[0_8px_30px_rgba(0,0,0,0.06)] relative overflow-hidden">
         {/* Subtle background glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-blue-100/40 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 flex flex-col items-center">
           {/* Mode Switcher */}
-          <div className="flex items-center gap-1.5 p-1 bg-[#f5f5f7] rounded-2xl max-w-sm w-full mb-8">
+          <div className="flex items-center gap-1.5 p-1 bg-[#f5f5f7] rounded-2xl max-w-sm w-full mb-6">
             <button
               onClick={() => switchMode('pomodoro')}
               className={`flex-1 py-2 px-3 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all ${
                 mode === 'pomodoro'
-                  ? 'bg-white text-[#0071e3] shadow-sm'
+                  ? 'bg-white text-[#0071e3] shadow-xs'
                   : 'text-[#86868b] hover:text-[#1d1d1f]'
               }`}
             >
@@ -155,7 +161,7 @@ export const Focus: React.FC = () => {
               onClick={() => switchMode('shortBreak')}
               className={`flex-1 py-2 px-3 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all ${
                 mode === 'shortBreak'
-                  ? 'bg-white text-emerald-600 shadow-sm'
+                  ? 'bg-white text-emerald-600 shadow-xs'
                   : 'text-[#86868b] hover:text-[#1d1d1f]'
               }`}
             >
@@ -166,7 +172,7 @@ export const Focus: React.FC = () => {
               onClick={() => switchMode('longBreak')}
               className={`flex-1 py-2 px-3 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all ${
                 mode === 'longBreak'
-                  ? 'bg-white text-purple-600 shadow-sm'
+                  ? 'bg-white text-purple-600 shadow-xs'
                   : 'text-[#86868b] hover:text-[#1d1d1f]'
               }`}
             >
@@ -175,12 +181,15 @@ export const Focus: React.FC = () => {
             </button>
           </div>
 
-          {/* Big Circular Display */}
-          <div className="relative flex items-center justify-center my-4">
-            <svg className="w-64 h-64 sm:w-72 sm:h-72 transform -rotate-90">
+          {/* Big Circular Display with responsive viewBox */}
+          <div className="relative flex items-center justify-center my-3">
+            <svg
+              viewBox="0 0 240 240"
+              className="w-56 h-56 sm:w-68 sm:h-68 transform -rotate-90"
+            >
               <circle
-                cx="136"
-                cy="136"
+                cx="120"
+                cy="120"
                 r={radius}
                 className="text-[#f0f0f4]"
                 strokeWidth="10"
@@ -188,8 +197,8 @@ export const Focus: React.FC = () => {
                 fill="transparent"
               />
               <circle
-                cx="136"
-                cy="136"
+                cx="120"
+                cy="120"
                 r={radius}
                 className={`${
                   mode === 'pomodoro'
@@ -197,7 +206,7 @@ export const Focus: React.FC = () => {
                     : mode === 'shortBreak'
                     ? 'text-emerald-500'
                     : 'text-purple-500'
-                } transition-all duration-500 ease-out`}
+                } transition-all duration-700 ease-out`}
                 strokeWidth="10"
                 strokeDasharray={circumference}
                 strokeDashoffset={strokeDashoffset}
@@ -207,7 +216,7 @@ export const Focus: React.FC = () => {
               />
             </svg>
 
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-center select-none">
               <span className="text-5xl sm:text-6xl font-mono font-bold tracking-tight text-[#1d1d1f]">
                 {formattedTime}
               </span>
@@ -218,7 +227,7 @@ export const Focus: React.FC = () => {
           </div>
 
           {/* Action Buttons */}
-          <div className="flex items-center gap-4 mt-6">
+          <div className="flex items-center gap-3 mt-6">
             <Button
               onClick={resetTimer}
               variant="secondary"
@@ -232,10 +241,10 @@ export const Focus: React.FC = () => {
               onClick={isRunning ? pauseTimer : startTimer}
               variant="primary"
               size="lg"
-              className="w-40 shadow-lg text-base"
+              className="w-36 sm:w-40 shadow-lg text-base"
               icon={isRunning ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
             >
-              {isRunning ? 'Pause Flow' : 'Start Focus'}
+              {isRunning ? 'Pause' : 'Start Focus'}
             </Button>
           </div>
 
@@ -253,7 +262,7 @@ export const Focus: React.FC = () => {
       <Card className="p-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#0071e3] flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#0071e3] flex items-center justify-center shadow-xs">
               <Headphones className="w-5 h-5" />
             </div>
             <div>
@@ -279,6 +288,7 @@ export const Focus: React.FC = () => {
                   value={volume}
                   onChange={(e) => setVolume(parseFloat(e.target.value))}
                   className="w-20 accent-[#0071e3]"
+                  aria-label="Noise Volume"
                 />
               </div>
             )}

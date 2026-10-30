@@ -3,7 +3,7 @@ import { Card } from '../common/Card';
 import { useTasks } from '../../context/TaskContext';
 import { useHabits } from '../../context/HabitContext';
 import { ProgressBar } from '../common/ProgressBar';
-import { CheckCircle2, Flame, Award } from 'lucide-react';
+import { CheckCircle2, Flame, Award, Sparkles } from 'lucide-react';
 
 export const DailyProgressCard: React.FC = () => {
   const { progressPercentage, completedTasksCount, totalTasksCount } = useTasks();
@@ -22,9 +22,9 @@ export const DailyProgressCard: React.FC = () => {
       <div className="flex items-center justify-between mb-4">
         <div>
           <h3 className="font-semibold text-base text-[#1d1d1f]">Daily Momentum</h3>
-          <p className="text-xs text-[#86868b]">Dynamic goal & habit synchronization</p>
+          <p className="text-xs text-[#86868b]">Goal & habit synchronization</p>
         </div>
-        <div className="p-2 rounded-xl bg-blue-50 text-[#0071e3]">
+        <div className="w-9 h-9 rounded-xl bg-blue-50 text-[#0071e3] flex items-center justify-center shadow-xs">
           <Award className="w-5 h-5" />
         </div>
       </div>
@@ -58,18 +58,20 @@ export const DailyProgressCard: React.FC = () => {
             />
           </svg>
 
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+          {/* Central Percentage */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center select-none">
             <span className="text-2xl font-bold tracking-tight text-[#1d1d1f]">
               {overallProgress}%
             </span>
-            <span className="text-[10px] uppercase font-semibold text-[#86868b] tracking-wider">
-              Overall
+            <span className="text-[10px] font-semibold text-[#86868b] uppercase tracking-wider">
+              Score
             </span>
           </div>
         </div>
 
         {/* Detailed Breakdown */}
-        <div className="flex-1 space-y-3">
+        <div className="flex-1 space-y-3.5">
+          {/* Tasks Progress */}
           <div>
             <div className="flex justify-between items-center text-xs font-medium mb-1">
               <span className="flex items-center gap-1.5 text-[#1d1d1f]">
@@ -81,6 +83,7 @@ export const DailyProgressCard: React.FC = () => {
             <ProgressBar progress={progressPercentage} size="sm" color="bg-[#0071e3]" />
           </div>
 
+          {/* Habits Progress */}
           <div>
             <div className="flex justify-between items-center text-xs font-medium mb-1">
               <span className="flex items-center gap-1.5 text-[#1d1d1f]">
@@ -96,8 +99,9 @@ export const DailyProgressCard: React.FC = () => {
 
       <div className="mt-4 pt-4 border-t border-black/[0.05] text-xs text-[#6e6e73]">
         {overallProgress === 100 ? (
-          <span className="text-emerald-600 font-medium">
-            🎉 All scheduled items completed today! Stellar mindful execution.
+          <span className="text-emerald-600 font-semibold flex items-center gap-1">
+            <Sparkles className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+            All scheduled items completed today! Stellar mindful execution.
           </span>
         ) : (
           <span>

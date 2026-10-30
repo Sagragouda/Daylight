@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { AuthLayout } from '../components/auth/AuthLayout';
 import { Button } from '../components/common/Button';
-import { Lock, AlertCircle, Loader2, CheckCircle2 } from 'lucide-react';
+import { Lock, AlertCircle, Loader2, CheckCircle2, Eye, EyeOff } from 'lucide-react';
 
 export const ResetPassword: React.FC = () => {
   const { updatePassword } = useAuth();
@@ -11,6 +11,7 @@ export const ResetPassword: React.FC = () => {
 
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
@@ -54,7 +55,7 @@ export const ResetPassword: React.FC = () => {
         subtitle="Your new credentials are saved. You can now access your workspace."
       >
         <div className="text-center py-4 space-y-4">
-          <div className="w-14 h-14 mx-auto rounded-full bg-emerald-50 text-emerald-600 border border-emerald-100 flex items-center justify-center">
+          <div className="w-14 h-14 mx-auto rounded-full bg-emerald-50 text-emerald-600 border border-emerald-100 flex items-center justify-center shadow-xs">
             <CheckCircle2 className="w-7 h-7" />
           </div>
 
@@ -66,7 +67,7 @@ export const ResetPassword: React.FC = () => {
             <Button
               variant="primary"
               size="md"
-              className="w-full"
+              className="w-full shadow-md"
               onClick={() => navigate('/', { replace: true })}
             >
               Continue to Dashboard
@@ -99,14 +100,23 @@ export const ResetPassword: React.FC = () => {
           <div className="relative">
             <Lock className="w-4 h-4 text-[#86868b] absolute left-3.5 top-3.5 pointer-events-none" />
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               required
               autoFocus
+              autoComplete="new-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full pl-10 pr-3.5 py-2.5 rounded-xl border border-black/[0.08] bg-[#fbfbfd] text-sm text-[#1d1d1f] placeholder:text-[#86868b] focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30 focus:border-[#0071e3] transition-all"
+              className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-black/[0.08] bg-[#fbfbfd] text-sm text-[#1d1d1f] placeholder:text-[#86868b] focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30 focus:border-[#0071e3] transition-all"
             />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="w-8 h-8 flex items-center justify-center rounded-lg text-[#86868b] hover:text-[#1d1d1f] transition-colors absolute right-1.5 top-1.5"
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
+            >
+              {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+            </button>
           </div>
         </div>
 
@@ -117,12 +127,13 @@ export const ResetPassword: React.FC = () => {
           <div className="relative">
             <Lock className="w-4 h-4 text-[#86868b] absolute left-3.5 top-3.5 pointer-events-none" />
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               required
+              autoComplete="new-password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full pl-10 pr-3.5 py-2.5 rounded-xl border border-black/[0.08] bg-[#fbfbfd] text-sm text-[#1d1d1f] placeholder:text-[#86868b] focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30 focus:border-[#0071e3] transition-all"
+              className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-black/[0.08] bg-[#fbfbfd] text-sm text-[#1d1d1f] placeholder:text-[#86868b] focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30 focus:border-[#0071e3] transition-all"
             />
           </div>
         </div>
@@ -137,18 +148,17 @@ export const ResetPassword: React.FC = () => {
           {loading ? (
             <span className="flex items-center gap-2">
               <Loader2 className="w-4 h-4 animate-spin" />
-              Saving new password...
+              Updating password...
             </span>
           ) : (
-            'Update Password'
+            'Set New Password'
           )}
         </Button>
       </form>
 
-      {/* Back to Login */}
-      <div className="mt-6 pt-4 border-t border-black/[0.05] text-center text-xs">
-        <Link to="/login" className="text-[#6e6e73] hover:text-[#0071e3] font-medium transition-colors">
-          Cancel and return to Sign In
+      <div className="mt-6 pt-4 border-t border-black/[0.05] text-center text-xs text-[#6e6e73]">
+        <Link to="/login" className="font-semibold text-[#0071e3] hover:underline">
+          Return to Sign In
         </Link>
       </div>
     </AuthLayout>

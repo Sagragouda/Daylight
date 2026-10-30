@@ -16,7 +16,7 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({ children, title, subtitl
       <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-sky-100/40 rounded-full blur-3xl pointer-events-none" />
 
       {/* Brand Header */}
-      <div className="relative z-10 mb-6 text-center">
+      <div className="relative z-10 mb-6 text-center animate-fade-in">
         <Link to="/" className="inline-flex items-center gap-2.5 group">
           <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#0071e3] to-[#42a5f5] flex items-center justify-center text-white shadow-[0_8px_20px_rgba(0,113,227,0.3)] transition-transform duration-300 group-hover:scale-105">
             <SunMedium className="w-6 h-6" />
@@ -28,7 +28,7 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({ children, title, subtitl
       </div>
 
       {/* Main Auth Card */}
-      <div className="relative z-10 w-full max-w-md bg-white/90 backdrop-blur-xl border border-black/[0.06] shadow-[0_12px_40px_-8px_rgba(0,0,0,0.08)] rounded-3xl p-6 sm:p-8">
+      <div className="relative z-10 w-full max-w-md bg-white/95 backdrop-blur-xl border border-black/[0.06] shadow-[0_16px_48px_-8px_rgba(0,0,0,0.08)] rounded-3xl p-6 sm:p-8 animate-scale-in">
         <div className="text-center mb-6">
           <h1 className="text-2xl font-bold tracking-tight text-[#1d1d1f]">
             {title}
@@ -42,10 +42,10 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({ children, title, subtitl
       </div>
 
       {/* Bottom Privacy & Security Badge */}
-      <div className="relative z-10 mt-6 flex items-center gap-1.5 text-xs text-[#86868b]">
+      <div className="relative z-10 mt-6 flex items-center gap-1.5 text-xs text-[#86868b] animate-fade-in">
         <ShieldCheck className="w-3.5 h-3.5 text-[#0071e3]" />
         <span>End-to-End Auth with Supabase</span>
-        <span>•</span>
+        <span className="text-black/20">•</span>
         <span>Daylight v1.0</span>
       </div>
     </div>

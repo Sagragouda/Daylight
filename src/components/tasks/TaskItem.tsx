@@ -23,12 +23,12 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task, onToggle, onDelete }) 
       <button
         type="button"
         onClick={() => onToggle(task.id)}
-        className={`mt-0.5 w-5 h-5 rounded-full border flex items-center justify-center transition-all duration-200 shrink-0 ${
+        className={`mt-0.5 w-5 h-5 rounded-full border flex items-center justify-center transition-all duration-200 shrink-0 active:scale-90 ${
           task.completed
-            ? 'bg-[#0071e3] border-[#0071e3] text-white shadow-sm scale-105'
+            ? 'bg-[#0071e3] border-[#0071e3] text-white shadow-xs scale-105'
             : 'border-black/20 hover:border-[#0071e3] bg-white'
         }`}
-        aria-label={task.completed ? 'Mark incomplete' : 'Mark complete'}
+        aria-label={task.completed ? 'Mark task incomplete' : 'Mark task complete'}
       >
         {task.completed && <Check className="w-3.5 h-3.5 stroke-[2.5]" />}
       </button>
@@ -57,7 +57,7 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task, onToggle, onDelete }) 
           </p>
         )}
 
-        {/* Metadata Pill Badges */}
+        {/* Metadata Badges */}
         <div className="flex items-center gap-2 mt-2 flex-wrap text-xs text-[#86868b]">
           <Badge priority={task.priority} size="sm">
             {task.priority.toUpperCase()}
@@ -80,12 +80,13 @@ export const TaskItem: React.FC<TaskItemProps> = ({ task, onToggle, onDelete }) 
         </div>
       </div>
 
-      {/* Actions (Delete) */}
-      <div className="opacity-0 group-hover:opacity-100 transition-opacity flex items-center shrink-0">
+      {/* Actions (Delete button: visible on mobile, hover on desktop) */}
+      <div className="opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity flex items-center shrink-0">
         <button
           onClick={() => onDelete(task.id)}
-          className="p-1.5 rounded-lg text-[#86868b] hover:text-red-600 hover:bg-red-50 transition-colors"
+          className="w-8 h-8 flex items-center justify-center rounded-xl text-[#86868b] hover:text-rose-600 hover:bg-rose-50 transition-colors"
           title="Delete task"
+          aria-label="Delete task"
         >
           <Trash2 className="w-4 h-4" />
         </button>
