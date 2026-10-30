@@ -15,27 +15,92 @@ import {
   Award,
   Zap,
 } from 'lucide-react';
+import { getLocalDateString, getTodayDateString } from '../utils/date';
 
 export const Insights: React.FC = () => {
   const { completedTasksCount, tasks, totalTasksCount } = useTasks();
-  const { completedSessions, totalFocusMinutesToday } = useTimer();
-  const { habitProgressPercentage, todayCompletedCount, totalHabitsCount } = useHabits();
+  const { completedSessions, totalFocusMinutesToday, sessions } = useTimer();
+  const { habits, habitProgressPercentage, todayCompletedCount, totalHabitsCount } = useHabits();
 
   const [hoveredDay, setHoveredDay] = useState<string | null>(null);
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
 
-  // Weekly productivity distribution
-  const weeklyActivity = useMemo(() => [
-    { day: 'Mon', tasks: 6, focusMinutes: 75 },
-    { day: 'Tue', tasks: 8, focusMinutes: 100 },
-    { day: 'Wed', tasks: 5, focusMinutes: 50 },
-    { day: 'Thu', tasks: 9, focusMinutes: 125 },
-    { day: 'Fri', tasks: completedTasksCount + 4, focusMinutes: completedSessions * 25 + 50 },
-    { day: 'Sat', tasks: 3, focusMinutes: 25 },
-    { day: 'Sun', tasks: 4, focusMinutes: 50 },
-  ], [completedTasksCount, completedSessions]);
+  // Calculate current week Monday to Sunday in local dates
+  const currentWeekDays = useMemo(() => {
+    const today = new Date();
+    const currentDayOfWeek = today.getDay(); // 0 is Sunday, 1 is Monday...
+    const distanceToMonday = currentDayOfWeek === 0 ? -6 : 1 - currentDayOfWeek;
+    const monday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + distanceToMonday);
 
-  const maxWeeklyTasks = 12;
+    const days: { dateStr: string; day: string; isToday: boolean }[] = [];
+    const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const todayStr = getTodayDateString();
+
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(monday.getFullYear(), monday.getMonth(), monday.getDate() + i);
+      const dateStr = getLocalDateString(d);
+      days.push({
+        dateStr,
+        day: dayNames[i],
+        isToday: dateStr === todayStr,
+      });
+    }
+    return days;
+  }, []);
+
+  // Real Weekly productivity distribution derived strictly from user data
+  const weeklyActivity = useMemo(() => {
+    return currentWeekDays.map((d) => {
+      // Real completed tasks for this calendar day
+      const completedTasks = tasks.filter((t) => {
+        if (!t.completed) return false;
+        if (t.completedAt) {
+          return getLocalDateString(new Date(t.completedAt)) === d.dateStr;
+        }
+        return t.dueDate === d.dateStr;
+      }).length;
+
+      // Real focus minutes for this calendar day
+      const focusMinutes = sessions
+        .filter((s) => {
+          if (!s.completedAt) return false;
+          return getLocalDateString(new Date(s.completedAt)) === d.dateStr;
+        })
+        .reduce((sum, s) => sum + (s.durationMinutes || 0), 0);
+
+      // Real habits checked in on this day
+      const habitsDone = habits.filter((h) => h.completedDates.includes(d.dateStr)).length;
+
+      return {
+        dateStr: d.dateStr,
+        day: d.day,
+        isToday: d.isToday,
+        tasks: completedTasks,
+        focusMinutes,
+        habitsDone,
+      };
+    });
+  }, [currentWeekDays, tasks, sessions, habits]);
+
+  // Aggregate real weekly totals
+  const totalWeekTasks = useMemo(
+    () => weeklyActivity.reduce((sum, d) => sum + d.tasks, 0),
+    [weeklyActivity]
+  );
+  const totalWeekFocusMinutes = useMemo(
+    () => weeklyActivity.reduce((sum, d) => sum + d.focusMinutes, 0),
+    [weeklyActivity]
+  );
+  const totalWeekHabits = useMemo(
+    () => weeklyActivity.reduce((sum, d) => sum + d.habitsDone, 0),
+    [weeklyActivity]
+  );
+
+  const hasWeeklyActivity = totalWeekTasks > 0 || totalWeekFocusMinutes > 0 || totalWeekHabits > 0;
+
+  // Dynamic maximums for proportional bar heights (without fake offsets)
+  const maxWeeklyTasks = Math.max(1, ...weeklyActivity.map((d) => d.tasks));
+  const maxWeeklyFocus = Math.max(25, ...weeklyActivity.map((d) => d.focusMinutes));
 
   // Category counts
   const categoryData = useMemo(() => {
@@ -65,14 +130,23 @@ export const Insights: React.FC = () => {
     });
   }, [tasks]);
 
-  const totalDeepFocusMinutes = completedSessions * 25 + 320;
+  // Real Total Deep Focus Minutes (no simulated additions)
+  const realTotalFocusMinutes = useMemo(() => {
+    if (sessions.length > 0) {
+      return sessions.reduce((sum, s) => sum + (s.durationMinutes || 0), 0);
+    }
+    return completedSessions * 25;
+  }, [sessions, completedSessions]);
 
   // Multi-Ring Activity Gauge Metrics
-  const taskRingPct = Math.min(100, Math.round((completedTasksCount / Math.max(1, totalTasksCount || 6)) * 100));
-  const habitRingPct = Math.min(100, Math.max(0, habitProgressPercentage || 85));
+  const taskRingPct = Math.min(
+    100,
+    Math.round((completedTasksCount / Math.max(1, totalTasksCount || 1)) * 100)
+  );
+  const habitRingPct = Math.min(100, Math.max(0, habitProgressPercentage));
   const focusRingPct = Math.min(
     100,
-    Math.round(((totalFocusMinutesToday || completedSessions * 25 || 50) / 100) * 100)
+    Math.round(((totalFocusMinutesToday || completedSessions * 25) / 100) * 100)
   );
 
   // SVG Geometry for Multi-Ring Gauge (viewBox 0 0 200 200, cx=100, cy=100)
@@ -111,9 +185,9 @@ export const Insights: React.FC = () => {
         </div>
       </div>
 
-      {/* Top 3 Metric Cards */}
+      {/* Top 3 Metric Cards with Sleek Glowing Borders */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <Card className="p-4 sm:p-5 flex items-center gap-4 glossy-glass-card hoverable">
+        <Card hoverable glowColor="blue" className="p-4 sm:p-5 flex items-center gap-4 glossy-glass-card">
           <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-blue-500/15 to-indigo-500/20 text-[#0071e3] dark:text-[#2997ff] border border-blue-500/20 flex items-center justify-center shrink-0 shadow-xs">
             <TrendingUp className="w-5 h-5" />
           </div>
@@ -122,15 +196,16 @@ export const Insights: React.FC = () => {
               Weekly Velocity
             </p>
             <p className="text-2xl font-bold text-[#1d1d1f] dark:text-[#f5f5f7]">
-              <AnimatedCounter value={39} suffix=" Tasks" />
+              <AnimatedCounter value={totalWeekTasks} suffix=" Tasks" />
             </p>
             <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold inline-flex items-center gap-0.5">
-              <Zap className="w-3 h-3 fill-emerald-500" /> +18% vs last week
+              <Zap className="w-3 h-3 fill-emerald-500" />
+              {totalWeekTasks > 0 ? `${totalWeekTasks} completed this week` : 'Start your first task'}
             </span>
           </div>
         </Card>
 
-        <Card className="p-4 sm:p-5 flex items-center gap-4 glossy-glass-card hoverable">
+        <Card hoverable glowColor="purple" className="p-4 sm:p-5 flex items-center gap-4 glossy-glass-card">
           <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-indigo-500/15 to-purple-500/20 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 flex items-center justify-center shrink-0 shadow-xs">
             <Clock className="w-5 h-5" />
           </div>
@@ -139,15 +214,15 @@ export const Insights: React.FC = () => {
               Total Deep Focus
             </p>
             <p className="text-2xl font-bold text-[#1d1d1f] dark:text-[#f5f5f7]">
-              <AnimatedCounter value={totalDeepFocusMinutes} suffix="m" />
+              <AnimatedCounter value={realTotalFocusMinutes} suffix="m" />
             </p>
             <span className="text-[11px] text-indigo-600 dark:text-indigo-400 font-semibold">
-              14 Pomodoro blocks completed
+              {sessions.length || completedSessions} Pomodoro block{sessions.length === 1 ? '' : 's'} recorded
             </span>
           </div>
         </Card>
 
-        <Card className="p-4 sm:p-5 flex items-center gap-4 glossy-glass-card hoverable">
+        <Card hoverable glowColor="amber" className="p-4 sm:p-5 flex items-center gap-4 glossy-glass-card">
           <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-amber-500/15 to-orange-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/20 flex items-center justify-center shrink-0 shadow-xs">
             <Flame className="w-5 h-5" />
           </div>
@@ -159,14 +234,14 @@ export const Insights: React.FC = () => {
               <AnimatedCounter value={habitRingPct} suffix="%" />
             </p>
             <span className="text-[11px] text-amber-600 dark:text-amber-400 font-semibold">
-              Consistent 4-week streak
+              {totalHabitsCount > 0 ? `${todayCompletedCount} of ${totalHabitsCount} done today` : 'No habits created yet'}
             </span>
           </div>
         </Card>
       </div>
 
       {/* Multi-Ring Activity Rings & Target Breakdown (Apple Fitness Style) */}
-      <Card className="p-6 sm:p-8 glossy-glass-card">
+      <Card hoverable glowColor="aurora" className="p-6 sm:p-8 glossy-glass-card">
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
           {/* Radial Activity Gauge */}
           <div className="relative flex items-center justify-center shrink-0">
@@ -271,7 +346,7 @@ export const Insights: React.FC = () => {
             <div className="absolute inset-0 flex flex-col items-center justify-center text-center select-none pointer-events-none">
               <Sparkles className="w-7 h-7 text-[#0071e3] dark:text-[#2997ff] animate-pulse" />
               <span className="text-[11px] font-bold text-[#1d1d1f] dark:text-[#f5f5f7] mt-1">
-                Daylight Flow
+                Flowora Flow
               </span>
             </div>
           </div>
@@ -346,87 +421,120 @@ export const Insights: React.FC = () => {
         </div>
       </Card>
 
-      {/* Interactive Weekly Output Rhythm Chart */}
-      <Card className="p-6 sm:p-7 glossy-glass-card">
+      {/* Interactive Weekly Output Rhythm Chart (100% Real Data & Clean Empty State) */}
+      <Card hoverable glowColor="cyan" className="p-6 sm:p-7 glossy-glass-card">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-black/[0.05] dark:border-white/[0.08] mb-6 gap-3">
           <div>
             <h3 className="font-semibold text-lg text-[#1d1d1f] dark:text-[#f5f5f7]">
               Weekly Output Rhythm
             </h3>
             <p className="text-xs text-[#86868b] dark:text-[#98989f]">
-              Task volume and deep focus sprints distribution per day
+              Actual task completions and deep focus sessions for this week
             </p>
           </div>
-          <div className="flex items-center gap-4 text-xs font-medium">
-            <span className="flex items-center gap-1.5 text-[#1d1d1f] dark:text-[#f5f5f7]">
-              <span className="w-3 h-3 rounded-md bg-gradient-to-r from-[#0071e3] to-[#5e5ce6]" /> Tasks
-            </span>
-            <span className="flex items-center gap-1.5 text-[#1d1d1f] dark:text-[#f5f5f7]">
-              <span className="w-3 h-3 rounded-md bg-gradient-to-r from-[#10b981] to-[#06b6d4]" /> Focus (min)
-            </span>
-          </div>
+          {hasWeeklyActivity && (
+            <div className="flex items-center gap-4 text-xs font-medium">
+              <span className="flex items-center gap-1.5 text-[#1d1d1f] dark:text-[#f5f5f7]">
+                <span className="w-3 h-3 rounded-md bg-gradient-to-r from-[#0071e3] to-[#5e5ce6]" /> Tasks
+              </span>
+              <span className="flex items-center gap-1.5 text-[#1d1d1f] dark:text-[#f5f5f7]">
+                <span className="w-3 h-3 rounded-md bg-gradient-to-r from-[#10b981] to-[#06b6d4]" /> Focus (min)
+              </span>
+            </div>
+          )}
         </div>
 
-        {/* Visual Bar Chart with Hover Tooltips */}
-        <div className="h-64 flex items-end justify-between gap-2.5 sm:gap-6 pt-6 px-1 sm:px-4 relative">
-          {/* Subtle horizontal grid lines */}
-          <div className="absolute inset-x-0 top-6 border-b border-dashed border-black/[0.05] dark:border-white/[0.06]" />
-          <div className="absolute inset-x-0 top-1/2 border-b border-dashed border-black/[0.05] dark:border-white/[0.06]" />
+        {hasWeeklyActivity ? (
+          /* Visual Dual-Bar Rhythm Chart */
+          <div className="h-64 flex items-end justify-between gap-2 sm:gap-6 pt-6 px-1 sm:px-4 relative">
+            {/* Subtle horizontal grid lines */}
+            <div className="absolute inset-x-0 top-6 border-b border-dashed border-black/[0.05] dark:border-white/[0.06]" />
+            <div className="absolute inset-x-0 top-1/2 border-b border-dashed border-black/[0.05] dark:border-white/[0.06]" />
 
-          {weeklyActivity.map((item) => {
-            const taskHeightPercent = Math.min(100, Math.round((item.tasks / maxWeeklyTasks) * 100));
-            const isHovered = hoveredDay === item.day;
+            {weeklyActivity.map((item) => {
+              const taskHeightPct = item.tasks > 0 ? Math.round((item.tasks / maxWeeklyTasks) * 100) : 0;
+              const focusHeightPct = item.focusMinutes > 0 ? Math.round((item.focusMinutes / maxWeeklyFocus) * 100) : 0;
+              const isHovered = hoveredDay === item.day;
 
-            return (
-              <div
-                key={item.day}
-                onMouseEnter={() => setHoveredDay(item.day)}
-                onMouseLeave={() => setHoveredDay(null)}
-                className="flex-1 flex flex-col items-center gap-2 group h-full justify-end z-10 cursor-pointer"
-              >
-                {/* Tooltip on hover */}
+              return (
                 <div
-                  className={`absolute -top-4 z-20 px-3 py-1.5 rounded-xl bg-[#1d1d1f] dark:bg-white text-white dark:text-[#1d1d1f] text-xs font-semibold shadow-xl transition-all duration-200 pointer-events-none flex flex-col items-center gap-0.5 ${
-                    isHovered ? 'opacity-100 -translate-y-2' : 'opacity-0 translate-y-0'
-                  }`}
+                  key={item.day}
+                  onMouseEnter={() => setHoveredDay(item.day)}
+                  onMouseLeave={() => setHoveredDay(null)}
+                  className="flex-1 flex flex-col items-center gap-2 group h-full justify-end z-10 cursor-pointer relative"
                 >
-                  <span>{item.day}: {item.tasks} tasks</span>
-                  <span className="text-[10px] text-[#2997ff] dark:text-[#0071e3]">
-                    {item.focusMinutes}m focus
+                  {/* Floating Hover Tooltip with Accurate Numbers */}
+                  <div
+                    className={`absolute -top-12 z-30 px-3 py-1.5 rounded-xl bg-[#1d1d1f] dark:bg-white text-white dark:text-[#1d1d1f] text-xs font-semibold shadow-xl transition-all duration-200 pointer-events-none flex flex-col items-center gap-0.5 whitespace-nowrap ${
+                      isHovered ? 'opacity-100 -translate-y-1' : 'opacity-0 translate-y-2'
+                    }`}
+                  >
+                    <span>
+                      {item.day}: {item.tasks} task{item.tasks === 1 ? '' : 's'}
+                    </span>
+                    <span className="text-[10px] text-[#2997ff] dark:text-[#0071e3]">
+                      {item.focusMinutes}m focus • {item.habitsDone} habit{item.habitsDone === 1 ? '' : 's'}
+                    </span>
+                  </div>
+
+                  {/* Dual Bar Slot */}
+                  <div
+                    className={`w-full max-w-[56px] bg-[#f0f0f4] dark:bg-white/[0.06] rounded-2xl overflow-hidden h-44 flex items-end justify-center gap-1.5 p-1.5 shadow-xs transition-all duration-200 ${
+                      isHovered ? 'scale-105 ring-2 ring-[#0071e3]/30' : ''
+                    } ${item.isToday ? 'border border-[#0071e3]/30 dark:border-[#2997ff]/40' : ''}`}
+                  >
+                    {/* Task Bar (0% if 0, never fake) */}
+                    <div
+                      className="w-3.5 bg-gradient-to-t from-[#0071e3] via-[#5e5ce6] to-[#af52de] rounded-lg transition-all duration-700 ease-out shadow-xs"
+                      style={{ height: `${taskHeightPct}%`, minHeight: item.tasks > 0 ? '6px' : '0px' }}
+                      title={`${item.tasks} tasks`}
+                    />
+
+                    {/* Focus Minutes Bar (0% if 0, never fake) */}
+                    <div
+                      className="w-3.5 bg-gradient-to-t from-[#10b981] via-[#34d399] to-[#06b6d4] rounded-lg transition-all duration-700 ease-out shadow-xs"
+                      style={{ height: `${focusHeightPct}%`, minHeight: item.focusMinutes > 0 ? '6px' : '0px' }}
+                      title={`${item.focusMinutes}m focus`}
+                    />
+                  </div>
+
+                  {/* Day Label with Today Indicator */}
+                  <span
+                    className={`text-xs font-semibold uppercase transition-colors flex items-center gap-1 ${
+                      item.isToday
+                        ? 'text-[#0071e3] dark:text-[#2997ff] font-bold'
+                        : isHovered
+                        ? 'text-[#1d1d1f] dark:text-[#f5f5f7]'
+                        : 'text-[#86868b] dark:text-[#98989f]'
+                    }`}
+                  >
+                    {item.day}
+                    {item.isToday && <span className="w-1 h-1 rounded-full bg-[#0071e3] dark:bg-[#2997ff]" />}
                   </span>
                 </div>
-
-                {/* Animated Gradient Bar */}
-                <div
-                  className={`w-full max-w-[48px] bg-[#f0f0f4] dark:bg-white/[0.06] rounded-2xl overflow-hidden h-44 flex items-end p-1 shadow-xs transition-all duration-200 ${
-                    isHovered ? 'scale-105 ring-2 ring-[#0071e3]/30' : ''
-                  }`}
-                >
-                  <div
-                    className="w-full bg-gradient-to-t from-[#0071e3] via-[#5e5ce6] to-[#af52de] rounded-xl transition-all duration-700 ease-out shadow-sm"
-                    style={{ height: `${Math.max(12, taskHeightPercent)}%` }}
-                  />
-                </div>
-
-                <span
-                  className={`text-xs font-semibold uppercase transition-colors ${
-                    isHovered
-                      ? 'text-[#0071e3] dark:text-[#2997ff]'
-                      : 'text-[#86868b] dark:text-[#98989f]'
-                  }`}
-                >
-                  {item.day}
-                </span>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+        ) : (
+          /* Clean Empty State when No Activity Recorded this Week */
+          <div className="py-14 px-4 flex flex-col items-center justify-center text-center">
+            <div className="w-12 h-12 rounded-2xl bg-cyan-50 dark:bg-cyan-950/40 text-cyan-600 dark:text-cyan-400 border border-cyan-200/60 dark:border-cyan-800/40 flex items-center justify-center shadow-xs mb-3.5">
+              <TrendingUp className="w-6 h-6" />
+            </div>
+            <h4 className="text-sm font-semibold text-[#1d1d1f] dark:text-[#f5f5f7]">
+              No activity recorded this week
+            </h4>
+            <p className="text-xs text-[#86868b] dark:text-[#98989f] max-w-sm mt-1 leading-relaxed">
+              As you complete tasks, log habits, or finish focus sessions, your weekly output rhythm will automatically chart here with verified data.
+            </p>
+          </div>
+        )}
       </Card>
 
       {/* Categories & Mindful Reflections Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Category Focus Distribution (SVG Donut Chart) */}
-        <Card className="p-6 sm:p-7 glossy-glass-card">
+        <Card hoverable glowColor="blue" className="p-6 sm:p-7 glossy-glass-card">
           <div className="flex items-center justify-between mb-4">
             <div>
               <h3 className="font-semibold text-base text-[#1d1d1f] dark:text-[#f5f5f7]">
@@ -531,15 +639,15 @@ export const Insights: React.FC = () => {
           )}
         </Card>
 
-        {/* Cognitive Insights Card with Aurora Glass Gradient */}
-        <Card className="p-6 sm:p-7 flex flex-col justify-between glossy-glass-card relative overflow-hidden bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-pink-500/10 dark:from-blue-950/30 dark:via-purple-950/20 dark:to-pink-950/20 border border-blue-500/20">
+        {/* Flowora Cognitive Insights Card with Aurora Glass Gradient */}
+        <Card hoverable glowColor="purple" className="p-6 sm:p-7 flex flex-col justify-between glossy-glass-card relative overflow-hidden bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-pink-500/10 dark:from-blue-950/30 dark:via-purple-950/20 dark:to-pink-950/20 border border-blue-500/20">
           <div>
             <div className="flex items-center gap-2 text-[#0071e3] dark:text-[#2997ff] mb-2.5">
-              <div className="w-8 h-8 rounded-xl bg-blue-500/10 flex items-center justify-center border border-blue-500/20 shadow-xs">
+              <div className="w-8 h-8 rounded-2xl bg-blue-500/10 flex items-center justify-center border border-blue-500/20 shadow-xs">
                 <Sparkles className="w-4 h-4 text-[#0071e3] dark:text-[#2997ff]" />
               </div>
               <h3 className="font-semibold text-base text-[#1d1d1f] dark:text-[#f5f5f7]">
-                Daylight Cognitive Rhythm
+                Flowora Cognitive Rhythm
               </h3>
             </div>
             <p className="text-sm text-[#515154] dark:text-[#d2d2d7] leading-relaxed mt-2">

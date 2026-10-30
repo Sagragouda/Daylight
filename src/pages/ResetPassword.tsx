@@ -60,7 +60,7 @@ export const ResetPassword: React.FC = () => {
           </div>
 
           <p className="text-xs text-[#6e6e73] dark:text-[#98989f] leading-relaxed max-w-sm mx-auto">
-            Your Daylight account password has been updated securely.
+            Your Flowora account password has been updated securely.
           </p>
 
           <div className="pt-2">
@@ -81,7 +81,7 @@ export const ResetPassword: React.FC = () => {
   return (
     <AuthLayout
       title="Create new password"
-      subtitle="Choose a secure password of at least 6 characters for your Daylight account."
+      subtitle="Choose a secure password of at least 6 characters for your Flowora account."
     >
       {/* Error Alert */}
       {errorMsg && (

@@ -339,7 +339,7 @@ export const Notes: React.FC = () => {
       )}
 
       {/* Search & Metadata Bar */}
-      <Card className="p-4 sm:p-5">
+      <Card hoverable glowColor="cyan" className="p-4 sm:p-5">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="relative flex-1">
             <Search className="w-4 h-4 absolute left-3.5 top-3.5 text-[#86868b] dark:text-[#98989f]" />
@@ -407,6 +407,7 @@ export const Notes: React.FC = () => {
             <Card
               key={note.id}
               hoverable
+              glowColor={note.isPinned ? 'purple' : 'blue'}
               onClick={() => handleOpenNote(note)}
               className={`p-5 flex flex-col justify-between cursor-pointer border-l-4 transition-all hover:shadow-md ${
                 note.colorAccent || 'border-l-[#0071e3] dark:border-l-[#2997ff]'

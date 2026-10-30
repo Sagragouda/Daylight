@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { DaylightLogo } from './DaylightLogo';
+import { FloworaLogo } from './FloworaLogo';
 
 export const AppIntroSplash: React.FC = () => {
   const [shouldRender, setShouldRender] = useState<boolean>(() => {
     // Only show once per browser session
     try {
-      return !sessionStorage.getItem('daylight_intro_seen');
+      return !(
+        sessionStorage.getItem('flowora_intro_seen') ||
+        sessionStorage.getItem('daylight_intro_seen')
+      );
     } catch {
       return false;
     }
@@ -17,7 +20,7 @@ export const AppIntroSplash: React.FC = () => {
     if (!shouldRender) return;
 
     try {
-      sessionStorage.setItem('daylight_intro_seen', 'true');
+      sessionStorage.setItem('flowora_intro_seen', 'true');
     } catch {
       // ignore
     }
@@ -48,15 +51,15 @@ export const AppIntroSplash: React.FC = () => {
       aria-hidden="true"
     >
       {/* Ambient background bloom */}
-      <div className="absolute w-72 h-72 rounded-full bg-gradient-to-tr from-[#FF9500]/30 via-[#FF2D55]/25 to-[#0071E3]/35 blur-3xl animate-pulse-subtle pointer-events-none" />
+      <div className="absolute w-72 h-72 rounded-full bg-gradient-to-tr from-[#0071E3]/30 via-[#8B5CF6]/25 to-[#10B981]/35 blur-3xl animate-pulse-subtle pointer-events-none" />
 
       {/* Logo container with scale-up entrance */}
       <div className="relative z-10 flex flex-col items-center gap-4 animate-scale-in">
-        <DaylightLogo size="xl" withGlow />
+        <FloworaLogo size="xl" withGlow />
 
         <div className="text-center space-y-1">
           <h1 className="text-3xl sm:text-4xl font-bold tracking-tight bg-gradient-to-r from-[#1d1d1f] via-[#0071e3] to-[#5e5ce6] dark:from-white dark:via-[#2997ff] dark:to-[#af52de] bg-clip-text text-transparent">
-            Daylight
+            Flowora
           </h1>
           <p className="text-xs font-semibold tracking-wider uppercase text-[#86868b] dark:text-[#98989f]">
             Mindful Flow & Peak Execution
@@ -65,7 +68,7 @@ export const AppIntroSplash: React.FC = () => {
 
         {/* Minimal luminous loading bar */}
         <div className="w-32 h-1 rounded-full bg-black/[0.06] dark:bg-white/[0.1] overflow-hidden mt-3">
-          <div className="w-full h-full bg-gradient-to-r from-[#FF9500] via-[#0071E3] to-[#5E5CE6] rounded-full animate-[progressPulse_1.2s_ease-out_forwards]" />
+          <div className="w-full h-full bg-gradient-to-r from-[#0071E3] via-[#8B5CF6] to-[#10B981] rounded-full animate-[progressPulse_1.2s_ease-out_forwards]" />
         </div>
       </div>
     </div>

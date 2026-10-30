@@ -218,8 +218,11 @@ export const Focus: React.FC = () => {
         </div>
       )}
 
-      {/* Main Focus Card with Glossy Glassmorphism */}
-      <Card className="p-6 sm:p-10 relative overflow-hidden glossy-glass-card">
+      {/* Main Focus Card with Glossy Glassmorphism & Glowing Border */}
+      <Card
+        glowColor={mode === 'pomodoro' ? 'blue' : mode === 'shortBreak' ? 'emerald' : 'purple'}
+        className="p-6 sm:p-10 relative overflow-hidden glossy-glass-card"
+      >
         {/* Dynamic ambient background glow */}
         <div
           className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-radial ${modeConfig.activeGlow} rounded-full blur-3xl pointer-events-none transition-opacity duration-700 ${
@@ -422,7 +425,7 @@ export const Focus: React.FC = () => {
       </Card>
 
       {/* Built-in Ambient White/Pink Noise Generator */}
-      <Card className="p-5 sm:p-6 glossy-glass-card">
+      <Card hoverable glowColor="cyan" className="p-5 sm:p-6 glossy-glass-card">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-blue-500/10 to-indigo-500/15 text-[#0071e3] dark:text-[#2997ff] border border-blue-500/20 flex items-center justify-center shrink-0 shadow-xs">
@@ -484,7 +487,7 @@ export const Focus: React.FC = () => {
       </Card>
 
       {/* Session History Card */}
-      <Card className="p-6 glossy-glass-card">
+      <Card hoverable glowColor="purple" className="p-6 glossy-glass-card">
         <div className="flex items-center justify-between pb-4 border-b border-black/[0.05] dark:border-white/[0.08] mb-4">
           <div>
             <h3 className="font-semibold text-lg text-[#1d1d1f] dark:text-[#f5f5f7] flex items-center gap-2">

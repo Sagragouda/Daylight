@@ -1,6 +1,7 @@
 import React from 'react';
-import { SunMedium, ShieldCheck } from 'lucide-react';
+import { ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { FloworaLogo } from '../common/FloworaLogo';
 
 interface AuthLayoutProps {
   children: React.ReactNode;
@@ -17,12 +18,10 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({ children, title, subtitl
 
       {/* Brand Header */}
       <div className="relative z-10 mb-6 text-center animate-fade-in">
-        <Link to="/" className="inline-flex items-center gap-2.5 group">
-          <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#0071e3] to-[#42a5f5] flex items-center justify-center text-white shadow-[0_8px_20px_rgba(0,113,227,0.3)] transition-transform duration-300 group-hover:scale-105">
-            <SunMedium className="w-6 h-6" />
-          </div>
+        <Link to="/" className="inline-flex items-center gap-3 group">
+          <FloworaLogo size="lg" withGlow />
           <span className="font-bold text-2xl tracking-tight text-[#1d1d1f] dark:text-[#f5f5f7]">
-            Daylight
+            Flowora
           </span>
         </Link>
       </div>
@@ -46,7 +45,7 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({ children, title, subtitl
         <ShieldCheck className="w-3.5 h-3.5 text-[#0071e3] dark:text-[#2997ff]" />
         <span>End-to-End Auth with Supabase</span>
         <span className="text-black/20 dark:text-white/20">•</span>
-        <span>Daylight v1.0</span>
+        <span>Flowora v1.0</span>
       </div>
     </div>
   );

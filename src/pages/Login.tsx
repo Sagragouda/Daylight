@@ -59,7 +59,7 @@ export const Login: React.FC = () => {
   return (
     <AuthLayout
       title="Welcome back"
-      subtitle="Sign in to your Daylight workspace to resume your mindful flow."
+      subtitle="Sign in to your Flowora workspace to resume your mindful flow."
     >
       {/* Error Alert */}
       {errorMsg && (

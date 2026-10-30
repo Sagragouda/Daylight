@@ -97,7 +97,7 @@ export const Settings: React.FC = () => {
 
       {/* Authenticated Account Profile Card */}
       {user && (
-        <Card className="p-6">
+        <Card hoverable glowColor="blue" className="p-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-black/[0.05] dark:border-white/[0.08]">
             <div className="flex items-center gap-3.5">
               <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#0071e3]/20 to-blue-200 dark:from-blue-900/60 dark:to-blue-700/60 border border-[#0071e3]/30 dark:border-blue-400/40 flex items-center justify-center text-[#0071e3] dark:text-[#2997ff] font-bold text-base shadow-xs select-none">
@@ -145,7 +145,7 @@ export const Settings: React.FC = () => {
       )}
 
       {/* Appearance Section */}
-      <Card className="p-6 space-y-5">
+      <Card hoverable glowColor="purple" className="p-6 space-y-5">
         <div>
           <h3 className="font-semibold text-base text-[#1d1d1f] dark:text-[#f5f5f7] flex items-center gap-2">
             <Sun className="w-5 h-5 text-[#0071e3] dark:text-[#2997ff]" />
@@ -236,7 +236,7 @@ export const Settings: React.FC = () => {
       </Card>
 
       {/* Audio & Feedback */}
-      <Card className="p-6 space-y-5">
+      <Card hoverable glowColor="cyan" className="p-6 space-y-5">
         <h3 className="font-semibold text-base text-[#1d1d1f] dark:text-[#f5f5f7] flex items-center gap-2">
           <Volume2 className="w-5 h-5 text-[#0071e3] dark:text-[#2997ff]" />
           Sound & Haptics
@@ -320,7 +320,7 @@ export const Settings: React.FC = () => {
       </Card>
 
       {/* Supabase Architecture Card */}
-      <Card className="p-6 border-blue-200/60 dark:border-blue-800/40 bg-gradient-to-br from-white via-white to-blue-50/40 dark:from-[#14151e] dark:via-[#14151e] dark:to-blue-950/30">
+      <Card hoverable glowColor="aurora" className="p-6 border-blue-200/60 dark:border-blue-800/40 bg-gradient-to-br from-white via-white to-blue-50/40 dark:from-[#14151e] dark:via-[#14151e] dark:to-blue-950/30">
         <div className="flex items-start justify-between gap-4 mb-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-2xl bg-[#0071e3] text-white flex items-center justify-center shadow-md">
@@ -362,7 +362,7 @@ export const Settings: React.FC = () => {
       </Card>
 
       {/* Data Management */}
-      <Card className="p-6">
+      <Card hoverable glowColor="amber" className="p-6">
         <h3 className="font-semibold text-base text-[#1d1d1f] dark:text-[#f5f5f7] mb-1">
           Data & Local Storage
         </h3>

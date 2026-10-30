@@ -21,7 +21,7 @@ export const DashboardHabitTracker: React.FC<DashboardHabitTrackerProps> = ({ on
   const pastSevenDays = getPastSevenDays();
 
   return (
-    <Card className="p-6">
+    <Card hoverable glowColor="amber" className="p-6">
       <div className="flex items-center justify-between pb-4 border-b border-black/[0.05] dark:border-white/[0.08] mb-4">
         <div>
           <h3 className="font-semibold text-lg text-[#1d1d1f] dark:text-[#f5f5f7] flex items-center gap-2">

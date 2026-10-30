@@ -80,7 +80,7 @@ export const NotificationCenter: React.FC = () => {
       {/* Bell Trigger Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative w-9 h-9 flex items-center justify-center rounded-xl text-[#86868b] hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] hover:bg-black/[0.04] dark:hover:bg-white/[0.06] transition-colors focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30"
+        className="relative w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-xl text-[#86868b] hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] hover:bg-black/[0.04] dark:hover:bg-white/[0.06] transition-colors focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30"
         title="Notifications"
         aria-label={`Notifications, ${unreadCount} unread`}
         aria-expanded={isOpen}

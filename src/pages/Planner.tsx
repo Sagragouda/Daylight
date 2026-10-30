@@ -277,7 +277,7 @@ export const Planner: React.FC = () => {
       )}
 
       {/* Date Navigation & View Mode Strip */}
-      <Card className="p-4 sm:p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <Card hoverable glowColor="cyan" className="p-4 sm:p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-center gap-3.5">
           <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/60 text-[#0071e3] dark:text-[#2997ff] border border-blue-100 dark:border-blue-900/40 flex items-center justify-center shadow-xs shrink-0">
             <Calendar className="w-5 h-5" />

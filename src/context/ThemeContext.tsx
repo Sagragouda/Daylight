@@ -10,14 +10,16 @@ interface ThemeContextType {
   toggleTheme: () => void;
 }
 
-const THEME_STORAGE_KEY = 'daylight_theme_mode';
+const THEME_STORAGE_KEY = 'flowora_theme_mode';
+const LEGACY_THEME_STORAGE_KEY = 'daylight_theme_mode';
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [themeMode, setThemeModeState] = useState<ThemeMode>(() => {
     try {
-      const saved = localStorage.getItem(THEME_STORAGE_KEY) as ThemeMode | null;
+      const saved = (localStorage.getItem(THEME_STORAGE_KEY) ||
+        localStorage.getItem(LEGACY_THEME_STORAGE_KEY)) as ThemeMode | null;
       if (saved === 'light' || saved === 'dark' || saved === 'system') {
         return saved;
       }
@@ -70,6 +72,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     try {
       localStorage.setItem(THEME_STORAGE_KEY, themeMode);
+      localStorage.setItem(LEGACY_THEME_STORAGE_KEY, themeMode);
     } catch {
       // Ignore localStorage write failures
     }

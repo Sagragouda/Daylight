@@ -19,7 +19,7 @@ export const DailyProgressCard: React.FC = () => {
   const strokeDashoffset = circumference - (overallProgress / 100) * circumference;
 
   return (
-    <Card className="p-6 flex flex-col justify-between">
+    <Card hoverable glowColor="aurora" className="p-6 flex flex-col justify-between">
       <div className="flex items-center justify-between mb-4">
         <div>
           <h3 className="font-semibold text-base text-[#1d1d1f] dark:text-[#f5f5f7]">

@@ -38,7 +38,7 @@ export const DashboardTaskList: React.FC<DashboardTaskListProps> = ({ onOpenNewT
   };
 
   return (
-    <Card className="p-6">
+    <Card hoverable glowColor="blue" className="p-6">
       {/* Header & Filter Tabs */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-black/[0.05] dark:border-white/[0.08]">
         <div>

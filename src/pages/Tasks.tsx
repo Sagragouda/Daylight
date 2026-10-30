@@ -78,7 +78,7 @@ export const Tasks: React.FC = () => {
 
       {/* Summary Metrics */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
-        <Card className="p-4 sm:p-5 flex items-center gap-3.5">
+        <Card hoverable glowColor="blue" className="p-4 sm:p-5 flex items-center gap-3.5">
           <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/60 text-[#0071e3] dark:text-[#2997ff] border border-blue-100 dark:border-blue-900/40 flex items-center justify-center shrink-0 shadow-xs">
             <Clock className="w-5 h-5" />
           </div>
@@ -92,7 +92,7 @@ export const Tasks: React.FC = () => {
           </div>
         </Card>
 
-        <Card className="p-4 sm:p-5 flex items-center gap-3.5">
+        <Card hoverable glowColor="emerald" className="p-4 sm:p-5 flex items-center gap-3.5">
           <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-900/40 flex items-center justify-center shrink-0 shadow-xs">
             <CheckCircle2 className="w-5 h-5" />
           </div>
@@ -106,7 +106,7 @@ export const Tasks: React.FC = () => {
           </div>
         </Card>
 
-        <Card className="p-4 sm:p-5 flex items-center gap-3.5">
+        <Card hoverable glowColor="purple" className="p-4 sm:p-5 flex items-center gap-3.5">
           <div className="w-10 h-10 rounded-xl bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 border border-purple-100 dark:border-purple-900/40 flex items-center justify-center shrink-0 shadow-xs">
             <TrendingUp className="w-5 h-5" />
           </div>
@@ -122,7 +122,7 @@ export const Tasks: React.FC = () => {
       </div>
 
       {/* Search and Filters Card */}
-      <Card className="p-4 sm:p-5 space-y-4">
+      <Card hoverable glowColor="cyan" className="p-4 sm:p-5 space-y-4">
         {/* Search Bar */}
         <div className="relative">
           <Search className="w-4 h-4 absolute left-3.5 top-3.5 text-[#86868b] dark:text-[#98989f]" />

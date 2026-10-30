@@ -161,7 +161,7 @@ export const MobileNav: React.FC = () => {
                 <ShieldCheck className="w-3.5 h-3.5 text-[#0071e3] dark:text-[#2997ff]" />
                 Cloud Synced & Protected
               </span>
-              <span className="font-semibold">Daylight Flow</span>
+              <span className="font-semibold">Flowora Flow</span>
             </div>
           </div>
         </div>

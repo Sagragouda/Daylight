@@ -18,7 +18,7 @@ const tomorrow = getOffsetDate(1);
 export const initialTasks: Task[] = [
   {
     id: 'task-1',
-    title: 'Finalize Daylight UI design system & token definitions',
+    title: 'Finalize Flowora UI design system & token definitions',
     description: 'Ensure subtle borders, Apple-style corner radii, and soft blue tint hierarchy are consistent across all views.',
     completed: true,
     completedAt: `${today}T10:15:00Z`,
@@ -190,8 +190,8 @@ export const initialPlannerBlocks: PlannerTimeBlock[] = [
 export const initialNotes: Note[] = [
   {
     id: 'note-1',
-    title: 'Daylight Principles: Calm Computing',
-    content: 'Software should feel like natural morning light: unobtrusive, soothing, yet giving total clarity on what matters. Minimal noise, high intentionality.',
+    title: 'Flowora Principles: Calm Computing',
+    content: 'Software should feel like a fluid, harmonious flow: unobtrusive, soothing, yet giving total clarity on what matters. Minimal noise, high intentionality.',
     category: 'Philosophy',
     updatedAt: '2 hours ago',
     isPinned: true,

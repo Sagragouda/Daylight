@@ -145,12 +145,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const namePart = user.email.split('@')[0];
       return namePart.charAt(0).toUpperCase() + namePart.slice(1);
     }
-    return 'Daylight User';
+    return 'Flowora User';
   }, [user]);
 
   // Helper to extract 2-letter initials for avatar
   const getUserInitials = useCallback((): string => {
-    if (!user) return 'DL';
+    if (!user) return 'FL';
     const fullName = user.user_metadata?.full_name || user.user_metadata?.name;
     if (fullName && typeof fullName === 'string' && fullName.trim()) {
       const parts = fullName.trim().split(/\s+/);

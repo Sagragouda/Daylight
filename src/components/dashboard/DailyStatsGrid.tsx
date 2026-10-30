@@ -33,6 +33,7 @@ export const DailyStatsGrid: React.FC = () => {
       color: 'text-[#0071e3] dark:text-[#2997ff]',
       bgColor: 'bg-blue-50 dark:bg-blue-950/50',
       borderColor: 'border-blue-100 dark:border-blue-900/40',
+      glowColor: 'blue' as const,
     },
     {
       label: 'Focus Time',
@@ -42,6 +43,7 @@ export const DailyStatsGrid: React.FC = () => {
       color: 'text-indigo-600 dark:text-indigo-400',
       bgColor: 'bg-indigo-50 dark:bg-indigo-950/50',
       borderColor: 'border-indigo-100 dark:border-indigo-900/40',
+      glowColor: 'purple' as const,
     },
     {
       label: 'Habits Active',
@@ -58,6 +60,7 @@ export const DailyStatsGrid: React.FC = () => {
       color: 'text-amber-600 dark:text-amber-400',
       bgColor: 'bg-amber-50 dark:bg-amber-950/50',
       borderColor: 'border-amber-100 dark:border-amber-900/40',
+      glowColor: 'amber' as const,
     },
     {
       label: 'Flow Score',
@@ -67,6 +70,7 @@ export const DailyStatsGrid: React.FC = () => {
       color: 'text-emerald-600 dark:text-emerald-400',
       bgColor: 'bg-emerald-50 dark:bg-emerald-950/50',
       borderColor: 'border-emerald-100 dark:border-emerald-900/40',
+      glowColor: 'emerald' as const,
     },
   ];
 
@@ -79,6 +83,7 @@ export const DailyStatsGrid: React.FC = () => {
           <Card
             key={idx}
             hoverable
+            glowColor={stat.glowColor}
             className={`p-4 sm:p-5 flex flex-col justify-between animate-slide-up ${staggerClass}`}
           >
             <div className="flex items-center justify-between mb-3">

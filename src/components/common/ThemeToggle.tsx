@@ -31,7 +31,7 @@ export const ThemeToggle: React.FC = () => {
     <div className="relative" ref={containerRef}>
       <button
         onClick={() => setMenuOpen(!menuOpen)}
-        className="w-9 h-9 flex items-center justify-center rounded-xl text-[#86868b] hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] hover:bg-black/[0.04] dark:hover:bg-white/[0.06] transition-colors focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30"
+        className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-xl text-[#86868b] hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] hover:bg-black/[0.04] dark:hover:bg-white/[0.06] transition-colors focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30"
         title={`Appearance: ${themeMode} (${resolvedTheme})`}
         aria-label="Toggle theme appearance"
         aria-expanded={menuOpen}

@@ -84,7 +84,7 @@ export const Signup: React.FC = () => {
     return (
       <AuthLayout
         title="Check your inbox"
-        subtitle="A confirmation link has been sent to activate your Daylight account."
+        subtitle="A confirmation link has been sent to activate your Flowora account."
       >
         <div className="text-center py-4 space-y-4">
           <div className="w-14 h-14 mx-auto rounded-full bg-blue-50 dark:bg-blue-950/60 text-[#0071e3] dark:text-[#2997ff] border border-blue-100 dark:border-blue-900/40 flex items-center justify-center shadow-xs">
@@ -101,7 +101,7 @@ export const Signup: React.FC = () => {
           </div>
 
           <p className="text-xs text-[#6e6e73] dark:text-[#98989f] leading-relaxed max-w-sm mx-auto">
-            Click the activation link inside the email to verify your address, then sign in to your Daylight workspace.
+            Click the activation link inside the email to verify your address, then sign in to your Flowora workspace.
           </p>
 
           <div className="pt-3">
@@ -120,7 +120,7 @@ export const Signup: React.FC = () => {
   return (
     <AuthLayout
       title="Create your account"
-      subtitle="Start your journey with Daylight and craft a more mindful daily flow."
+      subtitle="Start your journey with Flowora and craft a more mindful daily flow."
     >
       {/* Error Alert */}
       {errorMsg && (

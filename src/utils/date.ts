@@ -1,5 +1,5 @@
 /**
- * Date utility helpers for Daylight
+ * Date utility helpers for Flowora
  */
 
 export function getGreeting(): { text: string; subtext: string } {

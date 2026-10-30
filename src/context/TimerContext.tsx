@@ -123,9 +123,9 @@ export const TimerProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   // Sync browser title during running focus sessions
   useEffect(() => {
     if (isRunning) {
-      document.title = `(${formattedTime}) Daylight Focus`;
+      document.title = `(${formattedTime}) Flowora Focus`;
     } else {
-      document.title = 'Daylight — Modern Mindful Productivity';
+      document.title = 'Flowora — Modern Mindful Productivity';
     }
   }, [isRunning, formattedTime]);
 

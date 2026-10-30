@@ -70,7 +70,7 @@ export const Habits: React.FC = () => {
 
       {/* Habit Metrics Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <Card className="p-4 sm:p-5 flex items-center gap-4">
+        <Card hoverable glowColor="amber" className="p-4 sm:p-5 flex items-center gap-4">
           <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 border border-amber-100 dark:border-amber-900/40 flex items-center justify-center shrink-0 shadow-xs">
             <Flame className="w-5 h-5" />
           </div>
@@ -84,7 +84,7 @@ export const Habits: React.FC = () => {
           </div>
         </Card>
 
-        <Card className="p-4 sm:p-5 flex items-center gap-4">
+        <Card hoverable glowColor="emerald" className="p-4 sm:p-5 flex items-center gap-4">
           <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-900/40 flex items-center justify-center shrink-0 shadow-xs">
             <Check className="w-5 h-5 stroke-[2.5]" />
           </div>
@@ -101,7 +101,7 @@ export const Habits: React.FC = () => {
           </div>
         </Card>
 
-        <Card className="p-4 sm:p-5 flex items-center gap-4">
+        <Card hoverable glowColor="blue" className="p-4 sm:p-5 flex items-center gap-4">
           <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/60 text-[#0071e3] dark:text-[#2997ff] border border-blue-100 dark:border-blue-900/40 flex items-center justify-center shrink-0 shadow-xs">
             <Award className="w-5 h-5" />
           </div>
@@ -148,6 +148,8 @@ export const Habits: React.FC = () => {
             return (
               <Card
                 key={habit.id}
+                hoverable
+                glowColor={isDone ? 'emerald' : 'amber'}
                 className="p-5 sm:p-6 transition-all hover:border-black/[0.12] dark:hover:border-white/[0.16]"
               >
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">

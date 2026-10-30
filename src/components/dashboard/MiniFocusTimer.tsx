@@ -63,7 +63,12 @@ export const MiniFocusTimer: React.FC = () => {
   const strokeDashoffset = circumference - (Math.min(100, Math.max(0, progressPercent)) / 100) * circumference;
 
   return (
-    <Card id="dashboard-focus-timer" className="p-5 sm:p-6 glossy-glass-card relative overflow-hidden">
+    <Card
+      id="dashboard-focus-timer"
+      hoverable
+      glowColor={mode === 'pomodoro' ? 'blue' : mode === 'shortBreak' ? 'emerald' : 'purple'}
+      className="p-5 sm:p-6 glossy-glass-card relative overflow-hidden"
+    >
       {/* Dynamic ambient backdrop glow */}
       <div
         className={`absolute -top-10 -right-10 w-44 h-44 rounded-full blur-3xl pointer-events-none transition-opacity duration-700 ${
