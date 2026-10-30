@@ -40,12 +40,13 @@ export interface FocusSession {
 export interface PlannerTimeBlock {
   id: string;
   title: string;
-  startTime: string; // e.g. '09:00'
-  endTime: string;   // e.g. '10:30'
+  startTime: string; // e.g. '09:00 AM'
+  endTime: string;   // e.g. '10:30 AM'
   category: string;
   color: string;
   isCurrent?: boolean;
   completed?: boolean;
+  scheduleDate?: string; // YYYY-MM-DD
 }
 
 export interface Note {

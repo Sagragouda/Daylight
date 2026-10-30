@@ -67,6 +67,36 @@ export function getFormattedHeaderDate(): string {
 }
 
 /**
+ * Formats a local date string ('YYYY-MM-DD') for the Planner header.
+ */
+export function formatPlannerDate(dateStr: string): string {
+  if (!dateStr) return '';
+  const [year, month, day] = dateStr.split('-').map(Number);
+  const d = new Date(year, month - 1, day);
+  return d.toLocaleDateString('en-US', {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+    year: d.getFullYear() !== new Date().getFullYear() ? 'numeric' : undefined,
+  });
+}
+
+/**
+ * Formats a week date range ('YYYY-MM-DD' to 'YYYY-MM-DD') for the Planner header.
+ */
+export function formatPlannerWeekRange(startStr: string, endStr: string): string {
+  if (!startStr || !endStr) return '';
+  const [sY, sM, sD] = startStr.split('-').map(Number);
+  const [eY, eM, eD] = endStr.split('-').map(Number);
+  const sDate = new Date(sY, sM - 1, sD);
+  const eDate = new Date(eY, eM - 1, eD);
+
+  const startPart = sDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  const endPart = eDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  return `${startPart} – ${endPart}`;
+}
+
+/**
  * Returns past 7 days (including today) in local 'YYYY-MM-DD' format and short weekday label
  */
 export function getPastSevenDays(): { dateStr: string; label: string; dayNum: number; isToday: boolean }[] {
