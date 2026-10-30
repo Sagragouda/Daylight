@@ -27,9 +27,22 @@ export function getGreeting(): { text: string; subtext: string } {
   }
 }
 
+/**
+ * Returns a local calendar date string formatted as 'YYYY-MM-DD'
+ * without UTC conversion that can shift the day across timezones.
+ */
+export function getLocalDateString(d: Date = new Date()): string {
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+/**
+ * Returns today's local calendar date as 'YYYY-MM-DD'
+ */
 export function getTodayDateString(): string {
-  const d = new Date();
-  return d.toISOString().split('T')[0];
+  return getLocalDateString(new Date());
 }
 
 export function formatFriendlyDate(dateStr: string): string {
@@ -37,11 +50,11 @@ export function formatFriendlyDate(dateStr: string): string {
   const todayStr = getTodayDateString();
   if (dateStr === todayStr) return 'Today';
 
-  const d = new Date(dateStr + 'T00:00:00');
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
-  if (dateStr === tomorrow.toISOString().split('T')[0]) return 'Tomorrow';
+  if (dateStr === getLocalDateString(tomorrow)) return 'Tomorrow';
 
+  const d = new Date(dateStr + 'T00:00:00');
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 }
 
@@ -54,7 +67,7 @@ export function getFormattedHeaderDate(): string {
 }
 
 /**
- * Returns past 7 days (including today) in 'YYYY-MM-DD' format and short weekday label
+ * Returns past 7 days (including today) in local 'YYYY-MM-DD' format and short weekday label
  */
 export function getPastSevenDays(): { dateStr: string; label: string; dayNum: number; isToday: boolean }[] {
   const days = [];
@@ -63,7 +76,7 @@ export function getPastSevenDays(): { dateStr: string; label: string; dayNum: nu
   for (let i = 6; i >= 0; i--) {
     const d = new Date();
     d.setDate(d.getDate() - i);
-    const dateStr = d.toISOString().split('T')[0];
+    const dateStr = getLocalDateString(d);
     const label = d.toLocaleDateString('en-US', { weekday: 'narrow' });
     const dayNum = d.getDate();
     days.push({

@@ -23,6 +23,8 @@ export const Habits: React.FC = () => {
   const { openHabitModal } = useOutletContext<OutletContextType>();
   const {
     habits,
+    loading,
+    error,
     toggleHabitToday,
     deleteHabit,
     todayCompletedCount,
@@ -58,6 +60,13 @@ export const Habits: React.FC = () => {
           New Habit
         </Button>
       </div>
+
+      {/* Error Banner */}
+      {error && (
+        <div className="p-4 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/40 text-xs font-medium text-rose-700 dark:text-rose-300 flex items-center justify-between shadow-xs">
+          <span>{error}</span>
+        </div>
+      )}
 
       {/* Habit Metrics Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -110,7 +119,28 @@ export const Habits: React.FC = () => {
 
       {/* Habit Cards List */}
       <div className="space-y-4">
-        {habits.length > 0 ? (
+        {loading && habits.length === 0 ? (
+          <div className="space-y-4">
+            {[1, 2, 3].map((i) => (
+              <Card key={i} className="p-5 sm:p-6 animate-pulse">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                  <div className="flex items-center gap-4">
+                    <div className="w-11 h-11 rounded-2xl bg-black/10 dark:bg-white/10 shrink-0" />
+                    <div className="space-y-2">
+                      <div className="w-44 h-4 bg-black/10 dark:bg-white/10 rounded-full" />
+                      <div className="w-28 h-3 bg-black/5 dark:bg-white/5 rounded-full" />
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {[1, 2, 3, 4, 5, 6, 7].map((d) => (
+                      <div key={d} className="w-7 h-7 rounded-xl bg-black/5 dark:bg-white/5" />
+                    ))}
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        ) : habits.length > 0 ? (
           habits.map((habit) => {
             const isDone = isHabitDoneToday(habit);
             const icon = ICON_MAP[habit.iconName] || <Flame className="w-5 h-5" />;
