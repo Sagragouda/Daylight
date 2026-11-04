@@ -87,15 +87,24 @@ export const NotificationCenter: React.FC = () => {
       >
         <Bell className="w-4 h-4" />
         {unreadCount > 0 && (
-          <span className="absolute top-1.5 right-1.5 min-w-[14px] h-[14px] px-0.5 rounded-full bg-[#0071e3] text-white text-[9px] font-bold flex items-center justify-center ring-2 ring-white dark:ring-[#161722] animate-scale-in">
+          <span className="absolute top-1.5 right-1.5 min-w-[14px] h-[14px] px-0.5 rounded-full bg-[#ec4899] text-white text-[9px] font-bold flex items-center justify-center ring-2 ring-white dark:ring-[#161722] animate-scale-in shadow-xs">
             {unreadCount > 9 ? '9+' : unreadCount}
           </span>
         )}
       </button>
 
+      {/* Mobile backdrop for clean outside dismiss */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/25 backdrop-blur-[2px] z-40 sm:hidden"
+          onClick={() => setIsOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
       {/* Notification Center Popover */}
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white/95 dark:bg-[#161722]/95 backdrop-blur-2xl rounded-2xl shadow-[0_16px_40px_rgba(0,0,0,0.14)] dark:shadow-[0_20px_48px_rgba(0,0,0,0.6)] border border-black/[0.08] dark:border-white/[0.1] z-50 animate-scale-in overflow-hidden flex flex-col max-h-[80vh]">
+        <div className="fixed inset-x-3 top-14 sm:absolute sm:inset-auto sm:right-0 sm:mt-2 w-auto sm:w-96 bg-white/95 dark:bg-[#161722]/95 backdrop-blur-2xl rounded-2xl shadow-[0_16px_40px_rgba(0,0,0,0.18)] dark:shadow-[0_20px_48px_rgba(0,0,0,0.7)] border border-black/[0.08] dark:border-white/[0.1] z-50 animate-scale-in overflow-hidden flex flex-col max-h-[80vh]">
           {/* Header */}
           <div className="p-3.5 border-b border-black/[0.05] dark:border-white/[0.08] flex items-center justify-between bg-black/[0.01] dark:bg-white/[0.02]">
             <div className="flex items-center gap-2">
@@ -103,7 +112,7 @@ export const NotificationCenter: React.FC = () => {
                 Notifications
               </h3>
               {unreadCount > 0 && (
-                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-blue-50 dark:bg-blue-900/40 text-[#0071e3] dark:text-[#2997ff] border border-blue-100 dark:border-blue-800/40">
+                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-rose-50 dark:bg-rose-950/60 text-rose-500 dark:text-rose-400 border border-rose-100 dark:border-rose-900/40">
                   {unreadCount} new
                 </span>
               )}
@@ -148,7 +157,7 @@ export const NotificationCenter: React.FC = () => {
           )}
 
           {/* Notification List Body */}
-          <div className="flex-1 overflow-y-auto divide-y divide-black/[0.04] dark:divide-white/[0.04] p-1">
+          <div className="flex-1 overflow-y-auto divide-y divide-black/[0.04] dark:divide-white/[0.04] p-1.5">
             {notifications.length === 0 ? (
               <div className="p-8 text-center">
                 <div className="w-12 h-12 rounded-2xl bg-black/[0.03] dark:bg-white/[0.05] border border-black/[0.04] dark:border-white/[0.06] flex items-center justify-center mx-auto text-[#86868b] mb-2.5">
@@ -169,7 +178,7 @@ export const NotificationCenter: React.FC = () => {
                   className={`group relative p-3 rounded-xl transition-all cursor-pointer flex items-start gap-3 ${
                     item.read
                       ? 'hover:bg-black/[0.03] dark:hover:bg-white/[0.04] opacity-80'
-                      : 'bg-blue-50/40 dark:bg-blue-950/20 hover:bg-blue-50/80 dark:hover:bg-blue-950/40 font-medium'
+                      : 'bg-rose-50/30 dark:bg-rose-950/20 hover:bg-rose-50/60 dark:hover:bg-rose-950/40 font-medium'
                   }`}
                 >
                   {/* Icon badge */}
@@ -178,16 +187,16 @@ export const NotificationCenter: React.FC = () => {
                   </div>
 
                   {/* Notification Content */}
-                  <div className="flex-1 min-w-0 pr-6">
+                  <div className="flex-1 min-w-0 pr-7">
                     <div className="flex items-center gap-1.5">
                       <p className="text-xs font-semibold text-[#1d1d1f] dark:text-[#f5f5f7] truncate">
                         {item.title}
                       </p>
                       {!item.read && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#0071e3] shrink-0" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#ec4899] shrink-0" />
                       )}
                     </div>
-                    <p className="text-[11px] text-[#6e6e73] dark:text-[#98989f] line-clamp-2 mt-0.5 leading-relaxed">
+                    <p className="text-[11px] text-[#6e6e73] dark:text-[#98989f] line-clamp-2 mt-0.5 leading-relaxed break-words">
                       {item.message}
                     </p>
                   </div>
@@ -198,7 +207,7 @@ export const NotificationCenter: React.FC = () => {
                       e.stopPropagation();
                       dismissNotification(item.id);
                     }}
-                    className="absolute right-2.5 top-2.5 w-6 h-6 flex items-center justify-center rounded-md text-[#86868b] hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] hover:bg-black/[0.06] dark:hover:bg-white/[0.1] opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="absolute right-2 top-2.5 w-6 h-6 flex items-center justify-center rounded-md text-[#86868b] hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] hover:bg-black/[0.06] dark:hover:bg-white/[0.1] opacity-70 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity"
                     title="Dismiss notification"
                     aria-label="Dismiss notification"
                   >

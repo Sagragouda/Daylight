@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Plus, LogOut, Settings as SettingsIcon, ChevronDown, User as UserIcon } from 'lucide-react';
+import { Plus, LogOut, Settings as SettingsIcon, ChevronDown, User as UserIcon, Image as ImageIcon } from 'lucide-react';
 import { getFormattedHeaderDate } from '../../utils/date';
 import { Button } from '../common/Button';
 import { useAuth } from '../../context/AuthContext';
@@ -82,6 +82,16 @@ export const Header: React.FC<HeaderProps> = ({ onOpenNewTaskModal }) => {
 
         {/* Quick Theme Selector */}
         <ThemeToggle />
+
+        {/* Quick Wallpaper Customizer Button */}
+        <Link
+          to="/settings#wallpaper-section"
+          className="relative w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-xl text-[#86868b] hover:text-[#1d1d1f] dark:hover:text-[#f5f5f7] hover:bg-black/[0.04] dark:hover:bg-white/[0.06] transition-colors focus:outline-none focus:ring-2 focus:ring-rose-500/30"
+          title="Workspace Wallpapers & Glossy Backgrounds"
+          aria-label="Customize Wallpaper"
+        >
+          <ImageIcon className="w-4 h-4 text-rose-500 dark:text-rose-400" />
+        </Link>
 
         {/* Functional Notification Center Popover */}
         <NotificationCenter />

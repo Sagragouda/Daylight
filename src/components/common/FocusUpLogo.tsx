@@ -44,7 +44,7 @@ export const FocusUpLogo: React.FC<FocusUpLogoProps> = ({
             src="/brand/focusup-icon.png"
             alt="FocusUp"
             onError={() => setImageError(true)}
-            className="relative z-10 w-full h-full object-cover scale-[1.08] transition-all"
+            className="relative z-10 w-full h-full object-contain p-0.5 transition-all"
             loading="eager"
           />
         ) : (

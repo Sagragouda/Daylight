@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
+import { BackgroundProvider } from './context/BackgroundContext';
 import { AuthProvider } from './context/AuthContext';
 import { TaskProvider } from './context/TaskContext';
 import { HabitProvider } from './context/HabitContext';
@@ -29,7 +30,8 @@ import { ResetPassword } from './pages/ResetPassword';
 export const App: React.FC = () => {
   return (
     <ThemeProvider>
-      <AuthProvider>
+      <BackgroundProvider>
+        <AuthProvider>
         <TaskProvider>
           <HabitProvider>
             <NoteProvider>
@@ -74,7 +76,8 @@ export const App: React.FC = () => {
           </HabitProvider>
         </TaskProvider>
       </AuthProvider>
-    </ThemeProvider>
+    </BackgroundProvider>
+  </ThemeProvider>
   );
 };
 

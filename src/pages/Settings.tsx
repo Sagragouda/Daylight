@@ -5,6 +5,7 @@ import { sound } from '../utils/sound';
 import { useAuth } from '../context/AuthContext';
 import { useTheme, ThemeMode } from '../context/ThemeContext';
 import { useNotifications } from '../context/NotificationContext';
+import { WallpaperSettingsCard } from '../components/settings/WallpaperSettingsCard';
 import { useNavigate } from 'react-router-dom';
 import {
   Volume2,
@@ -234,6 +235,9 @@ export const Settings: React.FC = () => {
           })}
         </div>
       </Card>
+
+      {/* Workspace Wallpaper Card */}
+      <WallpaperSettingsCard />
 
       {/* Audio & Feedback */}
       <Card hoverable glowColor="cyan" className="p-6 space-y-5">
