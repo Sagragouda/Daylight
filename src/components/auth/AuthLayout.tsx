@@ -1,7 +1,7 @@
 import React from 'react';
 import { ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { FloworaLogo } from '../common/FloworaLogo';
+import { FocusUpLogo } from '../common/FocusUpLogo';
 
 interface AuthLayoutProps {
   children: React.ReactNode;
@@ -19,10 +19,15 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({ children, title, subtitl
       {/* Brand Header */}
       <div className="relative z-10 mb-6 text-center animate-fade-in">
         <Link to="/" className="inline-flex items-center gap-3 group">
-          <FloworaLogo size="lg" withGlow />
-          <span className="font-bold text-2xl tracking-tight text-[#1d1d1f] dark:text-[#f5f5f7]">
-            Flowora
-          </span>
+          <FocusUpLogo size="lg" withGlow />
+          <div className="text-left">
+            <span className="font-bold text-2xl tracking-tight bg-gradient-to-r from-[#ec4899] via-[#a855f7] to-[#f97316] bg-clip-text text-transparent block">
+              FocusUp
+            </span>
+            <span className="text-[10px] font-semibold tracking-wider uppercase text-[#86868b] dark:text-[#98989f]">
+              habit tracker & focus
+            </span>
+          </div>
         </Link>
       </div>
 
@@ -45,7 +50,7 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({ children, title, subtitl
         <ShieldCheck className="w-3.5 h-3.5 text-[#0071e3] dark:text-[#2997ff]" />
         <span>End-to-End Auth with Supabase</span>
         <span className="text-black/20 dark:text-white/20">•</span>
-        <span>Flowora v1.0</span>
+        <span>FocusUp v1.0</span>
       </div>
     </div>
   );

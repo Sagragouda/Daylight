@@ -5,7 +5,7 @@ import { navigationItems } from './navigationItems';
 import { useTasks } from '../../context/TaskContext';
 import { useTimer } from '../../context/TimerContext';
 import { useAuth } from '../../context/AuthContext';
-import { FloworaLogo } from '../common/FloworaLogo';
+import { FocusUpLogo } from '../common/FocusUpLogo';
 
 export const Sidebar: React.FC = () => {
   const { pendingTasksCount } = useTasks();
@@ -26,16 +26,16 @@ export const Sidebar: React.FC = () => {
       {/* Brand Header */}
       <div>
         <div className="flex items-center gap-3 px-3 py-3 mb-4">
-          <FloworaLogo size="md" withGlow />
+          <FocusUpLogo size="md" withGlow />
           <div>
-            <span className="font-bold text-lg tracking-tight bg-gradient-to-r from-[#1d1d1f] via-[#0071e3] to-[#5e5ce6] dark:from-white dark:via-[#2997ff] dark:to-[#af52de] bg-clip-text text-transparent flex items-center gap-1.5">
-              Flowora
-              <span className="text-[10px] font-bold tracking-normal text-[#0071e3] dark:text-[#2997ff] bg-blue-50 dark:bg-blue-950/60 px-1.5 py-0.5 rounded-full border border-blue-100 dark:border-blue-800/40">
+            <span className="font-bold text-lg tracking-tight bg-gradient-to-r from-[#ec4899] via-[#a855f7] to-[#f97316] bg-clip-text text-transparent flex items-center gap-1.5">
+              FocusUp
+              <span className="text-[10px] font-bold tracking-normal text-rose-500 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/60 px-1.5 py-0.5 rounded-full border border-rose-100 dark:border-rose-800/40">
                 v1.0
               </span>
             </span>
             <p className="text-[11px] font-medium text-[#86868b] dark:text-[#98989f] leading-tight">
-              Mindful productivity
+              habit tracker & focus
             </p>
           </div>
         </div>

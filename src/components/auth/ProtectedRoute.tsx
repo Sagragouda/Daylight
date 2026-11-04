@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { SunMedium } from 'lucide-react';
+import { FocusUpLogo } from '../common/FocusUpLogo';
 
 interface ProtectedRouteProps {
   children?: React.ReactNode;
@@ -13,21 +13,21 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#fbfbfd] flex flex-col items-center justify-center p-4">
-        <div className="relative flex flex-col items-center">
-          <div className="relative flex items-center justify-center">
-            {/* Soft radiant ambient glow */}
-            <div className="absolute w-28 h-28 bg-[#0071e3]/20 rounded-full blur-2xl animate-pulse" />
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#0071e3] to-[#42a5f5] flex items-center justify-center text-white shadow-[0_8px_24px_rgba(0,113,227,0.35)] animate-bounce">
-              <SunMedium className="w-8 h-8" />
-            </div>
+      <div className="min-h-screen bg-[#fbfbfd] dark:bg-[#090a0f] flex flex-col items-center justify-center p-4 transition-colors">
+        <div className="relative flex flex-col items-center animate-scale-in">
+          <FocusUpLogo size="xl" withGlow />
+
+          <h2 className="mt-5 text-xl font-bold tracking-tight bg-gradient-to-r from-[#ec4899] via-[#a855f7] to-[#f97316] bg-clip-text text-transparent">
+            FocusUp
+          </h2>
+          <p className="mt-1 text-xs font-semibold text-[#86868b] dark:text-[#98989f] tracking-wider uppercase">
+            habit tracker & focus
+          </p>
+
+          {/* Minimal radiant loading progress bar */}
+          <div className="w-28 h-1 rounded-full bg-black/[0.06] dark:bg-white/[0.1] overflow-hidden mt-4">
+            <div className="w-full h-full bg-gradient-to-r from-[#ec4899] via-[#a855f7] to-[#f97316] rounded-full animate-pulse" />
           </div>
-          <p className="mt-6 text-sm font-semibold tracking-tight text-[#1d1d1f]">
-            Daylight
-          </p>
-          <p className="mt-1 text-xs text-[#86868b]">
-            Restoring your mindful session...
-          </p>
         </div>
       </div>
     );

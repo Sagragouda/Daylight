@@ -1,10 +1,10 @@
 import React from 'react';
-import { FloworaLogo, FloworaLogoProps } from './FloworaLogo';
+import { FocusUpLogo, FocusUpLogoProps } from './FocusUpLogo';
 
-export type DaylightLogoProps = FloworaLogoProps;
+export type DaylightLogoProps = FocusUpLogoProps;
 
 export const DaylightLogo: React.FC<DaylightLogoProps> = (props) => {
-  return <FloworaLogo {...props} />;
+  return <FocusUpLogo {...props} />;
 };
 
-export { FloworaLogo };
+export { FocusUpLogo };

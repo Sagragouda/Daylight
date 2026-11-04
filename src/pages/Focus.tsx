@@ -25,13 +25,14 @@ import { ambientSound, SOUND_PRESETS, AmbientSoundType } from '../utils/ambientA
 export const Focus: React.FC = () => {
   const {
     mode,
+    timeLeft,
+    totalTime,
     isRunning,
     startTimer,
     pauseTimer,
     resetTimer,
     switchMode,
     formattedTime,
-    progressPercent,
     completedSessions,
     sessions,
     loadingSessions,
@@ -182,19 +183,20 @@ export const Focus: React.FC = () => {
   }, []);
 
   // SVG Circular progress arc geometry
-  // Large circular arc matching the user's reference image
+  // Remaining session progress: At full time (e.g. 24:59), the glowing white arc is radiant and filled!
   const radius = 115;
   const circumference = 2 * Math.PI * radius; // ~722.56
-  const strokeDashoffset =
-    circumference - (Math.min(100, Math.max(0, progressPercent)) / 100) * circumference;
+  const remainingFraction =
+    totalTime > 0 ? Math.max(0, Math.min(1, timeLeft / totalTime)) : 1;
+  const strokeDashoffset = circumference * (1 - remainingFraction);
 
   return (
-    <div className="relative min-h-[calc(100vh-7rem)] -mx-4 sm:-mx-6 lg:-mx-8 -my-6 sm:-my-8 px-4 sm:px-8 py-8 flex flex-col justify-between overflow-hidden bg-[#040711] text-white select-none">
+    <div className="relative min-h-[calc(100vh-4rem)] -mx-4 sm:-mx-6 lg:-mx-8 -my-6 sm:-my-8 px-3 sm:px-6 lg:px-8 pt-4 sm:pt-6 pb-36 lg:pb-8 flex flex-col justify-between overflow-y-auto lg:overflow-hidden bg-[#040711] text-white select-none">
       {/* =========================================================================
           ATMOSPHERIC STARRY NIGHT MOUNTAINS BACKDROP
           (Exact visual replica of the reference image: deep cosmic night + snowy mountain silhouettes)
          ========================================================================= */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+      <div className="fixed lg:absolute inset-0 pointer-events-none overflow-hidden z-0">
         <svg
           viewBox="0 0 1440 900"
           preserveAspectRatio="xMidYMid slice"
@@ -341,12 +343,12 @@ export const Focus: React.FC = () => {
           TOP CENTER FLOATING PILL SWITCHER
           (Focus session | Break session | ...)
          ========================================================================= */}
-      <div className="relative z-20 flex justify-center w-full">
-        <div className="inline-flex items-center gap-1.5 p-1.5 bg-[#0e121d]/85 backdrop-blur-2xl border border-white/10 rounded-full shadow-[0_8px_32px_rgba(0,0,0,0.6)]">
+      <div className="relative z-20 flex justify-center w-full px-2">
+        <div className="inline-flex items-center gap-1 sm:gap-1.5 p-1 sm:p-1.5 bg-[#0e121d]/85 backdrop-blur-2xl border border-white/10 rounded-full shadow-[0_8px_32px_rgba(0,0,0,0.6)] max-w-full">
           {/* Focus Session Tab */}
           <button
             onClick={() => switchMode('pomodoro')}
-            className={`px-4 py-2 rounded-full text-xs font-semibold tracking-wide transition-all ${
+            className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs font-semibold tracking-wide transition-all shrink-0 ${
               mode === 'pomodoro'
                 ? 'bg-[#1e2538] text-white shadow-sm border border-white/15'
                 : 'text-slate-400 hover:text-white'
@@ -358,7 +360,7 @@ export const Focus: React.FC = () => {
           {/* Break Session Tab */}
           <button
             onClick={() => switchMode(mode === 'shortBreak' ? 'longBreak' : 'shortBreak')}
-            className={`px-4 py-2 rounded-full text-xs font-semibold tracking-wide transition-all ${
+            className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs font-semibold tracking-wide transition-all shrink-0 ${
               mode !== 'pomodoro'
                 ? 'bg-[#1e2538] text-white shadow-sm border border-white/15'
                 : 'text-slate-400 hover:text-white'
@@ -476,24 +478,24 @@ export const Focus: React.FC = () => {
           MAIN CENTER AREA: GLOWING CIRCULAR ARC + CENTRAL PAUSE BUTTON + BIG DIGITS
           & RIGHT AMBIENT SOUNDS CARD
          ========================================================================= */}
-      <div className="relative z-10 flex-1 flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16 my-4 w-full max-w-6xl mx-auto px-4">
+      <div className="relative z-10 flex-1 flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-14 my-3 sm:my-5 w-full max-w-6xl mx-auto px-2 sm:px-4">
         {/* Left Placeholder spacer on desktop to keep the timer strictly center-stage */}
         <div className="hidden lg:block lg:w-80 shrink-0" />
 
         {/* Center Stage: Circular Arc & Pause Button */}
-        <div className="flex-1 flex flex-col items-center justify-center">
+        <div className="w-full lg:flex-1 flex flex-col items-center justify-center shrink-0">
           {/* Luminous Glowing Arc Display */}
           <div className="relative flex items-center justify-center">
             {/* SVG Arc */}
             <svg
               viewBox="0 0 280 280"
-              className="w-68 h-68 sm:w-80 sm:h-80 lg:w-96 lg:h-96 transform -rotate-90 select-none"
+              className="w-56 h-56 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 xl:w-96 xl:h-96 transform -rotate-90 select-none"
             >
               <defs>
                 {/* Brilliant White Neon Drop-Shadow Filter */}
                 <filter id="whiteGlow" x="-30%" y="-30%" width="160%" height="160%">
-                  <feDropShadow dx="0" dy="0" stdDeviation="6" floodColor="#ffffff" floodOpacity="0.85" />
-                  <feDropShadow dx="0" dy="0" stdDeviation="14" floodColor="#ffffff" floodOpacity="0.4" />
+                  <feDropShadow dx="0" dy="0" stdDeviation="4" floodColor="#ffffff" floodOpacity="0.9" />
+                  <feDropShadow dx="0" dy="0" stdDeviation="12" floodColor="#ffffff" floodOpacity="0.45" />
                 </filter>
               </defs>
 
@@ -503,7 +505,7 @@ export const Focus: React.FC = () => {
                 cy="140"
                 r={radius}
                 className="text-white/[0.08]"
-                strokeWidth="7"
+                strokeWidth="6"
                 stroke="currentColor"
                 fill="transparent"
               />
@@ -514,7 +516,7 @@ export const Focus: React.FC = () => {
                 cy="140"
                 r={radius}
                 stroke="#ffffff"
-                strokeWidth="8"
+                strokeWidth="7"
                 strokeDasharray={circumference}
                 strokeDashoffset={strokeDashoffset}
                 strokeLinecap="round"
@@ -528,22 +530,22 @@ export const Focus: React.FC = () => {
             <div className="absolute inset-0 flex items-center justify-center">
               <button
                 onClick={isRunning ? pauseTimer : startTimer}
-                className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-white text-[#040711] shadow-[0_0_40px_rgba(255,255,255,0.45)] hover:scale-105 active:scale-95 transition-all duration-200 flex items-center justify-center cursor-pointer group focus:outline-none focus:ring-4 focus:ring-white/30"
+                className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-full bg-white text-[#040711] shadow-[0_0_36px_rgba(255,255,255,0.55)] hover:scale-105 active:scale-95 transition-all duration-200 flex items-center justify-center cursor-pointer group focus:outline-none focus:ring-4 focus:ring-white/30"
                 aria-label={isRunning ? 'Pause Focus Session' : 'Start Focus Session'}
                 title={isRunning ? 'Pause' : 'Start Focus'}
               >
                 {isRunning ? (
-                  <Pause className="w-8 h-8 sm:w-9 sm:h-9 fill-[#040711] text-[#040711] transition-transform group-hover:scale-105" />
+                  <Pause className="w-6 h-6 sm:w-8 sm:h-8 lg:w-9 lg:h-9 fill-[#040711] text-[#040711] transition-transform group-hover:scale-105" />
                 ) : (
-                  <Play className="w-8 h-8 sm:w-9 sm:h-9 fill-[#040711] text-[#040711] ml-1 transition-transform group-hover:scale-105" />
+                  <Play className="w-6 h-6 sm:w-8 sm:h-8 lg:w-9 lg:h-9 fill-[#040711] text-[#040711] ml-0.5 sm:ml-1 transition-transform group-hover:scale-105" />
                 )}
               </button>
             </div>
           </div>
 
           {/* Large Bold Digital Countdown Display underneath the circle (24:59) */}
-          <div className="mt-2 text-center select-none">
-            <span className="text-6xl sm:text-7xl lg:text-8xl font-bold tracking-tight text-white font-sans drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)]">
+          <div className="mt-3 sm:mt-4 text-center select-none">
+            <span className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight text-white font-sans drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)]">
               {formattedTime}
             </span>
 
@@ -551,14 +553,14 @@ export const Focus: React.FC = () => {
             {currentTask && (
               <div className="mt-2 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-medium text-slate-300">
                 <Target className="w-3 h-3 text-[#38bdf8]" />
-                <span className="truncate max-w-[220px]">{currentTask.title}</span>
+                <span className="truncate max-w-[200px] sm:max-w-[240px]">{currentTask.title}</span>
               </div>
             )}
           </div>
         </div>
 
         {/* Right Side: Atmospheric Ambient Sound Card */}
-        <div className="w-full sm:w-80 shrink-0">
+        <div className="w-full max-w-sm sm:w-80 shrink-0 mt-6 lg:mt-0">
           <div className="bg-[#0b0f19]/80 backdrop-blur-2xl border border-white/10 rounded-3xl p-5 shadow-[0_16px_40px_rgba(0,0,0,0.7)]">
             {/* Header with Waveform Icon */}
             <div className="flex items-start gap-3 mb-4 pb-3 border-b border-white/10">
@@ -620,10 +622,10 @@ export const Focus: React.FC = () => {
       {/* =========================================================================
           BOTTOM RIGHT FLOATING AUDIO BAR & VOLUME CONTROLLER
          ========================================================================= */}
-      <div className="relative z-20 flex items-center justify-between w-full px-2 mt-4">
+      <div className="relative z-20 flex flex-col sm:flex-row items-center justify-between gap-3 w-full px-2 mt-6 mb-2 lg:mb-0">
         {/* Left: Quick Session Count pill */}
-        <div className="hidden sm:inline-flex items-center gap-2 text-xs font-medium text-slate-400 bg-[#0e121d]/70 backdrop-blur-xl px-3.5 py-1.5 rounded-full border border-white/10">
-          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+        <div className="inline-flex items-center gap-2 text-xs font-medium text-slate-300 bg-[#0e121d]/85 backdrop-blur-xl px-3.5 py-1.5 rounded-full border border-white/10 shadow-sm">
+          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
           <span>
             <strong className="text-white font-semibold">{completedSessions}</strong> sessions today (
             {totalFocusMinutesToday}m pure focus)
@@ -631,7 +633,7 @@ export const Focus: React.FC = () => {
         </div>
 
         {/* Right: Floating Mini Player Pill */}
-        <div className="ml-auto inline-flex items-center gap-2.5 bg-[#0e131f]/90 backdrop-blur-2xl border border-white/10 rounded-full px-3 py-1.5 shadow-[0_8px_30px_rgba(0,0,0,0.6)]">
+        <div className="sm:ml-auto inline-flex items-center gap-2.5 bg-[#0e131f]/90 backdrop-blur-2xl border border-white/10 rounded-full px-3 py-1.5 shadow-[0_8px_30px_rgba(0,0,0,0.6)]">
           {/* Audio icon button with volume popover toggle */}
           <button
             onClick={() => setShowVolumeSlider(!showVolumeSlider)}

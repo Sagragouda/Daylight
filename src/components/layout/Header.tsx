@@ -6,7 +6,7 @@ import { useAuth } from '../../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 import { NotificationCenter } from './NotificationCenter';
 import { ThemeToggle } from '../common/ThemeToggle';
-import { FloworaLogo } from '../common/FloworaLogo';
+import { FocusUpLogo } from '../common/FocusUpLogo';
 
 interface HeaderProps {
   onOpenNewTaskModal: () => void;
@@ -50,9 +50,9 @@ export const Header: React.FC<HeaderProps> = ({ onOpenNewTaskModal }) => {
       <div className="flex items-center gap-2 sm:gap-3 min-w-0 shrink-0">
         {/* Mobile brand mark (visible only on lg:hidden) */}
         <Link to="/" className="lg:hidden flex items-center gap-2 group min-w-0 shrink-0">
-          <FloworaLogo size="sm" withGlow />
-          <span className="font-bold text-base sm:text-lg tracking-tight bg-gradient-to-r from-[#1d1d1f] via-[#0071e3] to-[#5e5ce6] dark:from-white dark:via-[#2997ff] dark:to-[#af52de] bg-clip-text text-transparent truncate max-w-[85px] xs:max-w-none">
-            Flowora
+          <FocusUpLogo size="sm" withGlow />
+          <span className="font-bold text-base sm:text-lg tracking-tight bg-gradient-to-r from-[#ec4899] via-[#a855f7] to-[#f97316] bg-clip-text text-transparent truncate max-w-[95px] xs:max-w-none">
+            FocusUp
           </span>
         </Link>
 
