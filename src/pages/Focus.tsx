@@ -43,6 +43,8 @@ export const Focus: React.FC = () => {
     refreshSessions,
     retrySaveSession,
     totalFocusMinutesToday,
+    isTickingEnabled,
+    toggleTicking,
   } = useTimer();
 
   const { tasks } = useTasks();
@@ -398,6 +400,32 @@ export const Focus: React.FC = () => {
                   </span>
                   <span className="text-[10px] text-slate-400 font-semibold truncate max-w-[100px]">
                     {currentTask ? currentTask.title : 'None'}
+                  </span>
+                </button>
+
+                {/* Ticking Sound Toggle */}
+                <button
+                  onClick={() => {
+                    toggleTicking();
+                  }}
+                  className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-left hover:bg-white/10 text-slate-200 transition-colors"
+                >
+                  <span className="flex items-center gap-2">
+                    {isTickingEnabled ? (
+                      <Volume2 className="w-3.5 h-3.5 text-emerald-400" />
+                    ) : (
+                      <VolumeX className="w-3.5 h-3.5 text-slate-400" />
+                    )}
+                    Timer Ticking Sound
+                  </span>
+                  <span
+                    className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider ${
+                      isTickingEnabled
+                        ? 'bg-emerald-500/20 text-emerald-300'
+                        : 'bg-white/10 text-slate-400'
+                    }`}
+                  >
+                    {isTickingEnabled ? 'ON' : 'OFF'}
                   </span>
                 </button>
 

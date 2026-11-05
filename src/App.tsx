@@ -5,6 +5,7 @@ import { BackgroundProvider } from './context/BackgroundContext';
 import { AuthProvider } from './context/AuthContext';
 import { TaskProvider } from './context/TaskContext';
 import { HabitProvider } from './context/HabitContext';
+import { GoalProvider } from './context/GoalContext';
 import { NoteProvider } from './context/NoteContext';
 import { PlannerProvider } from './context/PlannerContext';
 import { TimerProvider } from './context/TimerContext';
@@ -17,6 +18,7 @@ import { Overview } from './pages/Overview';
 import { Tasks } from './pages/Tasks';
 import { Planner } from './pages/Planner';
 import { Habits } from './pages/Habits';
+import { Goals } from './pages/Goals';
 import { Focus } from './pages/Focus';
 import { Notes } from './pages/Notes';
 import { Insights } from './pages/Insights';
@@ -34,7 +36,8 @@ export const App: React.FC = () => {
         <AuthProvider>
         <TaskProvider>
           <HabitProvider>
-            <NoteProvider>
+            <GoalProvider>
+              <NoteProvider>
               <PlannerProvider>
                 <TimerProvider>
                   <NotificationProvider>
@@ -59,6 +62,7 @@ export const App: React.FC = () => {
                           <Route path="tasks" element={<Tasks />} />
                           <Route path="planner" element={<Planner />} />
                           <Route path="habits" element={<Habits />} />
+                          <Route path="goals" element={<Goals />} />
                           <Route path="focus" element={<Focus />} />
                           <Route path="notes" element={<Notes />} />
                           <Route path="insights" element={<Insights />} />
@@ -73,7 +77,8 @@ export const App: React.FC = () => {
                 </TimerProvider>
               </PlannerProvider>
             </NoteProvider>
-          </HabitProvider>
+          </GoalProvider>
+        </HabitProvider>
         </TaskProvider>
       </AuthProvider>
     </BackgroundProvider>

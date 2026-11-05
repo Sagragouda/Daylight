@@ -3,6 +3,7 @@ import {
   CheckCircle2,
   Calendar,
   Flame,
+  Target,
   Timer,
   FileText,
   TrendingUp,
@@ -42,6 +43,12 @@ export const navigationItems: NavItem[] = [
     name: 'Habits',
     path: '/habits',
     icon: Flame,
+  },
+  {
+    id: 'goals',
+    name: 'Goals',
+    path: '/goals',
+    icon: Target,
   },
   {
     id: 'focus',

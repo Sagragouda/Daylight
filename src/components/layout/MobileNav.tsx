@@ -8,6 +8,7 @@ import {
   Menu,
   X,
   Calendar,
+  Target,
   FileText,
   TrendingUp,
   Settings,
@@ -72,6 +73,13 @@ export const MobileNav: React.FC = () => {
   ];
 
   const secondaryItems = [
+    {
+      name: 'Goals',
+      path: '/goals',
+      icon: Target,
+      color: 'text-blue-600 dark:text-blue-400',
+      bg: 'bg-blue-50 dark:bg-blue-950/50',
+    },
     {
       name: 'Planner',
       path: '/planner',

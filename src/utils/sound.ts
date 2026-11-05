@@ -95,7 +95,8 @@ class SoundEffects {
 
       osc.type = 'triangle';
       const now = ctx.currentTime;
-      osc.frequency.setValueAtTime(440, now);
+      const freq = 440;
+      osc.frequency.setValueAtTime(freq, now);
       osc.frequency.exponentialRampToValueAtTime(150, now + 0.04);
 
       gain.gain.setValueAtTime(0.05, now);
@@ -106,6 +107,70 @@ class SoundEffects {
 
       osc.start(now);
       osc.stop(now + 0.04);
+    } catch {
+      // ignore
+    }
+  }
+
+  /**
+   * Delicate analog watch / clock ticking sound for the Focus timer
+   * Very soft and soothing escapement click (alternating tick / tock frequencies)
+   */
+  playTimerTick(isHigh = false) {
+    try {
+      const ctx = this.getContext();
+      if (!ctx) return;
+
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+
+      osc.type = 'triangle';
+      const now = ctx.currentTime;
+      const freq = isHigh ? 1350 : 1050;
+      osc.frequency.setValueAtTime(freq, now);
+      osc.frequency.exponentialRampToValueAtTime(freq * 0.45, now + 0.015);
+
+      // Very soft gain (0.025) so it creates calm rhythm without distraction
+      gain.gain.setValueAtTime(0.025, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.015);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.015);
+    } catch {
+      // ignore
+    }
+  }
+
+  /**
+   * Harmonious victory fanfare when reaching a Goal milestone
+   */
+  playGoalComplete() {
+    try {
+      const ctx = this.getContext();
+      if (!ctx) return;
+
+      const chord = [523.25, 659.25, 783.99, 1046.50, 1318.51]; // C5, E5, G5, C6, E6
+      const now = ctx.currentTime;
+
+      chord.forEach((freq, idx) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, now + idx * 0.09);
+
+        gain.gain.setValueAtTime(0.12, now + idx * 0.09);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.09 + 0.85);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(now + idx * 0.09);
+        osc.stop(now + idx * 0.09 + 0.85);
+      });
     } catch {
       // ignore
     }

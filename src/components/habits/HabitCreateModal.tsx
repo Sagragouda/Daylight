@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Modal } from '../common/Modal';
 import { Button } from '../common/Button';
 import { useHabits } from '../../context/HabitContext';
-import { Sparkles, Droplets, BookOpen, Activity, Flame, Check } from 'lucide-react';
+import { Sparkles, Droplets, BookOpen, Activity, Flame, Check, Target } from 'lucide-react';
+import { useGoals } from '../../context/GoalContext';
 
 interface HabitCreateModalProps {
   isOpen: boolean;
@@ -21,12 +22,16 @@ const COLORS = ['#0071e3', '#0ea5e9', '#8b5cf6', '#10b981', '#f59e0b', '#ec4899'
 
 export const HabitCreateModal: React.FC<HabitCreateModalProps> = ({ isOpen, onClose }) => {
   const { addHabit } = useHabits();
+  const { goals } = useGoals();
 
   const [name, setName] = useState('');
   const [category, setCategory] = useState('Mindfulness');
   const [iconName, setIconName] = useState('Sparkles');
   const [color, setColor] = useState('#0071e3');
   const [frequency, setFrequency] = useState('Daily');
+  const [goalId, setGoalId] = useState('');
+
+  const activeGoals = goals.filter((g) => g.status === 'active');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,9 +43,11 @@ export const HabitCreateModal: React.FC<HabitCreateModalProps> = ({ isOpen, onCl
       iconName,
       color,
       frequency,
+      goalId: goalId || undefined,
     });
 
     setName('');
+    setGoalId('');
     onClose();
   };
 
@@ -142,6 +149,28 @@ export const HabitCreateModal: React.FC<HabitCreateModalProps> = ({ isOpen, onCl
             <option value="Weekdays only">Weekdays only</option>
           </select>
         </div>
+
+        {/* Optional Linked Goal */}
+        {activeGoals.length > 0 && (
+          <div>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] dark:text-[#98989f] mb-1.5 flex items-center gap-1.5">
+              <Target className="w-3.5 h-3.5 text-[#0071e3] dark:text-[#2997ff]" />
+              Link to Goal (Optional)
+            </label>
+            <select
+              value={goalId}
+              onChange={(e) => setGoalId(e.target.value)}
+              className="w-full px-3 py-2 rounded-xl border border-black/[0.08] dark:border-white/[0.1] bg-[#fbfbfd] dark:bg-[#1f212f] text-xs text-[#1d1d1f] dark:text-[#f5f5f7] focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30"
+            >
+              <option value="">None (Standalone Habit)</option>
+              {activeGoals.map((g) => (
+                <option key={g.id} value={g.id}>
+                  {g.title} ({g.category})
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
 
         <div className="flex items-center justify-end gap-2 pt-3 border-t border-black/[0.06] dark:border-white/[0.08]">
           <Button type="button" variant="ghost" size="sm" onClick={onClose}>

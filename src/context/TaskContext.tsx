@@ -25,6 +25,7 @@ interface TaskContextType {
     dueDate: string;
     dueTime?: string;
     estimatedMinutes?: number;
+    goalId?: string;
   }) => Promise<Task | null>;
   toggleTask: (id: string) => Promise<void>;
   deleteTask: (id: string) => Promise<void>;

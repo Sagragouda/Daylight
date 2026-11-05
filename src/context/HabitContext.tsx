@@ -30,6 +30,7 @@ interface HabitContextType {
     iconName: string;
     color: string;
     frequency: string;
+    goalId?: string;
   }) => Promise<Habit | null>;
   createHabit: (data: CreateHabitInput) => Promise<Habit | null>;
   updateHabit: (id: string, updates: UpdateHabitInput) => Promise<Habit | null>;

@@ -3,6 +3,7 @@ import { Card } from '../components/common/Card';
 import { useTasks } from '../context/TaskContext';
 import { useTimer } from '../context/TimerContext';
 import { useHabits } from '../context/HabitContext';
+import { useGoals } from '../context/GoalContext';
 import { AnimatedCounter } from '../components/common/AnimatedCounter';
 import {
   TrendingUp,
@@ -21,6 +22,13 @@ export const Insights: React.FC = () => {
   const { completedTasksCount, tasks, totalTasksCount } = useTasks();
   const { completedSessions, totalFocusMinutesToday, sessions } = useTimer();
   const { habits, habitProgressPercentage, todayCompletedCount, totalHabitsCount } = useHabits();
+  const {
+    goals,
+    activeGoalsCount,
+    completedGoalsCount,
+    overallProgressPercentage,
+    totalMilestonesCompleted,
+  } = useGoals();
 
   const [hoveredDay, setHoveredDay] = useState<string | null>(null);
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
@@ -664,6 +672,71 @@ export const Insights: React.FC = () => {
           </div>
         </Card>
       </div>
+
+      {/* Goals & Milestones Achievement Velocity */}
+      <Card glowColor="aurora" className="p-6 sm:p-7">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#0071e3]/20 via-[#a855f7]/20 to-[#ec4899]/20 flex items-center justify-center text-[#0071e3] dark:text-[#2997ff] border border-blue-500/20">
+              <Target className="w-5 h-5" />
+            </div>
+            <div>
+              <h3 className="font-bold text-base sm:text-lg text-[#1d1d1f] dark:text-[#f5f5f7]">
+                Goals & Milestones Velocity
+              </h3>
+              <p className="text-xs text-[#86868b] dark:text-[#98989f]">
+                Strategic execution progress across long-term personal & professional ambitions
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-semibold px-3 py-1 rounded-xl bg-blue-500/10 text-[#0071e3] dark:text-[#2997ff] border border-blue-500/20">
+              {overallProgressPercentage}% Overall Pace
+            </span>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div className="p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.03] border border-black/[0.05] dark:border-white/[0.08]">
+            <span className="text-xs font-semibold text-[#86868b] dark:text-[#98989f] block mb-1">
+              Active Goals
+            </span>
+            <span className="text-2xl font-extrabold text-[#1d1d1f] dark:text-[#f5f5f7]">
+              {activeGoalsCount}
+            </span>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.03] border border-black/[0.05] dark:border-white/[0.08]">
+            <span className="text-xs font-semibold text-[#86868b] dark:text-[#98989f] block mb-1">
+              Goals Achieved
+            </span>
+            <span className="text-2xl font-extrabold text-emerald-600 dark:text-emerald-400">
+              {completedGoalsCount}
+            </span>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.03] border border-black/[0.05] dark:border-white/[0.08]">
+            <span className="text-xs font-semibold text-[#86868b] dark:text-[#98989f] block mb-1">
+              Milestones Finished
+            </span>
+            <span className="text-2xl font-extrabold text-purple-600 dark:text-purple-400">
+              {totalMilestonesCompleted}
+            </span>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-black/[0.02] dark:bg-white/[0.03] border border-black/[0.05] dark:border-white/[0.08]">
+            <span className="text-xs font-semibold text-[#86868b] dark:text-[#98989f] block mb-1">
+              Completion Rate
+            </span>
+            <span className="text-2xl font-extrabold text-[#0071e3] dark:text-[#2997ff]">
+              {goals.length > 0
+                ? `${Math.round((completedGoalsCount / goals.length) * 100)}%`
+                : '0%'}
+            </span>
+          </div>
+        </div>
+      </Card>
     </div>
   );
 };

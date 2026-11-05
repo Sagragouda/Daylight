@@ -4,7 +4,8 @@ import { Button } from '../common/Button';
 import { useTasks } from '../../context/TaskContext';
 import { Priority, TaskCategory } from '../../types';
 import { getTodayDateString } from '../../utils/date';
-import { Calendar, Clock, Tag, Flag } from 'lucide-react';
+import { Calendar, Clock, Tag, Flag, Target } from 'lucide-react';
+import { useGoals } from '../../context/GoalContext';
 
 interface TaskCreateModalProps {
   isOpen: boolean;
@@ -20,6 +21,7 @@ const PRIORITIES: { value: Priority; label: string; color: string }[] = [
 
 export const TaskCreateModal: React.FC<TaskCreateModalProps> = ({ isOpen, onClose }) => {
   const { addTask } = useTasks();
+  const { goals } = useGoals();
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -28,6 +30,9 @@ export const TaskCreateModal: React.FC<TaskCreateModalProps> = ({ isOpen, onClos
   const [dueDate, setDueDate] = useState(getTodayDateString());
   const [dueTime, setDueTime] = useState('04:00 PM');
   const [estimatedMinutes, setEstimatedMinutes] = useState(25);
+  const [goalId, setGoalId] = useState<string>('');
+
+  const activeGoals = goals.filter((g) => g.status === 'active');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,6 +46,7 @@ export const TaskCreateModal: React.FC<TaskCreateModalProps> = ({ isOpen, onClos
       dueDate,
       dueTime,
       estimatedMinutes,
+      goalId: goalId || undefined,
     });
 
     // Reset form
@@ -51,6 +57,7 @@ export const TaskCreateModal: React.FC<TaskCreateModalProps> = ({ isOpen, onClos
     setDueDate(getTodayDateString());
     setDueTime('04:00 PM');
     setEstimatedMinutes(25);
+    setGoalId('');
     onClose();
   };
 
@@ -170,6 +177,28 @@ export const TaskCreateModal: React.FC<TaskCreateModalProps> = ({ isOpen, onClos
             />
           </div>
         </div>
+
+        {/* Optional Linked Goal */}
+        {activeGoals.length > 0 && (
+          <div>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-[#6e6e73] dark:text-[#98989f] mb-1.5 flex items-center gap-1.5">
+              <Target className="w-3.5 h-3.5 text-[#0071e3] dark:text-[#2997ff]" />
+              Link to Goal (Optional)
+            </label>
+            <select
+              value={goalId}
+              onChange={(e) => setGoalId(e.target.value)}
+              className="w-full px-3 py-2 rounded-xl border border-black/[0.08] dark:border-white/[0.1] bg-[#fbfbfd] dark:bg-[#1f212f] text-xs text-[#1d1d1f] dark:text-[#f5f5f7] focus:outline-none focus:ring-2 focus:ring-[#0071e3]/30"
+            >
+              <option value="">None (Independent Task)</option>
+              {activeGoals.map((g) => (
+                <option key={g.id} value={g.id}>
+                  {g.title} ({g.category})
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
 
         {/* Focus Sprint Estimate */}
         <div>

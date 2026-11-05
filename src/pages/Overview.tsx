@@ -6,6 +6,7 @@ import { DailyProgressCard } from '../components/dashboard/DailyProgressCard';
 import { DashboardTaskList } from '../components/dashboard/DashboardTaskList';
 import { DashboardHabitTracker } from '../components/dashboard/DashboardHabitTracker';
 import { MiniFocusTimer } from '../components/dashboard/MiniFocusTimer';
+import { DashboardGoalsWidget } from '../components/dashboard/DashboardGoalsWidget';
 
 interface OutletContextType {
   openTaskModal: () => void;
@@ -31,10 +32,11 @@ export const Overview: React.FC = () => {
           <DashboardHabitTracker onOpenNewHabitModal={openHabitModal} />
         </div>
 
-        {/* Right Column (5 cols): Daily Progress & Working Pomodoro Focus Timer */}
+        {/* Right Column (5 cols): Daily Progress, Pomodoro Timer & Goals Tracker */}
         <div className="lg:col-span-5 space-y-6 sm:space-y-8">
           <DailyProgressCard />
           <MiniFocusTimer />
+          <DashboardGoalsWidget />
         </div>
       </div>
     </div>

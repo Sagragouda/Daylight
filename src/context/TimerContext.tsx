@@ -36,6 +36,8 @@ export interface TimerContextType {
   retrySaveSession: () => Promise<void>;
   totalFocusMinutesToday: number;
   allTimeFocusMinutes: number;
+  isTickingEnabled: boolean;
+  toggleTicking: () => void;
 }
 
 const TimerContext = createContext<TimerContextType | undefined>(undefined);
@@ -52,6 +54,26 @@ export const TimerProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [mode, setMode] = useState<PomodoroMode>('pomodoro');
   const [timeLeft, setTimeLeft] = useState<number>(MODE_DURATIONS.pomodoro);
   const [isRunning, setIsRunning] = useState<boolean>(false);
+  const [isTickingEnabled, setIsTickingEnabled] = useState<boolean>(() => {
+    try {
+      const saved = localStorage.getItem('focusup_timer_ticking');
+      return saved !== null ? saved === 'true' : true;
+    } catch {
+      return true;
+    }
+  });
+
+  const toggleTicking = useCallback(() => {
+    setIsTickingEnabled((prev) => {
+      const next = !prev;
+      try {
+        localStorage.setItem('focusup_timer_ticking', next.toString());
+      } catch {
+        // ignore
+      }
+      return next;
+    });
+  }, []);
 
   // Cloud Focus Sessions state
   const [sessions, setSessions] = useState<FocusSession[]>([]);
@@ -227,6 +249,9 @@ export const TimerProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             handleSessionComplete();
             return 0;
           }
+          if (isTickingEnabled) {
+            sound.playTimerTick(prev % 2 === 0);
+          }
           return prev - 1;
         });
       }, 1000);
@@ -242,10 +267,13 @@ export const TimerProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         clearInterval(timerRef.current);
       }
     };
-  }, [isRunning, handleSessionComplete]);
+  }, [isRunning, isTickingEnabled, handleSessionComplete]);
 
   const startTimer = () => {
     sound.playClick();
+    if (isTickingEnabled) {
+      sound.playTimerTick(true);
+    }
     setIsRunning(true);
   };
 
@@ -344,6 +372,8 @@ export const TimerProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         retrySaveSession,
         totalFocusMinutesToday,
         allTimeFocusMinutes,
+        isTickingEnabled,
+        toggleTicking,
       }}
     >
       {children}
